@@ -102,5 +102,5 @@ search:
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/tzcqupt/tzcqupt.github.io
+  repo: https://gh_token@github.com/tzcqupt/tzcqupt.github.io
   branch: master
