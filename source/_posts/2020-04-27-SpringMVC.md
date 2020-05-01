@@ -261,7 +261,7 @@ Rest风格的注解，推荐使用，直接限定了提交方式
       1. value：请求参数中的名称
       2. required：请求参数中是否必须提供此参数,默认值是true,必须提供
 3. 代码如下
-	```java
+	~~~java
 	@RequestMapping(path="/hello") 
 	public String sayHello(@RequestParam(value="username",required=false)String name) {
 	    	//前台传递过来的参数名时username==>赋值给name变量
@@ -269,7 +269,7 @@ Rest风格的注解，推荐使用，直接限定了提交方式
 		  System.out.println(name); 
 		  return "success"; 
 		} 
-	```
+	~~~
 
 ## @RequestBody
 1. 作用：将前台传递的JSON数据封装为POJO，也可以封装为集合
@@ -282,7 +282,7 @@ Rest风格的注解，推荐使用，直接限定了提交方式
 
 3. 代码如下
 
-  ```java
+  ~~~java
    @PostMapping(path="/addUser") 
    public ModelAndView addUser(@RequestBody User user) { 
        ModelAndView mv = new ModelAndView(} ; 
@@ -301,7 +301,7 @@ Rest风格的注解，推荐使用，直接限定了提交方式
         //...
      	return mv; 
    } 
-  ```
+  ~~~
 
 ## @PathVariable
 
@@ -691,8 +691,8 @@ response.getWriter().write("json 串");
 
 ## 转发和重定向  
 ### 转发 forward  
-* ```@Controller```中的String类型返回值的控制器方法,默认是请求转发
-* 代码 ```return "forward:/WEB-INF/pages/success.jsp";```
+* `@Controller`中的String类型返回值的控制器方法,默认是请求转发
+* 代码 `return "forward:/WEB-INF/pages/success.jsp";`
  >使用了forward,后面跟的就是物理视图
 
 ### 重定向Redirect
@@ -777,11 +777,11 @@ public ModelAndView redirect2(String userName, String note, RedirectAttributes r
 ## 文件上传
 
 ### 前提
-1. form 表单的 ```enctype ```取值必须是：```multipart/form-data```
-    (默认值是:```application/x-www-form-urlencoded```)  
-    ```enctype```:是表单请求正文的类型
+1. form 表单的 `enctype `取值必须是：`multipart/form-data`
+    (默认值是:`application/x-www-form-urlencoded`)  
+    `enctype`:是表单请求正文的类型
 2. 提交方式时POST
-3. 提供一个文件选择域```<input type="file" />```
+3. 提供一个文件选择域`<input type="file" />`
 
 ### 举例
 
@@ -899,7 +899,7 @@ public class MyWebAppInitializer
 
 ## 拦截器
 
-1. 自定义普通类实现```HandlerInterceptor```接口
+1. 自定义普通类实现`HandlerInterceptor`接口
 2. 配置拦截器
     ~~~xml
     <!-- 配置拦截器 --> 
@@ -912,21 +912,21 @@ public class MyWebAppInitializer
     </mvc:interceptors>
    ~~~
 3. 细节
-    1. ```preHandle```只要配置了都会调用
+    1. `preHandle`只要配置了都会调用
         * 按拦截器定义**顺序**调用
         * 只要配置了都会调用
         * 如果程序员决定该拦截器对请求进行拦截处理后还要调用其他的拦截器,或者是业务处理器去进行处理,则返回 true;  
         如果程序员决定不需要再调用其他的组件去处理请求,则返回 false。
-    2. ```postHandle```
+    2. `postHandle`
         * 按拦截器定义**逆序**调用
         * 在拦截器链内**所有**拦截器返成功调用
         * 在业务处理器处理完请求后,但是 DispatcherServlet 向客户端返回响应前被调用,在该方法中对用户请求 request 进行处理。
-    3. ```preHandle```
+    3. `preHandle`
         * 按拦截器定义**逆序**调用
-        * 只有 ```preHandle```返回 ```true```才调用   
+        * 只有 `preHandle`返回 `true`才调用   
         * 可以在该方法中进行一些资源清理的操作。
     4. 2个拦截器调用顺序
-		- preHandle都返回```true```的情况
+		- preHandle都返回`true`的情况
             ~~~java
             【Demo1的 preHandle 拦截器拦截了】
             【Demo2的 preHandle 拦截器拦截了】
@@ -936,7 +936,7 @@ public class MyWebAppInitializer
             【Demo2的 afterCompletion 方法执行了】
             【Demo1的 afterCompletion 方法执行了】
             ~~~
-        - Demo2的preHandle返回```false```的情况
+        - Demo2的preHandle返回`false`的情况
             ~~~java
             【Demo1的 preHandle 拦截器拦截了】
             【Demo2的 preHandle 拦截器拦截了】

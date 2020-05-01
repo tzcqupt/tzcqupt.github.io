@@ -113,13 +113,13 @@ requestContextFilter、hiddenHttpMethodFilter、formContentFilter、characterEnc
 
 ### Filter优先级
 
-```java
+~~~java
 Ordered.HIGHEST_PRECEDENCE;
 Ordered.LOWEST_PRECEDENCE;
 int HIGHEST_PRECEDENCE = Integer.MIN_VALUE;
 //低位值意味着更高的优先级
 //自定义Filter，避免和默认的Filter优先级一样，不然会冲突
-```
+~~~
 
 ### 自定义Filter
 

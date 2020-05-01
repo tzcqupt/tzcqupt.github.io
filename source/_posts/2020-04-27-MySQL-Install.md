@@ -30,7 +30,7 @@ date: 2020-04-28 00:00:00
 
 5. 添加字符编码的设置：character-set-server=utf8
 
-   ```ini
+   `ini
    [mysql]
    # 设置mysql客户端默认字符集
    default-character-set=utf8 
@@ -46,7 +46,7 @@ date: 2020-04-28 00:00:00
    character-set-server=utf8
    # 创建新表时将使用的默认存储引擎
    default-storage-engine=INNODB
-   ```
+   `
 
 6. 开始执行安装和添加服务的步骤，在cmd中执行如下命令：
 
@@ -63,9 +63,9 @@ mysql服务安装成功后，就需要初始化数据库了，否则是无法启
 
 在bin目录下执行如下命令：
 
-```shell
+`shell
 D:\mysql-5.7.21\bin>mysqld.exe --defaults-file="D:\mysql-5.7.21\my.ini" --initialize --explicit_defaults_for_timestamp
-```
+`
 
 default-file 即配置文件路径，必须进行指定。
 
@@ -76,10 +76,10 @@ default-file 即配置文件路径，必须进行指定。
 
 # 启动/停止数据库
 
-```shell
+`shell
 net start mysql
 net stop mysql
-```
+`
 
 # 修改密码
 

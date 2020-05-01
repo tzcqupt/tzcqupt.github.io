@@ -14,9 +14,9 @@ date: 2020-04-27 00:00:00
 
 2. 图形界面[elasticsearch-head-master](https://github.com/mobz/elasticsearch-head)js编写,需要运行在node.js上
 
-3. 安装nodejs,在该图形界面软件里面执行```cnpm install```，并执行```cnpm install -g grunt-cli```
+3. 安装nodejs,在该图形界面软件里面执行`cnpm install`，并执行`cnpm install -g grunt-cli`
 
-4. 执行```grunt server```，访问[http://localhost:9100](http://localhost:9100)
+4. 执行`grunt server`，访问[http://localhost:9100](http://localhost:9100)
 
 5. 在ElasticSearch里config文件夹的elasticsearch.yml文件里增加下面两行,允许跨域访问
 
@@ -150,7 +150,7 @@ POST http://localhost:9200/blog/airticle/_search
 
 使用ik分词器，两种算法 ik_smart/ik_max_word 最少切分/最细粒度划分
 
-```analyzer=standard```==>```analyzer=ik_smart```
+`analyzer=standard`==>`analyzer=ik_smart`
 
 # SpringBoot整合的单机配置
 
