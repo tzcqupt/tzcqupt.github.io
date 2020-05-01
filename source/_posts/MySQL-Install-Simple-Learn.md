@@ -63,9 +63,9 @@ mysql服务安装成功后，就需要初始化数据库了，否则是无法启
 
 在bin目录下执行如下命令：
 
-`shell
+~~~shell
 D:\mysql-5.7.21\bin>mysqld.exe --defaults-file="D:\mysql-5.7.21\my.ini" --initialize --explicit_defaults_for_timestamp
-`
+~~~
 
 default-file 即配置文件路径，必须进行指定。
 
@@ -76,10 +76,10 @@ default-file 即配置文件路径，必须进行指定。
 
 # 启动/停止数据库
 
-`shell
+~~~shell
 net start mysql
 net stop mysql
-`
+~~~
 
 # 修改密码
 

@@ -86,7 +86,7 @@ NoSQL(NoSQL = Not Only SQL),意即“不仅仅是SQL”,是一项全新的数据
 
 1. 执行`vim /etc/systemd/system/redis.service`,写入下面代码
 
-    `bash
+    ~~~bash
         [Unit]
     Description=redis-server
         After=network.target
@@ -98,7 +98,7 @@ NoSQL(NoSQL = Not Only SQL),意即“不仅仅是SQL”,是一项全新的数据
 
         [Install]
         WantedBy=multi-user.target
-    `
+    ~~~
 
 2. 测试命令
 
@@ -193,13 +193,15 @@ del age
      `hget myhash username`  
      `"lisi"`
    - `hgetall key`:获取所有的`field`和`value`  
-     `hgetall myhash`		
+     `hgetall myhash`
+	 
 3. 删除 
-~~~bash
-   hdel key field   
-   hdel myhash username 
-   (integer) 1
-~~~
+
+	~~~bash
+	   hdel key field   
+	   hdel myhash username 
+	   (integer) 1
+	~~~
 
 
 ### 列表类型 `list`

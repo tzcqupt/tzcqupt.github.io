@@ -70,16 +70,17 @@ date: 2020-04-27 00:00:00
      注入基本数据类型和 String 类型数据的。可以读取properties里的字段，配合@PropertySource使用。
 - 属性：  
      value：用于指定值
- ~~~java
-  @PropertySource("classpath:jdbc.properties")
-  public class JdbcConfigBySpring {
+	~~~java
+	  @PropertySource("classpath:jdbc.properties")
+	  public class JdbcConfigBySpring {
 
-     @Value("${jdbc.url}")
-     String url;
-  }          
- ~~~   
+		 @Value("${jdbc.url}")
+		 String url;
+	  }          
+	~~~   
 
-## 用于改变作用范围的    
+## 用于改变作用范围的 
+   
 相当于：`<bean id="" class="" scope="">`
 
 ### @Scope 
