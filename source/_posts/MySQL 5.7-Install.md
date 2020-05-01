@@ -1,8 +1,9 @@
+---
 layout: post
 title: MySQL 5.7安装
 Author: tzcqupt
-tags:
-  - 软件安装
+tags: [软件安装, MySQL]
+categories: [数据库]
 comments: true
 toc: true
 date: 2020-04-28 00:00:00
@@ -30,23 +31,34 @@ date: 2020-04-28 00:00:00
 
 5. 添加字符编码的设置：character-set-server=utf8
 
-   `ini
+   ~~~ini
    [mysql]
-   # 设置mysql客户端默认字符集
+   #设置mysql客户端默认字符集
+   
    default-character-set=utf8 
    [mysqld]
    #设置3307端口
    port = 3307
-   # 设置mysql的安装目录
+   
+   #设置mysql的安装目录
+   
    basedir = D:/mysql-5.7.21
    datadir = D:/mysql-5.7.21/data
-   # 允许最大连接数
+   
+   #允许最大连接数
+   
    max_connections=200
-   # 服务端使用的字符集默认为8比特编码的latin1字符集
+   
+   #服务端使用的字符集默认为8比特编码的latin1字符集
+   
    character-set-server=utf8
-   # 创建新表时将使用的默认存储引擎
+   
+   #创建新表时将使用的默认存储引擎
+   
    default-storage-engine=INNODB
-   `
+   ~~~
+
+   
 
 6. 开始执行安装和添加服务的步骤，在cmd中执行如下命令：
 

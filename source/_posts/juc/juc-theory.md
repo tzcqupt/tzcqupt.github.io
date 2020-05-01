@@ -1,9 +1,10 @@
 ---
 layout: post
-title: 多线程学习笔记-原理篇
+title: 深入浅出多线程学习笔记-原理篇
 date: 2020-04-28
 Author: tzcqupt
 tags: [Java, 多线程]
+categories: [编程书籍]
 comments: true
 toc: true
 ---

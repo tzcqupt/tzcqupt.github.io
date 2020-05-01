@@ -1,9 +1,9 @@
+---
 layout: post
-title: Spring学习笔记
+title: Spring入门学习笔记
 Author: tzcqupt
-tags:
-  - Java
-  - Spring
+tags: [Java, Spring]
+categories: [Spring]
 comments: true
 toc: true
 date: 2020-04-27 00:00:00
@@ -77,10 +77,10 @@ date: 2020-04-27 00:00:00
 		 @Value("${jdbc.url}")
 		 String url;
 	  }          
-	~~~   
+	~~~
 
 ## 用于改变作用范围的 
-   
+
 相当于：`<bean id="" class="" scope="">`
 
 ### @Scope 

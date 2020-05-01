@@ -1,9 +1,10 @@
 ---
 layout: post
-title: MyBaits学习笔记
+title: MyBaits入门学习笔记
 date: 2020-04-27
 Author: tzcqupt
-tags: [Java, MyBatis]
+tags: [MyBatis]
+categories: [Java]
 comments: true
 toc: true
 ---

@@ -1,9 +1,9 @@
+---
 layout: post
-title: 多线程学习笔记-JDK工具
+title: 深入浅出多线程学习笔记-JDK工具
 Author: tzcqupt
-tags:
-  - Java
-  - 多线程
+tags: [Java, 多线程]
+categories: [编程书籍]
 comments: true
 toc: true
 date: 2020-04-28 00:00:00

@@ -4,6 +4,7 @@ title: SpringBoot学习笔记
 date: 2020-04-27
 Author: tzcqupt
 tags: [Java, SpringBoot]
+categories: [SpringBoot]
 comments: true
 toc: true
 ---

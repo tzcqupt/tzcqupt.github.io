@@ -1,9 +1,9 @@
+---
 layout: post
 title: SpringMVC学习笔记
 Author: tzcqupt
-tags:
-  - Java
-  - SpringMVC
+tags: [Java, SpringMVC]
+categories: [Spring]
 comments: true
 toc: true
 date: 2020-04-27 00:00:00
@@ -661,7 +661,7 @@ public String sayHello() {
           throws Exception {
       }
   ~~~
-  
+
 1. 使用 request 转向页面  
       `request.getRequestDispatcher("/WEB-INF/pages/success.jsp").forward(request, response);`
 2. 也可以通过 response 页面重定向  
@@ -672,7 +672,7 @@ response.setCharacterEncoding("utf-8");
 response.setContentType("application/json;charset=utf-8");
 response.getWriter().write("json 串");
  ~~~
- 
+
 ### ModelAndView
 
 本质和SessionAttributes类似,都是往域中存取值

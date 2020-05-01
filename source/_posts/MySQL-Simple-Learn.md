@@ -1,9 +1,9 @@
+---
 layout: post
-title: MySQL学习笔记
+title: MySQL入门学习笔记
 Author: tzcqupt
-tags:
-  - Java
-  - MySQL
+tags: [MySQL]
+categories: [数据库]
 comments: true
 toc: true
 date: 2020-04-27 00:00:00
@@ -179,7 +179,9 @@ date: 2020-04-27 00:00:00
 	2. `TRUNCATE TABLE 表名;` -- **推荐使用**，效率更高 先删除表，然后再创建一张一样的表。
    
 ## 修改数据
-    `update 表名 set 列名1 = 值1, 列名2 = 值2,... [where 条件];`
+```sql
+update 表名 set 列名1 = 值1, 列名2 = 值2,... [where 条件];
+```
 
 >如果不加任何条件，则会将表中所有记录全部修改。
 

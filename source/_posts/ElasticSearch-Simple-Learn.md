@@ -1,13 +1,14 @@
-layout: post
-title: ElasticSearch学习笔记
+---
+title: ElasticSearch入门学习笔记
 Author: tzcqupt
-tags:
-  - Java
-  - ElasticSearch
+categories: [Java]
+tags: [ElasticSearch]
 comments: true
 toc: true
 date: 2020-04-27 00:00:00
 ---
+
+
 # 安装与启动
 
 1. windows解压即可。版本5.6.8  需要jdk1.8及以上
@@ -48,7 +49,7 @@ date: 2020-04-27 00:00:00
       "text":     "我是中国人"
     }
     ~~~
-   
+
 
 12. win10下配置应用开机启动
 

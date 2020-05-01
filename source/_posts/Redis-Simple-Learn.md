@@ -1,9 +1,9 @@
+---
 layout: post
-title: Redis学习笔记
+title: Redis入门学习笔记
 Author: tzcqupt
-tags:
-  - Java
-  - Redis
+tags: [Redis]
+categories: [数据库]
 comments: true
 toc: true
 date: 2020-04-27 00:00:00
@@ -194,7 +194,7 @@ del age
      `"lisi"`
    - `hgetall key`:获取所有的`field`和`value`  
      `hgetall myhash`
-	 
+	
 3. 删除 
 
 	~~~bash
@@ -318,14 +318,14 @@ del age
 
       1. 编辑`Redis.windwos.conf`文件
 
-         `
+         ~~~bash
          	#   after 900 sec (15 min) if at least 1 key changed
          	save 900 1
          	#   after 300 sec (5 min) if at least 10 keys changed
          	save 300 10
          	#   after 60 sec if at least 10000 keys changed
          	save 60 10000					
-         `
+         ~~~
 
       2. 重新启动Redis服务器,并指定配置文件名称
          `D:\JavaWeb2019\Redis\windows-64\Redis-2.8.9>Redis-server.exe Redis.windows.conf`				
@@ -1286,7 +1286,7 @@ public void testMulti() {
 }
 ~~~
 
-### redis发布订阅
+### Redis发布订阅
 
 #### Java代码配置
 
