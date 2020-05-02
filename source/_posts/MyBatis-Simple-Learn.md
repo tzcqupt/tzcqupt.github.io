@@ -4,7 +4,7 @@ title: MyBaits入门学习笔记
 date: 2020-04-27
 Author: tzcqupt
 tags: [MyBatis]
-categories: [Java]
+categories: [MyBatis]
 comments: true
 toc: true
 ---

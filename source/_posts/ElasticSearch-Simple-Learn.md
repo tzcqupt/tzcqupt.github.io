@@ -1,7 +1,7 @@
 ---
 title: ElasticSearch入门学习笔记
 Author: tzcqupt
-categories: [Java]
+categories: [数据库]
 tags: [ElasticSearch]
 comments: true
 toc: true
