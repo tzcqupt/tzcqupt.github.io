@@ -140,7 +140,7 @@ top_img_height: 60 # best range: 60 - 100
 
 post_meta:
     # or created 文章日期是创建日或者更新日
-  date_type: updated 
+  date_type: created 
     # or false 是否显示分类
   categories: true 
     # or false 是否显示标签
