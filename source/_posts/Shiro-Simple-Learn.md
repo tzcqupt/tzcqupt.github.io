@@ -1,13 +1,13 @@
-~~~java
+---
 layout: post
-title: Shiro学习笔记
+title: Shiro入门学习笔记
 Author: tzcqupt
-tags: [SpringSecurity,JWT]
+tags: [Shiro]
 categories: [SpringSecurity]
 comments: true
 toc: true
 date: 2020-05-03 00:00:00
-~~~
+---
 
 # 概念
 
