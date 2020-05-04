@@ -29,7 +29,7 @@ toc: true
 
 JMM ==>Java内存模型
 
-![](..\img\JMM抽象示意图.PNG)
+![](https://gitee.com/tzcqupt/blog-image/raw/master/img/JMM抽象示意图.PNG)
 
 1. 线程**A**⽆法直接访问线程**B**的⼯作内存，线程间通信必须经过主内存。
 

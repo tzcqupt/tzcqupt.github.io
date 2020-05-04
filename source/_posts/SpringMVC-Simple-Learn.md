@@ -20,7 +20,7 @@ date: 2020-04-27 00:00:00
 
 5. 渲染结果视图,响应浏览器。
 
-   ![SpringMVC执行流程](..\img\SpringMVC执行流程.PNG)
+   ![SpringMVC执行流程](https://gitee.com/tzcqupt/blog-image/raw/master/img/SpringMVC执行流程.PNG)
    
 # 常用配置
 
@@ -722,7 +722,7 @@ public ModelAndView addRole(ModelAndView mv,String roleName,String note) {
 
 避免重定向时二次查询。提高效率。
 
-![重定向传递对象流程图](..\img\SpringMVC重定向传递对象流程图.PNG)
+![重定向传递对象流程图](https://gitee.com/tzcqupt/blog-image/raw/master/img/SpringMVC重定向传递对象流程图.PNG)
 
 ~~~java
 // 显示用户
@@ -758,8 +758,6 @@ public ModelAndView redirect2(String userName, String note, RedirectAttributes r
 }
 ~~~
 
-
-
 ## ResponseBody响应json数据  
 
 @ResponseBody 注解实现将 controller 方法返回对象转换为 json 响应给客户端
@@ -772,7 +770,7 @@ public ModelAndView redirect2(String userName, String note, RedirectAttributes r
             return account; 
       }
 ~~~
-![SpringMVC@ResponseBody 注解转换为 JSON 流程图](..\img\SpringMVC@ResponseBody 注解转换为 JSON 流程图.PNG)
+![SpringMVC@ResponseBody 注解转换为 JSON 流程图](https://gitee.com/tzcqupt/blog-image/raw/master/img/SpringMVC@ResponseBody 注解转换为 JSON 流程图.PNG)
 
 ## 文件上传
 

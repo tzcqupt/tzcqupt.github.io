@@ -1251,7 +1251,7 @@ public class RedisTest {
 
 命令组合为**watch..multi..exec**
 
-![Redis事务](..\img\Redis事务.PNG)
+![Redis事务](https://gitee.com/tzcqupt/blog-image/raw/master/img/Redis事务.PNG)
 
 #### 测试代码
 

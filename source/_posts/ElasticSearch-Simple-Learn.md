@@ -98,12 +98,12 @@ mapping是处理数据的方式和规则方面做一些限制,如某个字段的
 
 ## 创建
 
-![postman发送请求示例](..\img\postman发送json数据创建索引给ElasticSearch.png)
+![postman发送请求示例](https://gitee.com/tzcqupt/blog-image/raw/master/img/postman发送json数据创建索引给ElasticSearch.PNG)
 
 ## 新增文档
 
 
-![新增文档](..\img\ES测试新增文档.png)
+![新增文档](https://gitee.com/tzcqupt/blog-image/raw/master/img/ES测试新增文档.PNG)
 
 
 POST http://localhost:9200/blog/airticle/1 

@@ -361,7 +361,7 @@ public class AnnoRoleAspect {
 - 持久性： 在事务完成以后，该事务对数据库所做的更改便持久保存在数据库之中，并不会被回滚。
 
 ### 隔离级别
-![数据库事务隔离级别](https://img-blog.csdnimg.cn/20200315152938939.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMxMDc0ODU5,size_16,color_FFFFFF,t_70)
+![数据库事务隔离级别](https://gitee.com/tzcqupt/blog-image/raw/master/img/数据库事务隔离级别.png)
 
 ###  事务传播行为
 

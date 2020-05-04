@@ -390,29 +390,30 @@ public class PageParam {
     ~~~
 ### 分页参数RowBounds
 
-    ~~~java
-    List<Role> findRolesByRowBounds(@Param("roleName") String roleName,
-                                        @Param("note") String note,
-                                        RowBounds rowBounds);
-    //测试代码
-        @Test
-        public void testRowBounds() {
-            //从第几条记录开始查，查询的记录数
-            RowBounds rowBounds = new RowBounds(0, 2);
-            List<Role> roles = roleMapper.findRolesByRowBounds("name", "note", rowBounds);
-            log.info(roles.size());
-            roles.forEach(System.out::println);
-        }
-    ~~~
-    ~~~xml
-    <select id="findRolesByRowBounds" resultType="role" resultMap="roleMap">
-            /*映射文件中不需要rowbounds内容，mybatis自动识别*/
-            select id, role_name, note
-            from t_role
-            where role_name like concat('%', #{roleName}, '%')
-              and note like concat('%', #{note}, '%')
-        </select>
-    ~~~
+~~~java
+List<Role> findRolesByRowBounds(@Param("roleName") String roleName,
+                                    @Param("note") String note,
+                                    RowBounds rowBounds);
+//测试代码
+    @Test
+    public void testRowBounds() {
+        //从第几条记录开始查，查询的记录数
+        RowBounds rowBounds = new RowBounds(0, 2);
+        List<Role> roles = roleMapper.findRolesByRowBounds("name", "note", rowBounds);
+        log.info(roles.size());
+        roles.forEach(System.out::println);
+    }
+~~~
+
+~~~xml
+<select id="findRolesByRowBounds" resultType="role" resultMap="roleMap">
+        /*映射文件中不需要rowbounds内容，mybatis自动识别*/
+        select id, role_name, note
+        from t_role
+        where role_name like concat('%', #{roleName}, '%')
+          and note like concat('%', #{note}, '%')
+    </select>
+~~~
 - resultMap 的id代表他的标识。type标时使用哪个类作为其映射的类，可以配置别名后，这里简写
 - 子元素 result的id代表resultMap的主键 。result代表其属性。property是POJO的属性名称，column是sql的列名。
 ## insert 插入语句
@@ -847,7 +848,7 @@ List<Role> findRolesWithParams(@Param("id")Long roleId,
     ~~~
 ## foreach
 
-    ~~~java
+~~~java
     List<Role> findRoleByIds(@Param("roleIdList") List<String> roleIdList);
     //测试类
     @Test
@@ -857,8 +858,8 @@ List<Role> findRolesWithParams(@Param("id")Long roleId,
             log.info(role);
         }
     }
-    ~~~
-    ~~~xml
+~~~
+~~~xml
     <select id="findRoleByIds" resultType="mmRole">
             select * from t_mm_role where id in
             <foreach item="roleId" index="index" collection="roleIdList"
@@ -874,10 +875,10 @@ List<Role> findRolesWithParams(@Param("id")Long roleId,
     • open 和 close 配置的是以什么符号将这些集合元素包装起来 。
     • separator 是各个元素的问隔符 。
     -->
-    ~~~
+~~~
 ## test
 
-    ~~~xml
+~~~xml
     <!--test判断字符串用toString()方法-->
     <select id="getRoleTest" resultMap="roleMap">
             select
@@ -887,10 +888,10 @@ List<Role> findRolesWithParams(@Param("id")Long roleId,
                 where 1=1
             </if>
     </select>
-    ~~~
+~~~
 ## bind
 
-    ~~~xml
+~~~xml
     <!--绑定参数，解决不同数据库对字符串的拼接方式
     如 mysql 的concat()、oracle的||
     传递的参数名称还是roleName和note,但是在sql中经过bind后，
@@ -905,7 +906,7 @@ List<Role> findRolesWithParams(@Param("id")Long roleId,
             where role_name like #{pattern_roleName}
             and note like #{pattern_note}
     </select>
-    ~~~
+~~~
 
 # 整合Spring
 

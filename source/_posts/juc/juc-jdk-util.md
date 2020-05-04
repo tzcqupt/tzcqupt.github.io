@@ -119,7 +119,7 @@ public void execute(Runnable command) {
 
 4. 缓存队列满了， 且总线程数达到了maximumPoolSize，则会采取上面提到的拒绝策略进行处理。
 
-![](../img/线程池的处理流程.png)
+![](https://gitee.com/tzcqupt/blog-image/raw/master/img/线程池的处理流程.PNG)
 
 ### ThreadPoolExecutor如何做到线程复用的
 
@@ -660,7 +660,7 @@ class Point {
 
 常用容器类架构
 
-![](../img/常用容器类.png)
+![](https://gitee.com/tzcqupt/blog-image/raw/master/img/常用容器类.png)
 
 ### 并发Map
 
@@ -1187,7 +1187,7 @@ private int doJoin() {
 
 ForkJoinPool.join()会使线程免于阻塞。
 
-![](../img/forkJoin流程图.png)
+![](https://gitee.com/tzcqupt/blog-image/raw/master/img/forkJoin流程图.PNG)
 
 #### 实例
 

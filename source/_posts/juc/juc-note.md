@@ -123,9 +123,9 @@ threadGroup.enumerate(threads);
 
 ### Java线程状态转换图
 
-![](..\img\线程状态转换图.png)
+![](https://gitee.com/tzcqupt/blog-image/raw/master/img/线程状态转换图.png)
 
-![Java异常结构总结图](..\img\Java异常结构.png)
+![Java异常结构总结图](https://gitee.com/tzcqupt/blog-image/raw/master/img/Java异常结构.png)
 
 
 
