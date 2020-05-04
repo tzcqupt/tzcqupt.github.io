@@ -63,3 +63,8 @@ token 则是 gitee 上个人的私人令牌，直接填入（私人令牌如何�
 ![](https://gitee.com/tzcqupt/blog-image/raw/master/img/typora设置picGo.PNG)
 
 2. 插入图片，可以使用`Ctrl+Shift+I`插入，或者输入`![]()`来选择本地的图片，这样会进行自动上传到gitee。
+
+# 参考文章
+
+[利用码云 gitee + PicGo 搭建个人免费图床](https://msd.misuland.com/pd/4146263467944314736)
+
