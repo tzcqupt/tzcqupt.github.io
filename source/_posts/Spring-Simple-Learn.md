@@ -768,7 +768,7 @@ public class SpringTxTest {
 1. 和数据库相关的操作写一个方法，另外无关的操作，写在controller里面，以便spring释放数据库事务
 
 	~~~java
-	@RequestMapping (”/ addRole" ) 
+	@RequestMapping ("/addRole" ) 
 	@ResponseBody 
 	public Role addRole(Role role) { 
 	//在service中完成，方便spring释放事务
@@ -781,7 +781,7 @@ public class SpringTxTest {
 3. 前后有多个不同的service处理任务时，捕捉到异常后，应该抛出。方便Spring捕获异常，进行事务管理，方便回滚事务。**自行抛出异常**
 
     ~~~java
-    @Override
+    	@Override
         @Transactional(propagation = Propagation.REQUIRED,
                 isolation = Isolation.READ_COMMITTED)
         public int doTransaction(TransactionBean trans)  {
