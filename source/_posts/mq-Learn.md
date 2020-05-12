@@ -49,7 +49,7 @@ MQ全称为Message Queue，即消息队列， RabbitMQ是由erlang语言开发�
 5. 安装`rabbitmq-delayed-message-exchange `插件，可以更方便的实现延迟队列
    1. 选择对应版本的插件下载。下载地址：https://www.rabbitmq.com/community-plugins.html
    2. 下载完成后，拷贝到RabbitMQ安装目录里的plugins文件夹下。
-   3. 使用``rabbitmq-plugins enable rabbitmq_delayed_message_exchange` 开启插件，在使用命令 `rabbitmq-plugins list` 查询安装的所有插件，确认安装是否成功。
+   3. 使用`rabbitmq-plugins enable rabbitmq_delayed_message_exchange` 开启插件，在使用命令 `rabbitmq-plugins list` 查询安装的所有插件，确认安装是否成功。
 
 ## 名词解释
 

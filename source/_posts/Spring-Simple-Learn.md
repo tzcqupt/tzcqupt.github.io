@@ -351,29 +351,239 @@ public class AnnoRoleAspect {
 
 # 事务
 
+节选自`JavaGuide`公众号,[原文链接](https://mp.weixin.qq.com/s/xFnVBqcVNRFQfHyd03iWcg)
+
 ## 事务相关知识
 
 ###  数据库ACID
 
-- 原子性： 整个事务中的所有操作，要么全部完成，要么全部不完成，不可能停滞在中间某个环节。事务在执行过程中发生错误，会被回滚到事务开始前的状态，就像 这个事务从来没被执行过一样。
+- 原子性： 整个事务中的所有操作，要么全部完成，要么全部不完成，不可能停滞在中间某个环节。事务在执行过程中发生错误，会被回滚到事务开始前的状态，就像这个事务从来没被执行过一样。
 - 一致性：指一个事务可以改变封装状态（除非它是一个只读的〉。事务必须始终保 持系统处于一致的状态，不管在任何给定的时间并发事务有多少。 
-- 隔离性： 它是指两个事务之间的隔离程度。
+- 隔离性： 它是指两个事务之间的隔离程度，并发访问数据库时，一个用户的事物不被其他事务所干扰也就是说多个事务并发执行时，一个事务的执行不应影响其他事务的执行。
 - 持久性： 在事务完成以后，该事务对数据库所做的更改便持久保存在数据库之中，并不会被回滚。
 
-### 隔离级别
+> MySQL 的引擎为InnoDB，则支持事务，**MyIsam则不支持事务**。
+
+### 事务属性
+
+事务属性包括 隔离级别、传播行为、回滚规则、是否只读、事务超时。
+
+#### 隔离级别
+
+1. 数据库中的隔离级别。
+
 ![数据库事务隔离级别](https://gitee.com/tzcqupt/blog-image/raw/master/img/数据库事务隔离级别.png)
 
-###  事务传播行为
+2. Spring中定义的5个隔离级别。
 
-| 事务传播行为类型          | 说明                                                         |
-| ------------------------- | ------------------------- |
-| PROPAGATION_REQUIRED      | 如果当前没有事务，就新建一个事务，如果已经存在一个事务中，加入到这个事务中。这是最常见的选择。 |
-| PROPAGATION_SUPPORTS      | 支持当前事务，如果当前没有事务，就以非事务方式执行。         |
-| PROPAGATION_MANDATORY     | 使用当前的事务，如果当前没有事务，就抛出异常。               |
-| PROPAGATION_REQUIRES_NEW  | 新建事务，如果当前存在事务，把当前事务挂起。                 |
-| PROPAGATION_NOT_SUPPORTED | 以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。   |
-| PROPAGATION_NEVER         | 以非事务方式执行，如果当前存在事务，则抛出异常。             |
-| PROPAGATION_NESTED        | 如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则执行与PROPAGATION_REQUIRED类似的操作。 |
+   ISOLATION_DEFAULT、READ_UNCOMMITTED、READ_COMMITTED、REPEATABLE_READ、SERIALIZABLE
+
+##### **`ISOLATION_DEFAULT`** 
+
+Spring中的默认隔离级别，采用后端数据库默认的隔离级别，MySQL 默认采用的 `REPEATABLE_READ` 隔离级别 Oracle 默认采用的 `READ_COMMITTED` 隔离级别。
+
+##### **`ISOLATION_READ_UNCOMMITTED`** 
+
+最低的隔离级别，使用这个隔离级别很少，因为它允许读取尚未提交的数据变更，**可能会导致脏读、幻读或不可重复读**
+
+##### **`ISOLATION_READ_COMMITTED`** 
+
+允许读取并发事务已经提交的数据，**可以阻止脏读，但是幻读或不可重复读仍有可能发生**
+
+##### **`ISOLATION_REPEATABLE_READ`**
+
+对同一字段的多次读取结果都是一致的，除非数据是被本身事务自己所修改，**可以阻止脏读和不可重复读，但幻读仍有可能发生。**
+
+##### **`ISOLATION_SERIALIZABLE`** 
+
+最高的隔离级别，完全服从 ACID 的隔离级别。所有的事务依次逐个执行，这样事务之间就完全不可能产生干扰，也就是说，**该级别可以防止脏读、不可重复读以及幻读**。但是这将严重影响程序的性能。通常情况下也不会用到该级别。
+
+##### MySQL的隔离级别
+
+MySQL InnoDB 存储引擎的默认支持的隔离级别是 **`REPEATABLE-READ`（可重读）**。我们可以通过`SELECT @@tx_isolation;`命令来查看。
+
+> 与 SQL 标准不同的地方在于,MySQL InnoDB 存储引擎在 **`REPEATABLE-READ`（可重读）** 事务隔离级别下使用的是 Next-Key Lock 锁算法，因此可以避免幻读的产生，这与其他数据库系统(如 SQL Server)是不同的。所以说 InnoDB 存储引擎的默认支持的隔离级别是 **`REPEATABLE-READ`（可重读）** 已经可以完全保证事务的隔离性要求，即达到了 SQL 标准的 **`SERIALIZABLE`(可串行化)** 隔离级别。
+>
+> InnoDB 存储引擎默认使用 **`REPEATABLE-READ`（可重读）** 并不会什么任何性能上的损失。
+
+####  事务传播行为
+
+| 事务传播行为类型              | 说明                                                         |
+| ----------------------------- | ------------------------------------------------------------ |
+| **PROPAGATION_REQUIRED**      | 如果当前没有事务，就新建一个事务，如果已经存在一个事务中，加入到这个事务中。这是最常见的选择。 |
+| **PROPAGATION_SUPPORTS**      | 支持当前事务，如果当前没有事务，就以非事务方式执行。         |
+| **PROPAGATION_MANDATORY**     | 使用当前的事务，如果当前没有事务，就抛出异常。               |
+| **PROPAGATION_REQUIRES_NEW**  | 新建事务，如果当前存在事务，把当前事务挂起。                 |
+| **PROPAGATION_NOT_SUPPORTED** | 以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。   |
+| **PROPAGATION_NEVER**         | 以非事务方式执行，如果当前存在事务，则抛出异常。             |
+| **PROPAGATION_NESTED**        | 如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则执行与PROPAGATION_REQUIRED类似的操作。 |
+
+##### `PROPAGATION_REQUIRED`
+
+> `@Transactional`注解默认使用的事务传播行为
+
+1. 如果外部方法没有开启事务的话，`Propagation.REQUIRED`修饰的内部方法会新开启自己的事务，且开启的事务相互独立，互不干扰。
+
+2. 如果外部方法开启事务并且被`Propagation.REQUIRED`的话，所有`Propagation.REQUIRED`修饰的内部方法和外部方法均属于同一事务 ，只要一个方法回滚，整个事务均回滚。
+
+   ~~~java
+   //aMethod()和bMethod()使用的时同一个事务，只要其中一个方法回滚，整个事务均回滚。
+   Class A {
+       @Transactional(propagation=propagation.PROPAGATION_REQUIRED)
+       public void aMethod {
+           //do something
+           B b = new B();
+           b.bMethod();
+       }
+   }
+   
+   Class B {
+       @Transactional(propagation=propagation.PROPAGATION_REQUIRED)
+       public void bMethod {
+          //do something
+       }
+   }
+   ~~~
+
+##### `PROPAGATION_REQUIRES_NEW`
+
+创建一个新的事务，如果当前存在事务，则把当前事务挂起。也就是说不管外部方法是否开启事务，`Propagation.REQUIRES_NEW`修饰的内部方法会新开启自己的事务，且开启的事务相互独立，互不干扰。
+
+~~~java
+//1.如果aMethod()发生异常回滚，bMethod()不会跟着回滚，因为 bMethod()开启了独立的事务。
+//2.如果 bMethod()抛出了未被捕获的异常并且这个异常满足事务回滚规则的话,aMethod()同样也会回滚，因为这个异常被 aMethod()的事务管理机制检测到了。
+Class A {
+    @Transactional(propagation=propagation.PROPAGATION_REQUIRED)
+    public void aMethod {
+        //do something
+        B b = new B();
+        b.bMethod();
+    }
+}
+
+Class B {
+    @Transactional(propagation=propagation.REQUIRES_NEW)
+    public void bMethod {
+       //do something
+    }
+}
+~~~
+
+##### `PROPAGATION_NESTED`
+
+如果当前存在事务，则创建一个事务作为当前事务的嵌套事务来运行；如果当前没有事务，则该取值等价于`TransactionDefinition.PROPAGATION_REQUIRED`。
+
+1. 在外部方法未开启事务的情况下`Propagation.NESTED`和`Propagation.REQUIRED`作用相同，修饰的内部方法都会新开启自己的事务，且开启的事务相互独立，互不干扰。
+2. 如果外部方法开启事务的话，`Propagation.NESTED`修饰的内部方法属于外部事务的子事务，外部主事务回滚的话，子事务也会回滚，而内部子事务可以**单独回滚**而不影响外部主事务和其他子事务。
+
+~~~java
+//1.如果 aMethod() 回滚的话，bMethod()和bMethod2()都要回滚
+//2.bMethod()回滚的话，并不会造成 aMethod() 和bMethod2()回滚。
+Class A {
+    @Transactional(propagation=propagation.PROPAGATION_REQUIRED)
+    public void aMethod {
+        //do something
+        B b = new B();
+        b.bMethod();
+        b.bMethod2();
+    }
+}
+
+Class B {
+    @Transactional(propagation=propagation.PROPAGATION_NESTED)
+    public void bMethod {
+       //do something
+    }
+    @Transactional(propagation=propagation.PROPAGATION_NESTED)
+    public void bMethod2 {
+       //do something
+    }
+}
+~~~
+
+#### 事务超时属性
+
+所谓事务超时，就是指一个事务所允许执行的最长时间，如果超过该时间限制但事务还没有完成，则**自动回滚事务**。在 `TransactionDefinition` 中以 int 的值来表示超时时间（timeout），其单位是秒，默认值为-1。
+
+#### 事务只读属性
+
+对于只有读取数据查询的事务，可以指定事务类型为 `readonly`，即只读事务。只读事务不涉及数据的修改，数据库会提供一些优化手段，**适合用在有多条数据库查询操作的方法中**。
+
+##### 事务回滚规则
+
+默认情况下，事务只有遇到**运行期异常（RuntimeException 的子类）**时才会回滚，**Error** 也会导致事务回滚，但是，在遇到检查型（Checked）异常时不会回滚。
+
+一般使用回滚到自定义的异常。`@Transactional(rollbackFor= MyException.class)`
+
+## `@Transactional` 注解使用详解
+
+### 作用范围
+
+1. **方法** ：推荐将注解使用于方法上，不过需要注意的是：**该注解只能应用到 public 方法上，否则不生效。**
+2. **类** ：如果这个注解使用在类上的话，表明该注解对该类中所有的 public 方法都生效。
+3. **接口** ：不推荐在接口上使用。
+
+### `@Transactional` 事务注解原理
+
+**`@Transactional` 的工作机制是基于 AOP 实现的，AOP 又是使用动态代理实现的。如果目标对象实现了接口，默认情况下会采用 JDK 的动态代理，如果目标对象没有实现了接口,会使用 CGLIB 动态代理。**
+
+~~~java
+//createAopProxy() 方法 决定了是使用 JDK 还是 Cglib 来做动态代理
+public class DefaultAopProxyFactory implements AopProxyFactory, Serializable {
+
+ @Override
+ public AopProxy createAopProxy(AdvisedSupport config) throws AopConfigException {
+  if (config.isOptimize() || config.isProxyTargetClass() || hasNoUserSuppliedProxyInterfaces(config)) {
+   Class<?> targetClass = config.getTargetClass();
+   if (targetClass == null) {
+    throw new AopConfigException("TargetSource cannot determine target class: " +
+      "Either an interface or a target is required for proxy creation.");
+   }
+   if (targetClass.isInterface() || Proxy.isProxyClass(targetClass)) {
+    return new JdkDynamicAopProxy(config);
+   }
+   return new ObjenesisCglibAopProxy(config);
+  }
+  else {
+   return new JdkDynamicAopProxy(config);
+  }
+ }
+  .......
+}
+~~~
+
+如果一个类或者一个类中的 public 方法上被标注`@Transactional` 注解的话，Spring 容器就会在启动的时候为其创建一个代理类，在调用被`@Transactional` 注解的 public 方法的时候，实际调用的是，`TransactionInterceptor` 类中的 `invoke()`方法。这个方法的作用就是在目标方法之前开启事务，方法执行过程中如果遇到异常的时候回滚事务，方法调用完成之后提交事务。
+
+### Spring AOP自调用问题
+
+若同一类中的其他没有 `@Transactional` 注解的方法内部调用有 `@Transactional` 注解的方法，有`@Transactional` 注解的方法的事务会失效。
+
+这是由于`Spring AOP`代理的原因造成的，因为只有当 `@Transactional` 注解的方法在类以外被调用的时候，Spring 事务管理才生效。
+
+`MyService` 类中的`method1()`调用`method2()`就会导致`method2()`的事务失效。
+
+~~~java
+@Service
+public class MyService {
+
+private void method1() {
+     method2();
+     //......
+}
+@Transactional
+ public void method2() {
+     //......
+  }
+}
+~~~
+
+### `@Transactional` 的使用注意事项总结
+
+1. 作用在`public`方法上。
+
+2. 避免同一个类中调用 `@Transactional` 注解的方法，这样会导致事务失效；
+
+   > 可以在容器中重新获取，避免事务失效
 
 ## Spring+MyBatis测试事务
 

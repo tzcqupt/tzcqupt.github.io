@@ -219,7 +219,7 @@ public class RedisTask {
 `RabbitMQ` 实现延迟队列的方式有两种：
 
 - 通过消息过期后进入死信交换器，再由交换器转发到延迟消费队列，实现延迟功能；
-- 使用 `rabbitmq-delayed-message-exchange` 插件实现延迟功能，插件安装方式参考消息队列文章。
+- 使用 `rabbitmq-delayed-message-exchange` 插件实现延迟功能，插件安装方式参考[消息队列文章](https://tzcqupt.gitee.io/2020/05/10/mq-Learn/#RabbitMQ)。
 
 #### `SpringBoot`配置`RabbitMQ`
 
