@@ -372,11 +372,11 @@ public class AnnoRoleAspect {
 
 1. 数据库中的隔离级别。
 
-![数据库事务隔离级别](https://gitee.com/tzcqupt/blog-image/raw/master/img/数据库事务隔离级别.png)
+    ![数据库事务隔离级别](https://gitee.com/tzcqupt/blog-image/raw/master/img/数据库事务隔离级别.png)
 
 2. Spring中定义的5个隔离级别。
 
-   ISOLATION_DEFAULT、READ_UNCOMMITTED、READ_COMMITTED、REPEATABLE_READ、SERIALIZABLE
+   `ISOLATION_DEFAULT`、``READ_UNCOMMITTED`、`READ_COMMITTED`、`REPEATABLE_READ`、`SERIALIZABLE`
 
 ##### **`ISOLATION_DEFAULT`** 
 
