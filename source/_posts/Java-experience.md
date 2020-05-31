@@ -9,9 +9,106 @@ toc: true
 date: 2020-05-30 00:00:00
 ---
 
-# 数据验证部分
+# MyBatis
 
-## 配置文件
+## #和$的用法
+
+1. 当传递的参数作为sql中的变量是,使用#
+
+2. 当传递的参数作为sql的特殊字段时,使用$接收.如接收该参数作为列名,排序字段asc/desc
+
+   > 如传递的参数有order和sort 其中order表示排序依据的字段,sort传递的时asc/desc表示是升序还是降序
+   >
+   > ```java
+   > //mapper接口
+   > List<SysMenu> findMenuByPage(QueryDTO queryDTO);
+   > // 实体类
+   > @Data
+   > public class QueryDTO {
+   >   private Integer offset;
+   >   private Integer limit;
+   >   private String order;
+   >   /** 排序的字段 */
+   >   private String sort;
+   >   /** 搜索 */
+   >   private String search;
+   > }
+   > ```
+   >
+   > ```xml
+   > <select id="findMenuByPage" resultType="com.tang.car.entity.SysMenu" parameterType="com.tang.car.dto.QueryDTO">
+   >         select m.*,p.name as parentName from sys_menu m
+   >         ,sys_menu p
+   >         <trim prefix="where" prefixOverrides="and">
+   >             <if test="search!=null and search!='' ">
+   >                 and m.name like concat('%',#{search},'%')
+   >             </if>
+   >             and m.menu_id=p.menu_id
+   >         </trim>
+   >         <if test="sort!=null and sort!='' ">
+   >             order by #{sort}
+   >         </if>
+   >     </select>
+   > ```
+
+## 配置分页插件
+
+### 依赖
+
+```xml
+ <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.8.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+<dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>1.3.1</version>
+        </dependency>
+<!--pagerhelper 的 springboot 配置方式-->
+<dependency>
+    <groupId>com.github.pagehelper</groupId>
+    <artifactId>pagehelper-spring-boot-starter</artifactId>
+    <version>1.2.3</version>
+</dependency>
+
+<dependency>
+    <groupId>com.github.pagehelper</groupId>
+    <artifactId>pagehelper-spring-boot-autoconfigure</artifactId>
+    <version>1.2.3</version>
+</dependency>
+<dependency>
+    <groupId>com.github.pagehelper</groupId>
+    <artifactId>pagehelper</artifactId>
+    <version>5.1.2</version>
+</dependency>
+```
+
+### 使用
+
+```java
+public DataGridResult findByPage(QueryDTO queryDTO) {
+    // 使用分页插件
+    PageHelper.offsetPage(queryDTO.getOffset(), queryDTO.getLimit());
+    CarExample example = new CarExample();
+    String sort = queryDTO.getSort();
+    if (!StringUtils.isEmpty(sort)) {
+        example.setOrderByClause("id " + queryDTO.getOrder());
+    }
+    List<Car> cars = carMapper.selectByExample(example);
+    PageInfo<Car> info = new PageInfo<>(cars);
+    long total = info.getTotal();
+    return new DataGridResult(total, cars);
+}
+```
+
+# SpringMVC
+
+## 数据验证部分
+
+### 配置文件
 
 ~~~xml
 <dependency>
@@ -26,9 +123,9 @@ date: 2020-05-30 00:00:00
 </dependency>
 ~~~
 
-## @Valid
+### @Valid
 
-### 实体类注解验证
+#### 实体类注解验证
 
 ~~~java
  @Data
@@ -79,7 +176,7 @@ public class Transaction {
 
 ~~~
 
-### 其他业务验证
+#### 其他业务验证
 
 ~~~java
 import org.springframework.validation.Errors;
@@ -106,7 +203,7 @@ public class TransactionValidator implements Validator {
 }
 ~~~
 
-### 绑定器@InitBinder
+#### 绑定器@InitBinder
 
 ~~~java
 @RestController
@@ -122,7 +219,7 @@ public class ValidateController {
 }
 ~~~
 
-### 验证方法
+#### 验证方法
 
 ~~~java
 @RequestMapping("/validator")
@@ -154,11 +251,11 @@ public class ValidateController {
     }
 ~~~
 
-## @Validated
+### @Validated
 
 > **加入组别验证**
 
-### 实体类注解
+#### 实体类注解
 
 ~~~java
 @Data
@@ -180,7 +277,7 @@ public class BindPojo {
 }
 ~~~
 
-### 绑定器@InitBinder
+#### 绑定器@InitBinder
 
 ~~~java
 // 如果没有业务验证，在实体类中没有验证时间，可以加在绑定器中
@@ -196,7 +293,7 @@ public class BindPojo {
     }
 ~~~
 
-### 验证方法
+#### 验证方法
 
 ~~~java
 @GetMapping("/testKey")
@@ -231,47 +328,140 @@ public class BindPojo {
     }
 ~~~
 
-# MyBatis
 
-## #和$的用法
+# Spring
 
-1. 当传递的参数作为sql中的变量是,使用#
+## SpringAOP
 
-2. 当传递的参数作为sql的特殊字段时,使用$接收.如接收该参数作为列名,排序字段asc/desc
+### 利用自定义注解和AOP实现日志记录
 
-   > 如传递的参数有order和sort 其中order表示排序依据的字段,sort传递的时asc/desc表示是升序还是降序
-   >
-   > ```java
-   > //mapper接口
-   > List<SysMenu> findMenuByPage(QueryDTO queryDTO);
-   > // 实体类
-   > @Data
-   > public class QueryDTO {
-   >   private Integer offset;
-   >   private Integer limit;
-   >   private String order;
-   >   /** 排序的字段 */
-   >   private String sort;
-   >   /** 搜索 */
-   >   private String search;
-   > }
-   > ```
-   >
-   > ```xml
-   > <select id="findMenuByPage" resultType="com.tang.car.entity.SysMenu" parameterType="com.tang.car.dto.QueryDTO">
-   >         select m.*,p.name as parentName from sys_menu m
-   >         ,sys_menu p
-   >         <trim prefix="where" prefixOverrides="and">
-   >             <if test="search!=null and search!='' ">
-   >                 and m.name like concat('%',#{search},'%')
-   >             </if>
-   >             and m.menu_id=p.menu_id
-   >         </trim>
-   >         <if test="sort!=null and sort!='' ">
-   >             order by #{sort}
-   >         </if>
-   >     </select>
-   > ```
+#### 声明自定义注解
 
-# SpringMVC
+```java
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface MyLog {
+    String value() default "用户操作";
+}
+```
 
+#### 编写AOP切面
+
+```java
+@Aspect
+@Component
+@Slf4j
+public class MyLogAdvice {
+  @Pointcut("@annotation(com.tang.car.log.MyLog)")
+  public void myPointcut() {
+  }
+
+  /** 开发通知 */
+  @AfterReturning(pointcut = "myPointcut()")
+  public void myAfterRet(JoinPoint joinPoint) {
+    MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+    Method method = signature.getMethod();
+    MyLog annotation = method.getAnnotation(MyLog.class);
+    // 得到用户的操作
+    String operation = null;
+    if (Objects.nonNull(annotation)) {
+      operation = annotation.value();
+    }
+    // 得到用户的ip
+    String ip = IPUtils.getIpAddr(HttpContextUtils.getHttpServletRequest());
+    // 得到参数
+    Object[] args = joinPoint.getArgs();
+    String jsonString = JSON.toJSONString(args);
+    // 得到方法名称
+    String methodName = joinPoint.getTarget().getClass().getName() + "." + method.getName();
+    log.info(Instant.now() + "|" + operation + "|" + ip + "|" + methodName + "|" + jsonString);
+  }
+}
+```
+
+#### 使用
+
+```java
+@MyLog("菜单更新")
+@PostMapping("update")
+public MyCarResult updateMenu(@RequestBody SysMenu menu) {
+  int result = sysMenuService.update(menu);
+  if (result > 0) {
+    return MyCarResult.ok("修改成功!");
+  }
+  return MyCarResult.error();
+}
+```
+
+# 数据库
+
+## SpringBoot集成Druid监控SQL
+
+### 依赖
+
+```xml
+<parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.1.8.RELEASE</version>
+    <relativePath/>
+</parent>
+<dependency>
+    <groupId>com.alibaba</groupId>
+    <artifactId>druid</artifactId>
+    <version>1.0.28</version>
+</dependency>
+```
+
+### 配置文件
+
+```properties
+#DataSource配置
+spring.datasource.initialSize=5
+spring.datasource.minIdle=5
+spring.datasource.maxActive=20
+spring.datasource.maxWait=60000
+spring.datasource.timeBetweenEvictionRunsMillis=60000
+spring.datasource.minEvictableIdleTimeMillis=300000
+spring.datasource.validationQuery=SELECT 1 FROM DUAL
+spring.datasource.testWhileIdle=true
+spring.datasource.testOnBorrow=false
+spring.datasource.testOnReturn=false
+spring.datasource.poolPreparedStatements=true
+spring.datasource.maxPoolPreparedStatementPerConnectionSize=20
+spring.datasource.filters=stat,wall
+```
+
+### 其他初始化配置
+
+```java
+@Configuration //spring的配置文件
+public class DruidConfig {
+    @Bean(name = "dataSource")
+    //加载properties文件，以spring.datasource开头的部分构建数据源
+    @ConfigurationProperties(prefix = "spring.datasource")
+    public DataSource dataSource() {
+        DataSource dataSource = new DruidDataSource();
+        return dataSource;
+    }
+}
+// 访问方式localhost:8080/druid
+// 用户名/密码都是druid
+@WebServlet(name = "druidStatViewServlet", urlPatterns = "/druid/*",
+        initParams = {
+                @WebInitParam(name = "loginUsername", value = "druid"),
+                @WebInitParam(name = "loginPassword", value = "druid"),
+//      @WebInitParam(name = "allow",value = "127.0.0.1"),// IP白名单 (没有配置或者为空，则允许所有访问)
+                @WebInitParam(name = "resetEnable", value = "false")
+        })
+public class DruidStatViewServlet extends StatViewServlet {
+}
+
+@WebFilter(filterName = "druidWebStatFilter", urlPatterns = "/*",
+        initParams = {@WebInitParam(name = "exclusions", value = "*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*")})
+//exclusions 不拦截资源
+public class DruidWebStatFilter extends WebStatFilter {
+}
+```
+
+> 因为加了@WebServlet注解,需要被SpringBoot扫描到,所以在SpringBoot启动类上需要加注解@ServletComponentScan(basePackages = "com.tang.car.config")
