@@ -277,3 +277,9 @@ user=mysql
 ~~~bash
 mysql> set password = password('root123');
 ~~~
+
+# 参考文章
+
+https://zixuephp.net/article-261.html
+
+https://blog.csdn.net/qq_23077403/article/details/85093705
