@@ -49,6 +49,14 @@ date: 2020-06-02 00:00:00
 
    纵轴显示参数aligin-items
 
+## 伪元素选择器
+
+::after
+
+::before
+
+
+
 ## 层布局模型
 
 绝对定位:`position:absolute` 相对于其父元素来说,没有就是body
@@ -71,6 +79,8 @@ date: 2020-06-02 00:00:00
 ## Flex布局
 
 [学习教程](https://www.runoob.com/w3cnote/flex-grammar.html)
+
+> 微信小程序中若要求兼容到iOS8以下版本，需要开启样式自动补全。开启样式自动补全，在“设置”—“项目设置”—勾选“上传代码时样式自动补全”。
 
 ### 定义
 
@@ -267,7 +277,141 @@ align-self属性允许单个项目有与其他项目不一样的对齐方式，�
 
 该属性可能取6个值，除了auto，其他都与align-items属性完全一致。
 
+## ES6新特性
 
+[学习网站](https://es6.ruanyifeng.com/)
+
+### babel转换为es5
+
+若高级功能node不支持,使用babel转换成ES5
+
+1. babel转换配置,项目根目录添加```.babelrc ```文件 
+
+2. 安装es6转换模块
+
+   ```cnpm install babel‐preset‐es2015 ‐‐save‐dev ```
+
+3. 全局安装命令行工具 
+
+   ```cnpm install babel‐cli ‐g ```
+
+4. 使用 
+
+   ```babel‐node js文件名 ```
+
+### 变量声明let
+
+1. es6之前,使用var关键字声明变量,无论声明在哪,都会被当作声明在函数的最顶部
+
+2. es6 let表示变量(函数内部),const表示常量(代码块内部),再次给const声明的常量赋值会报错
+
+
+### 模板字符串
+
+~~~js
+//es5 
+var name = 'lux' 
+console.log('hello' + name) 
+// es5 
+var msg = "Hi \ man!" 
+//es6 字符串格式化${}
+const name = 'lux' 
+console.log(`hello ${name}`) //hello lux
+// es6 使用(``)拼接多行字符串
+const template = `<div> 
+	<span>hello world</span> 
+</div>`
+~~~
+
+### 函数默认参数
+
+~~~js
+function action(num = 200) { 
+    console.log(num) }
+action() //200 
+action(300) //300
+~~~
+
+### 箭头函数
+
+1. 省略function关键字来创建函数
+2. 省略return
+3. **继承当前上下文的this关键字**
+
+### 对象初始化简写
+
+~~~js
+//es5
+function people(name, age) { 
+    return { 
+        name: name, 
+        age: age 
+    }; 
+}
+//es6
+function people(name, age) { 
+    return { 
+        name, 
+        age 
+    }; 
+}
+~~~
+
+### 解构
+
+~~~js
+//es5
+const people = { 
+    name: 'lux', 
+    age: 20 
+}
+const name = people.name 
+const age = people.age 
+console.log(name + ' ‐‐‐ ' + age)
+//es6
+	//对象
+const people={
+    name:'lux',
+    age:20
+}
+const {name,age}=people
+console.log('${name}---${age}')
+	//数组 
+const color = ['red', 'blue'] 
+const [first, second] = color 
+console.log(first) //'red' 
+console.log(second) //'blue'
+~~~
+
+#### Spread Operator 
+
+用于...组装对象或者数组
+
+~~~js
+//数组 
+const color = ['red', 'yellow'] 
+const colorful = [...color, 'green', 'pink'] 
+console.log(colorful) //[red, yellow, green, pink] //对象 
+const alp = { fist: 'a', second: 'b'} 
+const alphabets = { ...alp, third: 'c' } 
+console.log(alphabets) 
+//{ "fist": "a", "second": "b", "third": "c"
+~~~
+
+#### improt、export 导入导出模块
+
+~~~js
+//lib.js
+let fn0=function(){ 
+    console.log('fn0...'); 
+}
+export {fn0}
+// demo.js
+import {fn0} from './lib'
+fn0();
+~~~
+
+> node 8.x不支持,需要使用babel命令行工具执行
 
 # 微信小程序
 
@@ -342,9 +486,29 @@ Page({
 })
 ```
 
-## 易错编程规范
+## 编程注意事项
 
 ### 数据绑定
+
+#### 简单实例
+
+~~~html
+<view>{{ msg }}</view>
+~~~
+
+```javascript
+Page({
+  onLoad: function () {
+    this.setData({ msg: 'Hello World' },function(){
+        //在这次setData对界面渲染完毕后触发
+    })
+  }
+})
+```
+
+> setData其一般调用格式是 setData(data, callback)，其中data是由多个key: value构成的Object对象。
+
+#### 其他注意事项
 
 1. 属性值必须被包裹在双引号中.
 
@@ -371,4 +535,19 @@ Page({
    <view>{{var4}}</view>
    ~~~
 
-   
+3. 全局变量
+
+   > 在app.js中定义全局变量时,避免变量名称为`globalData`,测试其他js文件引用会有问题
+
+4. js文件引用
+
+   > 在a.js文件中通过`module.exports`导出方法,b.js中通过`require`(**相对路径**)引入
+   >
+   > ```js
+   > //a.js
+   > module.exports=function(value){
+   >     return value*2;
+   > }
+   > //b.js
+   > var multiplyBy2 = require('./../demo1/demo1')
+   > ```
