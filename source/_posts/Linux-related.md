@@ -8,7 +8,9 @@ toc: true
 date: 2020-06-02 00:00:00
 ---
 
-# 让客户端和腾讯云一直保持连接
+# 腾讯云相关
+
+## 让客户端和腾讯云一直保持连接
 
 1. 修改`sshd_config`配置文件
 
@@ -28,5 +30,332 @@ date: 2020-06-02 00:00:00
    [root@VM_0_17_centos ~]# service sshd restart
    ~~~
 
-   
+## Xshell 登录腾讯云缓慢
 
+~~~bash
+rm -rf /var/log/btmp
+touch /var/log/btmp
+~~~
+
+# 软件安装相关
+
+## 安装Jenkins
+
+> 确保安装了Java
+
+### yum安装
+
+#### 添加yum源
+
+~~~
+sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo 
+sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+~~~
+
+#### 执行安装
+
+~~~
+yum install jenkins
+~~~
+
+输入y进行安装即可
+
+### 安装rpm包
+
+1. [下载`.rpm`文件](https://mirror.tuna.tsinghua.edu.cn/jenkins/redhat-stable/)
+
+2. 安装`.rpm`文件
+
+   `rpm -ivh jenkins-2.235.5-1.1.noarch.rpm`
+
+3. 查看安装位置 `rpm -qc jenkins`
+
+   ~~~bash
+   [root@localhost soft]# rpm -qc jenkins
+   /etc/init.d/jenkins
+   /etc/logrotate.d/jenkins
+   /etc/sysconfig/jenkins
+   ~~~
+
+4. 端口修改`vi /etc/sysconfig/jenkins`
+
+   ~~~
+   JENKINS_PORT="8081"
+   ~~~
+
+5. 启动`service jenkins start`
+
+   > 报错需要修改文件`/etc/init.d/jenkins`
+   >
+   > 将`/usr/bin/java`改为自己java的地址
+   >
+   > 自己Java地址的查看方式为`which java`
+
+### WAR包安装
+
+1. [下载WAR包](https://mirrors.tuna.tsinghua.edu.cn/jenkins/war/2.251/jenkins.war)
+
+2. 将WAR包放在tomcat的webapps下面
+3. 启动tomcat
+4. tomcat启动后,会生成一个.jenkins文件夹在root目录下`/root/.jenkins/`
+5. 浏览器上输入IP地址(http://ip:端口/jenkins)即可访问(http://www.tzcqupt.top/jenkins/)
+
+6. 复制生成的密码`/root/.jenkins/initialAdminPassword`
+
+7. 进入页面后,安装建议的插件
+
+8. 如果插件安装失败,通过https://mirrors.tuna.tsinghua.edu.cn/jenkins下载插件.
+
+   插件管理中的高级进行上传.
+
+### 安装成功但无法访问jenkins
+
+禁用防火墙即可
+
+1. 关闭防火墙
+
+   `systemctl stop firewalld.service`
+
+2. 禁止开机启动
+
+   `systemctl disable firewalld.service`
+
+### 插件下载慢的解决办法
+
+#### 插件下载管理
+
+进入jenkins的插件下载管理
+
+`http://ip:端口/jenkins/pluginManager/advanced`
+
+修改 **Update Site**中的URL的值为https://mirrors.tuna.tsinghua.edu.cn/jenkins/updates/update-center.json
+
+#### 修改default.json
+
+进入`/root/.jenkins/updates`中编辑default.json文件
+
+替换所有插件的下载url:
+
+~~~
+1. default.json里面是updates.jenkins-ci.org
+:1,$s/http:\/\/updates.jenkins-ci.org\/download/https:\/\/mirrors.tuna.tsinghua.edu.cn\/jenkins/g
+2. default.json面是updates.jenkins.io
+:1,$s/https:\/\/updates.jenkins.io\/download/https:\/\/mirrors.tuna.tsinghua.edu.cn\/jenkins/g
+
+~~~
+
+替换连接测试url
+
+~~~
+:1,$s/http:\/\/www.google.com/https:\/\/www.baidu.com/g
+~~~
+
+保存并退出
+
+重启jenkins `http://ip:端口/jenkins/restart`
+
+### Jenkins离线安装插件
+
+Jenkins报413错误
+
+修改nginx的配置文件
+
+1. 查找nginx的配置文件位置
+
+   `find / -name nginx.conf`
+
+2. 修改nginx的配置文件
+
+   添加`client_max_body_size 10M;`
+
+   ~~~
+   server {
+       listen       80;
+       server_name  www.abc.com;
+    
+       add_header Access-Control-Allow-Origin *;
+       add_header Access-Control-Allow-Credentials true;
+       add_header Access-Control-Allow-Headers *;
+       add_header Access-Control-Allow-Methods GET,POST,OPTIONS;
+        
+       client_max_body_size 10M;
+    
+       location / {
+          ....
+       }
+   }
+   ~~~
+
+3. 重启nginx
+
+   `nginx -s reload`
+
+### 配置gitee
+
+[gitee插件文档](https://gitee.com/help/articles/4193)
+
+> 使用离线安装的方式,前往[清华大学开源软件](https://mirror.tuna.tsinghua.edu.cn/)下载插件
+
+### 卸载Jenkins
+
+```
+service jenkins stop
+yum clean all
+yum -y remove jenkins
+rm -rf /var/cache/jenkins
+rm -rf /var/lib/jenkins/
+rm -rf /etc/init.d/jenkins
+rm -rf /etc/logrotate.d/jenkins
+rm -rf /etc/sysconfig/jenkins
+```
+
+## 安装Maven
+
+1. 下载软件包
+
+2. 安装maven软件包
+
+   ~~~
+   tar -xf apache-maven-3.5.4-bin.tar.gz 
+   mv apache-maven-3.5.4 /usr/local/maven
+   # 与jenkins联合使用时，jenkins会到/usr/bin/下找mvn命令，如果没有回报错
+   ln -s /usr/local/maven/bin/mvn  /usr/bin/mvn　　　　
+   ll /usr/local/maven/
+   ll /usr/bin/mvn
+   ~~~
+
+3. 环境变量修改 `/etc/profile/`
+
+   ~~~
+   export MAVEN_HOME=/usr/local/maven
+   export PATH=$MAVEN_HOME/bin:$PATH
+   #使环境变量生效
+   source /etc/profile
+   ~~~
+
+4. 查看安装的mvn版本号
+
+   ~~~
+   which mvn
+   mvn -version
+   ~~~
+
+
+
+## 其他问题
+
+### Nginx日志查看
+
+`/var/log/nginx`
+
+# Linux常用相关操作
+
+## 查看Linux服务其内存使用情况
+
+1. `free` 命令
+
+   > 1. 命令默认单位使kb 使用 `free -m`和`free -g`命令查看`MB`和`GB`,`free -h`自动选择合适的单位进行展示
+   > 2. Mem: 表示物理内存统计
+   > 3. Swap: 表示硬盘上交换分区的使用情况,shared表示共享内存,
+
+2. top 命令
+
+   查看系统的实时负载,包括进程,CPU负载,内存使用等
+
+## 查看端口情况
+
+```bash
+netstat -ntlp
+```
+
+# Docker相关
+
+### 安装并运行Docker
+
+1. 更新yum包
+
+   ```sudo yum update```
+
+2. 安装必要的系统工具
+
+   ```sudo yum install -y yum-utils device-mapper-persistent-data lvm2```
+
+3. 添加阿里云镜像
+
+   ```sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo```
+
+4. 更新yum缓存
+
+   ```sudo yum makecache fast```
+
+5. 安装Docker-ce
+
+   ```sudo yum -y install docker-ce```
+
+6. 查看版本是否安装成功
+
+   ```docker -v```
+
+7. 启动docker后台服务
+
+   - 启动:```sudo systemctl start docker```
+
+   - 停止:```sudo systemctl stop docker```
+
+   - 重启:```sudo systemctl restart docker```
+   - 查看状态:```systemctl status docker```
+   - 开机启动docker:```systemctl enable docker```
+
+8. 测试运行hello-world
+
+   ```docker run hello-world```
+
+9. 镜像加速
+
+   修改 ```/etc/docker/daemon.json```,加入
+
+   ~~~json
+   {
+   "registry-mirrors": ["https://0xp8b743.mirror.aliyuncs.com"]
+   }
+   ~~~
+
+### 卸载Docker
+
+1. 查询docker安装过的包
+
+   `yum list installed | grep docker`
+
+2. 删除安装包
+
+   `yum remove docker-ce.x86_64 docker-ce-cli.x86_64 -y`
+
+3. 删除镜像/容器
+
+## 容器相关
+
+### 查看运行容器
+
+`docker ps`
+
+### 查看所有容器
+
+`docker ps -a`
+
+### 停用全部运行中的容器
+
+`docker stop $(docker ps -q)`
+
+### 删除全部容器
+
+`docker rm $(docker ps -aq)`
+
+### 停用并删除所有容器
+
+`docker stop $(docker ps -q) & docker rm $(docker ps -aq)`
+
+## 镜像相关
+
+### 删除所有镜像
+
+`docker rmi $(docker images -q)`

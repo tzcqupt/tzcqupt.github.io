@@ -55,7 +55,7 @@ MQ全称为Message Queue，即消息队列， RabbitMQ是由erlang语言开发�
 
 Broker：消息队列服务进程，此进程包括两个部分：Exchange和Queue。 
 
-Exchange：消息队列交换机，按一定的规则将消息路由转发到某个队列，对消息进行过虑。
+Exchange：消息队列交换机，按一定的规则将消息路由转发到某个队列，对消息进行过滤。
 
 Queue：消息队列，存储消息的队列，消息到达队列并转发给指定的消费方。 
 
