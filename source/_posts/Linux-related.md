@@ -270,7 +270,30 @@ netstat -ntlp
 
 # Docker相关
 
-### 安装并运行Docker
+## 安装Docker
+
+### 安装Docker方式(新)
+
+在 CentOS 7安装docker要求系统为64位、系统内核版本为 3.10 以上
+
+`uname -r`查看内核版本
+
+~~~bash
+# 查看是否已安装docker列表
+yum list installed | grep docker
+# 安装Docker
+yum -y install docker
+# 启动Docker
+systemctl start docker
+# 加入开机启动
+systemctl enable docker
+# 查看docker服务状态
+systemctl status docker
+~~~
+
+
+
+### 安装并运行Docker(旧)
 
 1. 更新yum包
 
@@ -310,15 +333,15 @@ netstat -ntlp
 
    ```docker run hello-world```
 
-9. 镜像加速
+### 配置镜像加速
 
-   修改 ```/etc/docker/daemon.json```,加入
+修改 ```/etc/docker/daemon.json```,加入
 
-   ~~~json
-   {
-   "registry-mirrors": ["https://0xp8b743.mirror.aliyuncs.com"]
-   }
-   ~~~
+~~~json
+{
+"registry-mirrors": ["https://0xp8b743.mirror.aliyuncs.com"]
+}
+~~~
 
 ### 卸载Docker
 
@@ -334,28 +357,273 @@ netstat -ntlp
 
 ## 容器相关
 
-### 查看运行容器
+### 查看容器
 
-`docker ps`
+查看正在运行中的容器:```docker ps```
 
-### 查看所有容器
+查看所有容器：```docker ps -a```
 
-`docker ps -a`
+查看最后一次运行的容器： ```docker ps -l```
 
-### 停用全部运行中的容器
+查看停止的容器： ```docker ps -f status=exited```
+
+### 交互式方式创建容器
+
+```docker run -i -t --name=容器名称 镜像名称:标签 /bin/bash```
+
+-i 表示运行容器
+
+-t 表示容器启动后会进入其命令行,可以直接 -it ==>容器创建就能登录进去,分配一个伪终端 
+
+exit退出后,容器后就停止了
+
+### 守护式方式创建容器
+
+```docker run -di --name=容器名称 镜像名称:标签```
+
+-d 表示会创建守护式容器在后台,创建后不会自动登录
+
+> 容器名称要唯一
+
+### 登录守护式容器:
+
+```docker exec -it 容器名称(或者容器id) /bin/bash```
+
+> 执行exit退出后，容器仍在运行
+
+### 停止容器方式
+
+#### 停止容器
+
+```docker stop 容器名称(或者容器id)```
+
+#### 停用全部运行中的容器
 
 `docker stop $(docker ps -q)`
 
-### 删除全部容器
+#### 删除全部容器
 
 `docker rm $(docker ps -aq)`
 
-### 停用并删除所有容器
+#### 停用并删除所有容器
 
 `docker stop $(docker ps -q) & docker rm $(docker ps -aq)`
 
-## 镜像相关
+### 启动容器
 
-### 删除所有镜像
+```docker start 容器名称(或者容器id)```
 
-`docker rmi $(docker images -q)`
+### 文件拷贝
+
+```docker cp 需要拷贝的文件或目录 容器名称:容器目录```
+
+```docker cp 容器名称:容器目录 需要拷贝的文件或目录```
+
+### 目录挂载
+
+```docker run -di -v 宿主机目录:容器目录 --name=容器名称 镜像名称:标签```
+
+> 相当于创建了这两个目录的映射,任何一方所做的修改都会同步给另外一方
+
+### 查看容器ip地址
+
+```docker inspect 容器名称(容器id)```
+
+如只查看centos容器的ip地址
+
+```docker inspect --format='{{.NetworkSettings.IPAddress}}' centos```
+
+## 镜像相关命令
+
+1. 查看镜像
+   ```docker images```
+
+2. 搜索镜像
+   ```docker search xxx```
+
+3. 拉取镜像
+
+   ```docker pull 镜像名称```
+
+4. 删除镜像
+
+   ```docker rmi 镜像id```
+
+5. 删除所有镜像
+
+   ```docker rmi 'docker images -q'```
+
+## Docker里面安装软件
+
+### MySQL 
+
+1. 下载容器
+
+   ```docker pull centos/mysql-57-centos7```
+
+2. 创建容器
+
+   ```docker run -di --name=mysql --restart=always -p 33306:3306 -e MYSQL_ROOT_PASSWORD=root123 centos/mysql-57-centos7```
+
+   > `-p` 表示端口映射
+   >
+   > `--restart=always` , 当 Docker 重启时,容器自动启动。
+   >
+   > `-e MYSQL_ROOT_PASSWORD`表示MySQL的root用户的密码
+
+3. 远程登录 `192.168.0.108:33306 root/root123`
+
+### Nginx 
+
+1. 下载容器
+
+   ```docker pull nginx```
+
+2. 创建容器
+
+   ```docker run -di --name=nginx --restart=always -p 80:80 nginx```
+
+3. 访问 [http://192.168.0.108](http://192.168.0.108)
+
+4. 进入容器中查看nginx的静态页面存放目录
+
+   ```docker exec -it mynginx /bin/bash```
+
+   执行```cat /etc/nginx/nginx.conf ```
+
+   得到存放的目录为 ```/usr/share/nginx/html```
+
+5. 将静态页面拷贝到html目录下
+
+   ```docker cp html mynginx:/usr/share/nginx```
+
+### Redis
+
+1. 下载容器
+
+   ```docker pull redis```
+
+2. 创建容器
+
+   ```docker run -di --name=redis --restart=always -p 6379:6379 redis```
+
+
+### GitLab
+
+[参考博客](https://www.cnblogs.com/reasonzzy/p/11145026.html)
+
+1. 下载镜像
+
+   ~~~shell
+   docker pull gitlab/gitlab-ce
+   ~~~
+
+2. 提前创建好gitlab的数据和配置等文件夹
+
+3. 运行gitlab镜像
+
+   ~~~shell
+   docker run \
+   --detach \
+   --publish 2222:22 \
+   --publish 8081:80 \
+   --publish 8443:443 \
+   --hostname 192.168.0.108 \
+   -v /usr/local/soft/gitlab/config:/etc/gitlab \
+   -v /usr/local/soft/gitlab/logs:/var/log/gitlab \
+   -v /usr/local/soft/gitlab/data:/var/opt/gitla \
+   -v /etc/localtime:/etc/localtime:ro \
+   --name gitlab \
+   --restart always \
+   --privileged=true gitlab/gitlab-ce:latest
+   ~~~
+
+4. 修改配置文件
+
+   ~~~shell
+   vi /usr/local/soft/gitlab/config/gitlab.rb
+   #将external_url 改为自己的ip地址
+   external_url 'http://192.168.0.108'
+   vi /usr/local/soft/gitlab/data/gitlab-rails/etc/gitlab.yml
+   #搜索关键字 Web server settings,修改host和port
+   ~~~
+
+5. 删除容器,重新启动
+
+   ~~~
+   docker stop gitlab
+   docker rm gitlab
+   # 重启docker
+   systemctl restart docker
+   # 重新创建容器,执行[3]
+   ~~~
+
+6. 容器启动后,通过`docker inspect 容器id` 查看容器分配的ip地址
+
+   ~~~
+   "Networks": {
+                   "bridge": {
+                       "IPAMConfig": null,
+                       "Links": null,
+                       "Aliases": null,
+                       "NetworkID": "db7db0f4b7b71c07540977e987b3a9b62f97328d22c493eb06db85d274ea82bb",
+                       "EndpointID": "ebbb6ab495a561fb10e4edd610e593b6977014e16a21dc7aa9448dff0acfa037",
+                       "Gateway": "172.17.0.1",
+                       "IPAddress": "172.17.0.5",
+                       "IPPrefixLen": 16,
+                       "IPv6Gateway": "",
+                       "GlobalIPv6Address": "",
+                       "GlobalIPv6PrefixLen": 0,
+                       "MacAddress": "02:42:ac:11:00:05"
+                   }
+               }
+   # 执行命令查看是否连接成功
+   curl 172.17.0.5:80
+   ~~~
+
+7. [登录gitlab](http://192.168.0.108:8081/)
+
+   > 设置超级管理员的密码,账号为root 密码为tzcqupt@gitlab
+   >
+   > 配置ssh  (id_rsa.pub文件内容放在gitlab服务器上)
+
+8. **下载在gitlab上创建的项目**
+
+   ~~~shell
+   # 修改配置文件,重启服务
+   [root@tzcqupt config]# cat gitlab.rb | grep ssh_port
+    gitlab_rails['gitlab_shell_ssh_port'] = 2222
+   ~~~
+
+### Jenkins
+
+[官方文档](https://www.jenkins.io/zh/doc/book/installing/)
+
+~~~
+docker run \
+  -d \
+  -u root \
+  --restart always \
+  --detach \
+  --privileged=true \
+  --name jenkins \
+  -p 8082:8080 \
+  -p 50000:50000 \
+  -v /usr/local/soft/jenkins:/var/jenkins_home \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  jenkinsci/blueocean
+~~~
+
+后续配置参考 **安装Jenkins章节**
+
+Git/Java/Maven 安装在Docker里的Jenkins和主机交互的文件夹里面`/usr/local/soft/jenkins`
+
+> yum方式安装Git到指定目录
+>
+> ~~~shell
+> # --installroot 指定目录
+> # --nogpgcheck 不进行公钥检查
+> yum -c /etc/yum.conf --installroot=/usr/local/soft/jenkins/share/soft/git --releasever=/ --nogpgcheck  install git
+> ~~~
+>
+> 
