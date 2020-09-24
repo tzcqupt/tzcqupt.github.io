@@ -112,6 +112,9 @@ D:\mysql-5.7.21\bin>mysql -u root -p
 Enter password:#JheTLHho2!L
 ~~~
 
+> 登录其他主机mysql
+>
+> `mysql -h ip -uroot -p`
 
 登录成功后，修改root的密码了：
 
@@ -277,6 +280,23 @@ user=mysql
 ~~~bash
 mysql> set password = password('root123');
 ~~~
+
+### 重置密码
+
+~~~bash
+# 修改配置文件
+vim /etc/my.cnf
+# 将skip-grant-tables注释掉
+# 刷新配置
+systemctl restart mysqld
+# 直接登录 mysql -uroot -p
+# 修改密码
+>mysql update user set authentication_string=password('newpassword')  where user='root' 
+# 退出mysql,编辑配置文件,去掉skip-grant-tables的注释
+# 使用新密码登录mysql
+~~~
+
+
 
 ## 参考文章
 
@@ -941,7 +961,102 @@ order by s_score desc limit 0,2)c
           FROM t_stu t;
       ~~~
 
-      
+# MySQL 查询深入
+
+## 连接查询
+
+### 笛卡尔积
+
+#### 解释
+
+有两个集合A和B，笛卡尔积表示A集合中的元素和B集合中的元素任意相互关联产生的所有可能的结果。
+
+假如A中有m个元素，B中有n个元素，**A、B笛卡尔积**产生的结果有**m*n**个结果，相当于循环遍历两个集合中的元素，任意组合。
+
+#### 语法
+
+```mysql
+select 字段 from 表1,表2[,表N];
+#或者
+select 字段 from 表1 join 表2 [join 表N];
+```
+
+#### Java 伪代码
+
+~~~java
+for(Object eleA : A){
+    for(Object eleB : B){
+        System.out.print(eleA+","+eleB);
+    }
+}
+~~~
+
+
+
+### 内连接
+
+#### 解释
+
+内连接相当于在笛卡尔积的基础上加上了连接的条件。
+
+当没有连接条件的时候，内连接上升为笛卡尔积。
+
+#### 语法
+
+```mysql
+select 字段 from 表1 inner join 表2 on 连接条件;
+select 字段 from 表1 join 表2 on 连接条件;
+select 字段 from 表1, 表2 [where 关联条件];
+```
+
+#### Java 伪代码
+
+~~~
+for(Object eleA : A){
+    for(Object eleB : B){
+        if(连接条件是否为true){
+            System.out.print(eleA+","+eleB);
+        }
+    }
+}
+~~~
+
+### 外连接
+
+分为:主表和从表，要查询的信息**主要**来自于哪个表，谁就是主表。
+
+外连接查询结果为主表中所有记录。如果从表中有和它匹配的，则显示匹配的值，这部分相当于内连接查询出来的结果；如果从表中没有和它匹配的，则显示null。
+
+**左外链接：使用left join关键字，left join左边的是主表。**
+
+**右外连接：使用right join关键字，right join右边的是主表。**
+
+## 子查询
+
+### 分类
+
+- 标量子查询（结果集只有一行一列）
+- 列子查询（结果集只有一列多行）
+- 行子查询（结果集有一行多列）
+- 表子查询（结果集一般为多行多列）
+
+**按子查询出现在主查询中的不同位置分**
+
+- **select后面**：仅仅支持标量子查询。
+
+- **from后面**：支持表子查询
+
+  >将子查询的结果集充当`一张表`，要求必须起别名，否者这个表找不到。然后将真实的表和子查询结果表进行连接查询。
+
+- **where或having后面**：支持标量子查询（单列单行）、列子查询（单列多行）、行子查询（多列多行）
+
+- **exists后面（即相关子查询）**：表子查询（多行、多列）
+
+## MySQL 连接查询内部如何优化
+
+msql内部使用了一个内存缓存空间，就叫他`join_buffer`吧，先把外循环的数据放到`join_buffer`中，然后对从表进行遍历，从表中取一条数据和`join_buffer`的数据进行比较，然后从表中再取第2条和`join_buffer`数据进行比较，直到从表遍历完成，使用这方方式来减少从表的io扫描次数，当`join_buffer`足够大的时候，大到可以存放主表所有数据，那么从表只需要全表扫描一次（即只需要一次全表io读取操作）。
+
+mysql中这种方式叫做`Block Nested Loop`。
 
 # MySQL 踩坑点
 
