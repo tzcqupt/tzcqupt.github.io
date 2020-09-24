@@ -434,7 +434,7 @@ float/double/decimal
 
 - 语法  
 
-  ~~~sql
+  ~~~mysql
   create table 表名(
                       列名1 数据类型1,
                       列名2 数据类型2,
@@ -447,7 +447,7 @@ float/double/decimal
 
 - 创建表
 
-  ~~~sql
+  ~~~mysql
   create table student(
   id int,
   name varchar(32),
@@ -508,7 +508,7 @@ float/double/decimal
 
 ## 修改数据
 
-```sql
+```mysql
 update 表名 set 列名1 = 值1, 列名2 = 值2,... [where 条件];
 ```
 
@@ -520,7 +520,7 @@ update 表名 set 列名1 = 值1, 列名2 = 值2,... [where 条件];
 
 ## 语法
 
-~~~sql
+~~~mysql
 select
 	字段列表
 from
@@ -634,7 +634,7 @@ limit
 
 ## 经典问题
 
-~~~sql
+~~~mysql
 select * from students;
 select * from students where name like '%';
 ~~~
@@ -764,7 +764,7 @@ select 列 from 表 limit n-1,m-n+1;
 
 `union 不能在 order by/limit后使用`。可以使用select a.* from(select…order by s.score limit 0,2)a union all select b.* from(..) b
 
-~~~sql
+~~~mysql
 select a.* from (select s.*, c.c_name, s2.s_score
 from student s
          join score s2 on s.s_id = s2.s_id
@@ -784,6 +784,164 @@ from student s
 where s2.c_id = "03"
 order by s_score desc limit 0,2)c
 ~~~
+
+# MySQL 函数
+
+## 数值型函数
+
+| 函数名称        | 作 用                                                      |
+| :-------------- | :--------------------------------------------------------- |
+| abs             | 求绝对值                                                   |
+| sqrt            | 求二次方根                                                 |
+| mod             | 求余数                                                     |
+| ceil 和 ceiling | 两个函数功能相同，都是返回不小于参数的最小整数，即向上取整 |
+| floor           | 向下取整，返回值转化为一个BIGINT                           |
+| rand            | 生成一个0~1之间的随机数，传入整数参数是，用来产生重复序列  |
+| round           | 对所传参数进行四舍五入                                     |
+| sign            | 返回参数的符号                                             |
+| pow 和 power    | 两个函数的功能相同，都是所传参数的次方的结果值             |
+| sin             | 求正弦值                                                   |
+| asin            | 求反正弦值，与函数 SIN 互为反函数                          |
+| cos             | 求余弦值                                                   |
+| acos            | 求反余弦值，与函数 COS 互为反函数                          |
+| tan             | 求正切值                                                   |
+| atan            | 求反正切值，与函数 TAN 互为反函数                          |
+| cot             | 求余切值                                                   |
+
+## 字符串函数
+
+| 函数名称            | 作 用                                                        |
+| :------------------ | :----------------------------------------------------------- |
+| length              | 计算字符串长度函数，返回字符串的字节长度                     |
+| concat              | 合并字符串函数，返回结果为连接参数产生的字符串，参数可以使一个或多个 |
+| insert              | 替换字符串函数                                               |
+| lower               | 将字符串中的字母转换为小写                                   |
+| upper               | 将字符串中的字母转换为大写                                   |
+| left                | 从左侧字截取符串，返回字符串左边的若干个字符                 |
+| right               | 从右侧字截取符串，返回字符串右边的若干个字符                 |
+| trim                | 删除字符串左右两侧的空格                                     |
+| replace             | 字符串替换函数，返回替换后的新字符串                         |
+| substr 和 substring | 截取字符串，返回从指定位置开始的指定长度的字符换             |
+| reverse             | 字符串反转（逆序）函数，返回与原始字符串顺序相反的字符串     |
+
+## 日期和时间函数
+
+| 函数名称                | 作 用                                                        |
+| :---------------------- | :----------------------------------------------------------- |
+| curdate 和 current_date | 两个函数作用相同，返回当前系统的日期值                       |
+| curtime 和 current_time | 两个函数作用相同，返回当前系统的时间值                       |
+| now 和 sysdate          | 两个函数作用相同，返回当前系统的日期和时间值                 |
+| unix_timestamp          | 获取UNIX时间戳函数，返回一个以 UNIX 时间戳为基础的无符号整数 |
+| from_unixtime           | 将 UNIX 时间戳转换为时间格式，与UNIX_TIMESTAMP互为反函数     |
+| month                   | 获取指定日期中的月份                                         |
+| monthname               | 获取指定日期中的月份英文名称                                 |
+| dayname                 | 获取指定曰期对应的星期几的英文名称                           |
+| dayofweek               | 获取指定日期是一周中是第几天，返回值范围是1~7,1=周日         |
+| week                    | 获取指定日期是一年中的第几周，返回值的范围是否为 0〜52 或 1〜53 |
+| dayofyear               | 获取指定曰期是一年中的第几天，返回值范围是1~366              |
+| dayofmonth              | 获取指定日期是一个月中是第几天，返回值范围是1~31             |
+| year                    | 获取年份，返回值范围是 1970〜2069                            |
+| time_to_sec             | 将时间参数转换为秒数                                         |
+| sec_to_time             | 将秒数转换为时间，与TIME_TO_SEC 互为反函数                   |
+| date_add 和 adddate     | 两个函数功能相同，都是向日期添加指定的时间间隔               |
+| date_sub 和 subdate     | 两个函数功能相同，都是向日期减去指定的时间间隔               |
+| addtime                 | 时间加法运算，在原始时间上添加指定的时间                     |
+| subtime                 | 时间减法运算，在原始时间上减去指定的时间                     |
+| datediff                | 获取两个日期之间间隔，返回参数 1 减去参数 2 的值             |
+| date_format             | 格式化指定的日期，根据参数返回指定格式的值                   |
+| weekday                 | 获取指定日期在一周内的对应的工作日索引                       |
+
+## MySQL 聚合函数
+
+| 函数名称 | 作用                             |
+| :------- | :------------------------------- |
+| max      | 查询指定列的最大值               |
+| min      | 查询指定列的最小值               |
+| count    | 统计查询结果的行数               |
+| sum      | 求和，返回指定列的总和           |
+| avg      | 求平均值，返回指定列数据的平均值 |
+
+## MySQL 流程控制函数
+
+| 函数名称 | 作用           |
+| :------- | :------------- |
+| if       | 判断，流程控制 |
+| ifnull   | 判断是否为空   |
+| case     | 搜索语句       |
+
+1. IF(expr,v1,v2)
+
+   当 expr 为真是返回 v1 的值，否则返回 v2
+
+2. IFNULL(v1,v2)
+
+   v1为空返回v2，否则返回v1。 
+
+3. case相当于Java的if...else if.. else
+
+   **方式1：**
+
+   ```mysql
+   CASE  <表达式>
+      WHEN <值1> THEN <操作>
+      WHEN <值2> THEN <操作>
+      ...
+      ELSE <操作>
+   END CASE;
+   ```
+
+   **方式2：**
+
+   ```mysql
+   CASE
+       WHEN <条件1> THEN <命令>
+       WHEN <条件2> THEN <命令>
+       ...
+       ELSE commands
+   END CASE;
+   ```
+
+   1. 数据准备
+
+      ~~~mysql
+      CREATE TABLE t_stu (
+        id   INT AUTO_INCREMENT  COMMENT '编号',
+        name VARCHAR(10) COMMENT '姓名',
+        sex  TINYINT COMMENT '性别,0:未知,1:男,2:女',
+        PRIMARY KEY (id)
+      ) COMMENT '学生表';
+      
+      ~~~
+
+   2. 方式一写法
+
+      ~~~mysql
+      SELECT
+            t.name 姓名,
+            (CASE t.sex
+             WHEN 1
+               THEN '男'
+             WHEN 2
+               THEN '女'
+             ELSE '未知' END) 性别
+          FROM t_stu t;
+      ~~~
+
+   3. 方式二写法
+
+      ~~~mysql
+      SELECT
+          t.name          姓名,
+          (CASE
+          WHEN t.sex = 1
+          THEN '男'
+          WHEN t.sex = 2
+          THEN '女'
+          ELSE '未知' END) 性别
+          FROM t_stu t;
+      ~~~
+
+      
 
 # MySQL 踩坑点
 
@@ -808,12 +966,68 @@ order by s_score desc limit 0,2)c
 
 可以通过子查询的方式避免这种限制
 
+**数据准备**
+
 ~~~mysql
+drop table if exists t_order;
+
+-- 创建订单表
+create table t_order(
+  id int not null AUTO_INCREMENT COMMENT '订单id',
+  user_id bigint not null comment '下单人id',
+  user_name varchar(16) not null default '' comment '用户名',
+  price decimal(10,2) not null default 0 comment '订单金额',
+  the_year SMALLINT not null comment '订单创建年份',
+  PRIMARY KEY (id)
+) comment '订单表';
+
+-- 插入数据
+insert into t_order(user_id,user_name,price,the_year) values
+  (1001,'路人甲Java',11.11,'2017'),
+  (1001,'路人甲Java',22.22,'2018'),
+  (1001,'路人甲Java',88.88,'2018'),
+  (1002,'刘德华',33.33,'2018'),
+  (1002,'刘德华',12.22,'2018'),
+  (1002,'刘德华',16.66,'2018'),
+  (1002,'刘德华',44.44,'2019'),
+  (1003,'张学友',55.55,'2018'),
+  (1003,'张学友',66.66,'2019');
+~~~
+
+ **需求：获取每个用户下单的最大金额及下单的年份，输出：用户id，最大金额，年份** 
+
+~~~mysql
+
 #解除mysql分组限制的原始写法,查询出的数据可能不准
-select
-      user_id 用户id, max(price) 最大金额, the_year 年份
-        FROM t_order t
-        GROUP BY t.user_id;
-        
+SELECT
+	user_id as 用户id,
+	max( price ) as 最大金额,
+	the_year as 年份 
+FROM
+	t_order t 
+GROUP BY
+	t.user_id;
+# 子查询的写法,避免分组查询限制
+SELECT
+	user_id AS `用户id`,
+	price AS 最大金额,
+	the_year AS 年份 
+FROM
+	t_order t1 
+WHERE
+	( t1.user_id, t1.price ) IN ( SELECT t.user_id, MAX( t.price ) FROM t_order t GROUP BY t.user_id ) limit 1;
+	
+# 第二种写法
+	SELECT
+	user_id AS `用户id`,
+	price AS 最大金额,
+	the_year AS 年份 
+FROM
+	t_order t1,
+	( SELECT t.user_id uid, MAX( t.price ) pc FROM t_order t GROUP BY t.user_id ) t2 
+WHERE
+	t1.user_id = t2.uid 
+	AND t1.price = t2.pc 
+	LIMIT 1;
 ~~~
 
