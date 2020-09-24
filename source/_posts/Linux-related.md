@@ -39,6 +39,12 @@ touch /var/log/btmp
 
 # 软件安装相关
 
+## 软件下载相关
+
+下载github的指定版本,去gitee下载,然后使用maven编译.如下载nacos
+
+`mvn -Prelease-nacos -DskipTests clean install -U`
+
 ## 安装Jenkins
 
 > 确保安装了Java

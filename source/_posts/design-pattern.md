@@ -1,4 +1,12 @@
-设计模式阅读
+---
+title: 设计模式学习比较
+Author: tzcqupt
+categories: [设计模式]
+tags: [设计模式]
+comments: true
+toc: true
+date: 2020-08-28 00:00:00
+---
 
 # 概论
 
