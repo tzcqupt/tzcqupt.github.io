@@ -225,11 +225,11 @@ public class SparseArray {
 
 ### 循环队列
 
-![循环队列](http://img.tzcqupt.top//img/20200620232205.png)
+![循环队列](http://img.tzcqupt.top/loop-queue.png)
 
 # 算法
 
-## 排序算法
+## 经典排序算法
 
 ### 冒泡排序
 
@@ -241,6 +241,10 @@ public class SparseArray {
 
 1. **`i`从0开始，`i`与`i+1`比较，如果`i>i+1`，那么就互换** 
 2. **`i`不断增加，直到`i（n是数组元素的个数，n-1`是数组已经最后一个元素） ，一趟下来，可以让数组元素中最大值排在数组的最后面**
+
+#### 图解
+
+![](http://img.tzcqupt.top//bubble-sort.gif)
 
 #### 算法实现
 
@@ -274,6 +278,9 @@ public class SparseArray {
 
 > 如果我们只对一串数字排序，那么稳定与否确实不重要，因为一串数字的属性是单一的，就是数字值的大小。但是排序的元素往往不只有一个属性，例如我们对一群人按年龄排序，但是人除了年龄属性还有身高体重属性，在年龄相同时如果不想破坏原先身高体重的次序，就必须用稳定排序算法.
 
+#### 图解
+
+![](http://img.tzcqupt.top//select-sort.gif)
 
 #### 算法实现
 
@@ -309,9 +316,13 @@ public void chooseSort(int[] array){
 
 不知道数组元素的情况下,**把数组的第一个元素作为已经排好序的有序数据**
 
+#### 图解
+
+![](http://img.tzcqupt.top//insert-sort.gif)
+
 #### 算法实现
 
-~~~
+~~~java
 /** 插入排序 将一个数据插入到已经排好序的有序数据中 */
   public void insertSort() {
     int temp;
@@ -341,9 +352,13 @@ public void chooseSort(int[] array){
 
 在数组中找一个支点(任意),经过一趟排序后，支点左边的数都要比支点小，支点右边的数都要比支点大！
 
+#### 图解
+
+![](http://img.tzcqupt.top/quick-sort.gif)
+
 #### 算法实现
 
-~~~
+~~~java
  public void quickSortImpl(int[] arr,int left,int right){
     int i=left;
     int j= right;
