@@ -43,7 +43,9 @@ touch /var/log/btmp
 
 下载github的指定版本,去gitee下载,然后使用maven编译.如下载nacos
 
-`mvn -Prelease-nacos -DskipTests clean install -U`
+~~~
+mvn -Prelease-nacos -DskipTests clean install -U
+~~~
 
 ## 安装Jenkins
 
@@ -72,7 +74,9 @@ yum install jenkins
 
 2. 安装`.rpm`文件
 
-   `rpm -ivh jenkins-2.235.5-1.1.noarch.rpm`
+   ~~~
+   rpm -ivh jenkins-2.235.5-1.1.noarch.rpm
+   ~~~
 
 3. 查看安装位置 `rpm -qc jenkins`
 
@@ -204,7 +208,7 @@ Jenkins报413错误
 
 ### 卸载Jenkins
 
-```
+~~~
 service jenkins stop
 yum clean all
 yum -y remove jenkins
@@ -213,7 +217,7 @@ rm -rf /var/lib/jenkins/
 rm -rf /etc/init.d/jenkins
 rm -rf /etc/logrotate.d/jenkins
 rm -rf /etc/sysconfig/jenkins
-```
+~~~
 
 ## 安装Maven
 
@@ -270,13 +274,62 @@ rm -rf /etc/sysconfig/jenkins
 
 ## 查看端口情况
 
-```bash
+~~~bash
 netstat -ntlp
-```
+~~~
+
+## Ubuntu 相关
+
+### 安装Ubuntu
+
+### 配置网关和镜像地址
+
+~~~
+subnet:192.168.66.0/24
+Address:192.168.66.166
+Gateway:192.168.66.2
+Name Server:114.114.114.114
+#镜像地址
+http://mirrors.aliyun.com/ubuntu/
+~~~
+
+### Xshell 登录
+
+确保能访问外网, 给root用户设置密码`sudo passwd`
+
+安装`wget`:`apt-get install wget`
+
+安装`SSH`:`apt-get install ssh`
+
+开启远程访问SSH权限:
+
+~~~bash
+vim /etc/ssh/sshd_config
+#将PermitRootLogin without-password修改为： 
+PermitRootLogin yes 
+#重启SSH
+/etc/init.d/ssh restart
+~~~
+
+> 查看电脑的VMnet配置,设置为dhcp
 
 # Docker相关
 
 ## 安装Docker
+
+### Windows 安装Docker
+
+Windows家庭版开启Hyper-V
+
+~~~bash
+pushd "%~dp0"
+dir /b %SystemRoot%\servicing\Packages\*Hyper-V*.mum >hyper-v.txt
+for /f %%i in ('findstr /i . hyper-v.txt 2^>nul') do dism /online /norestart /add-package:"%SystemRoot%\servicing\Packages\%%i"
+del hyper-v.txt
+Dism /online /enable-feature /featurename:Microsoft-Hyper-V-All /LimitAccess /ALL
+~~~
+
+官网下载安装包进行安装
 
 ### 安装Docker方式(新)
 
@@ -303,27 +356,39 @@ systemctl status docker
 
 1. 更新yum包
 
-   ```sudo yum update```
+   ~~~
+   sudo yum update
+   ~~~
 
 2. 安装必要的系统工具
 
-   ```sudo yum install -y yum-utils device-mapper-persistent-data lvm2```
+   ~~~
+   sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+   ~~~
 
 3. 添加阿里云镜像
 
-   ```sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo```
+   ~~~
+   sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+   ~~~
 
 4. 更新yum缓存
 
-   ```sudo yum makecache fast```
+   ~~~
+   sudo yum makecache fast
+   ~~~
 
 5. 安装Docker-ce
 
-   ```sudo yum -y install docker-ce```
+   ~~~
+   sudo yum -y install docker-ce
+   ~~~
 
 6. 查看版本是否安装成功
 
-   ```docker -v```
+   ~~~
+   docker -v
+   ~~~
 
 7. 启动docker后台服务
 
@@ -337,7 +402,9 @@ systemctl status docker
 
 8. 测试运行hello-world
 
-   ```docker run hello-world```
+   ~~~
+   docker run hello-world
+   ~~~
 
 ### 配置镜像加速
 
@@ -353,11 +420,15 @@ systemctl status docker
 
 1. 查询docker安装过的包
 
-   `yum list installed | grep docker`
+   ~~~
+   yum list installed | grep docker
+   ~~~
 
 2. 删除安装包
 
-   `yum remove docker-ce.x86_64 docker-ce-cli.x86_64 -y`
+   ~~~
+   yum remove docker-ce.x86_64 docker-ce-cli.x86_64 -y
+   ~~~
 
 3. 删除镜像/容器
 
@@ -375,25 +446,31 @@ systemctl status docker
 
 ### 交互式方式创建容器
 
-```docker run -i -t --name=容器名称 镜像名称:标签 /bin/bash```
+~~~
+docker run -i -t --name=容器名称 镜像名称:标签 /bin/bash
+~~~
 
--i 表示运行容器
+`-i` 表示运行容器
 
--t 表示容器启动后会进入其命令行,可以直接 -it ==>容器创建就能登录进去,分配一个伪终端 
+`-t` 表示容器启动后会进入其命令行,可以直接 -it ==>容器创建就能登录进去,分配一个伪终端 
 
 exit退出后,容器后就停止了
 
 ### 守护式方式创建容器
 
-```docker run -di --name=容器名称 镜像名称:标签```
+~~~
+docker run -di --name=容器名称 镜像名称:标签
+~~~
 
--d 表示会创建守护式容器在后台,创建后不会自动登录
+`-d` 表示会创建守护式容器在后台,创建后不会自动登录
 
 > 容器名称要唯一
 
-### 登录守护式容器:
+### 登录守护式容器
 
-```docker exec -it 容器名称(或者容器id) /bin/bash```
+~~~
+docker exec -it 容器名称(或者容器id) /bin/bash
+~~~
 
 > 执行exit退出后，容器仍在运行
 
@@ -401,63 +478,92 @@ exit退出后,容器后就停止了
 
 #### 停止容器
 
-```docker stop 容器名称(或者容器id)```
+~~~
+docker stop 容器名称(或者容器id)
+~~~
 
 #### 停用全部运行中的容器
 
-`docker stop $(docker ps -q)`
+~~~
+docker stop $(docker ps -q)
+~~~
 
 #### 删除全部容器
 
-`docker rm $(docker ps -aq)`
+~~~
+docker rm $(docker ps -aq)
+~~~
 
 #### 停用并删除所有容器
 
-`docker stop $(docker ps -q) & docker rm $(docker ps -aq)`
+~~~
+docker stop $(docker ps -q) & docker rm $(docker ps -aq)
+~~~
 
 ### 启动容器
 
-```docker start 容器名称(或者容器id)```
+~~~
+docker start 容器名称(或者容器id)
+~~~
 
 ### 文件拷贝
 
-```docker cp 需要拷贝的文件或目录 容器名称:容器目录```
-
-```docker cp 容器名称:容器目录 需要拷贝的文件或目录```
+~~~
+docker cp 需要拷贝的文件或目录 容器名称:容器目录
+docker cp 容器名称:容器目录 需要拷贝的文件或目录
+~~~
 
 ### 目录挂载
 
-```docker run -di -v 宿主机目录:容器目录 --name=容器名称 镜像名称:标签```
+~~~
+docker run -di -v 宿主机目录:容器目录 --name=容器名称 镜像名称:标签
+~~~
 
 > 相当于创建了这两个目录的映射,任何一方所做的修改都会同步给另外一方
 
 ### 查看容器ip地址
 
-```docker inspect 容器名称(容器id)```
+~~~
+docker inspect 容器名称(容器id)
+~~~
 
 如只查看centos容器的ip地址
 
-```docker inspect --format='{{.NetworkSettings.IPAddress}}' centos```
+~~~
+docker inspect --format='{{.NetworkSettings.IPAddress}}' centos
+~~~
 
 ## 镜像相关命令
 
 1. 查看镜像
-   ```docker images```
+   
+~~~
+   docker images
+~~~
 
 2. 搜索镜像
-   ```docker search xxx```
+   
+~~~
+   docker search xxx
+~~~
 
 3. 拉取镜像
 
-   ```docker pull 镜像名称```
+   ~~~
+   docker pull 镜像名称
+   ~~~
 
 4. 删除镜像
 
-   ```docker rmi 镜像id```
+   ~~~
+   docker rmi 镜像id
+   ~~~
 
 5. 删除所有镜像
 
-   ```docker rmi 'docker images -q'```
+   ~~~
+   docker rmi 'docker images -q'
+   ~~~
 
 ## Docker里面安装软件
 
@@ -465,11 +571,15 @@ exit退出后,容器后就停止了
 
 1. 下载容器
 
-   ```docker pull centos/mysql-57-centos7```
+   ~~~
+   docker pull centos/mysql-57-centos7
+   ~~~
 
 2. 创建容器
 
-   ```docker run -di --name=mysql --restart=always -p 33306:3306 -e MYSQL_ROOT_PASSWORD=root123 centos/mysql-57-centos7```
+   ~~~
+   docker run -di --name=mysql --restart=always -p 33306:3306 -e MYSQL_ROOT_PASSWORD=root123 centos/mysql-57-centos7
+   ~~~
 
    > `-p` 表示端口映射
    >
@@ -483,17 +593,23 @@ exit退出后,容器后就停止了
 
 1. 下载容器
 
-   ```docker pull nginx```
+   ~~~
+   docker pull nginx
+   ~~~
 
 2. 创建容器
 
-   ```docker run -di --name=nginx --restart=always -p 80:80 nginx```
+   ~~~
+   docker run -di --name=nginx --restart=always -p 80:80 nginx
+   ~~~
 
 3. 访问 [http://192.168.0.108](http://192.168.0.108)
 
 4. 进入容器中查看nginx的静态页面存放目录
 
-   ```docker exec -it mynginx /bin/bash```
+   ~~~
+   docker exec -it mynginx /bin/bash
+   ~~~
 
    执行```cat /etc/nginx/nginx.conf ```
 
@@ -501,17 +617,23 @@ exit退出后,容器后就停止了
 
 5. 将静态页面拷贝到html目录下
 
-   ```docker cp html mynginx:/usr/share/nginx```
+   ~~~
+   docker cp html mynginx:/usr/share/nginx
+   ~~~
 
 ### Redis
 
 1. 下载容器
 
-   ```docker pull redis```
+   ~~~
+   docker pull redis
+   ~~~
 
 2. 创建容器
 
-   ```docker run -di --name=redis --restart=always -p 6379:6379 redis```
+   ~~~
+   docker run -di --name=redis --restart=always -p 6379:6379 redis
+   ~~~
 
 
 ### GitLab
@@ -632,4 +754,179 @@ Git/Java/Maven 安装在Docker里的Jenkins和主机交互的文件夹里面`/us
 > yum -c /etc/yum.conf --installroot=/usr/local/soft/jenkins/share/soft/git --releasever=/ --nogpgcheck  install git
 > ~~~
 >
-> 
+
+# Docker环境搭建终极篇
+
+## 前提准备
+
+1. Linux下安装Docker
+2. Docker安装centos7
+3. 建立各自的目录和Dockerfile,在对应的目录下执行docker的构建命令`docker build`
+4. 将需要的`tar.gz`文件放在对应的目录下,避免网络问题下载失败导致构建失败.
+
+## `Dockerfile`
+
+### `centos7`
+
+~~~dockerfile
+FROM centos:7
+MAINTAINER tzcqupt
+RUN yum -y update
+RUN yum install -y passwd openssh-server openssh-clients initscripts net-tools
+RUN yum install -y python2-setuptools
+RUN ssh-keygen
+RUN easy_install supervisor
+RUN echo 'root:root123' | chpasswd
+RUN /usr/sbin/sshd-keygen
+
+EXPOSE 22
+CMD /usr/sbin/sshd -D
+
+~~~
+
+`docker build -t base/centos7-ssh . `
+
+### `centos7-jdk8u265`
+
+~~~dockerfile
+#
+# JDK-8U265
+#
+FROM base/centos7-ssh
+MAINTAINER tzcqupt
+RUN yum clean all
+RUN yum -y update
+# Install libs
+RUN yum install deltarpm rpm make wget tar unzip \
+         gcc gcc-c++ -y
+
+RUN mkdir -p /home/work/apps/
+RUN mkdir -p /usr/local/soft/java/
+WORKDIR /home/work/apps/
+#RUN wget https://mirror.tuna.tsinghua.edu.cn/AdoptOpenJDK/8/jdk/x64/linux/OpenJDK8U-jdk_x64_linux_hotspot_8u265b01.tar.gz
+ADD OpenJDK8U-jdk_x64_linux_hotspot_8u265b01.tar.gz /usr/local/soft/java/
+WORKDIR /usr/local/soft/java/
+# RUN tar -zxvf OpenJDK8U-jdk_x64_linux_hotspot_8u265b01.tar.gz
+# RUN rm OpenJDK8U-jdk_x64_linux_hotspot_8u265b01.tar.gz
+# RUN mv -f jdk8u265-b01/ /usr/local/soft/java/jdk8u265-b01
+ENV JAVA_HOME=/usr/local/soft/java/jdk8u265-b01
+ENV PATH=$JAVA_HOME/bin:$PATH
+ENV CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+
+# open ports
+EXPOSE 22
+~~~
+
+`docker build -t base/centos7-jdk8u265 .  `
+
+### `centos7-tomcat7`
+
+~~~dockerfile
+#
+# Tomcat7
+#
+
+FROM base/centos7-jdk8u265
+MAINTAINER tzcqupt
+
+RUN yum clean all
+RUN yum -y update
+# Install libs
+WORKDIR /home/work/apps/
+#RUN wget http://mirrors.tuna.tsinghua.edu.cn/apache/tomcat/tomcat-7/v7.0.85/bin/apache-tomcat-7.0.85.tar.gz
+ADD apache-tomcat-7.0.85.tar.gz /usr/local/soft/
+WORKDIR /usr/local/soft/
+#RUN tar -zxvf apache-tomcat-7.0.85.tar.gz
+#RUN rm apache-tomcat-7.0.85.tar.gz
+
+EXPOSE 8080
+COPY supervisord.conf /etc/supervisord.conf
+CMD ["/usr/bin/supervisord"]
+~~~
+
+`docker build -t base/centos7-tomcat7 . `
+
+### `centos7-jenkins`
+
+~~~dockerfile
+# Jenkins 2.235.5
+FROM base/centos7-tomcat7
+MAINTAINER tzcqupt
+RUN yum install -y git
+RUN yum install -y dejavu-sans-fonts
+RUN yum install -y fontconfig
+WORKDIR /usr/local/soft/apache-tomcat-7.0.85/webapps/ROOT/
+RUN rm -fr ./*
+RUN wget http://mirrors.tuna.tsinghua.edu.cn/jenkins/war-stable/2.235.5/jenkins.war
+RUN unzip jenkins.war
+RUN rm -fr docs
+RUN rm -fr examples
+RUN rm -fr manager
+RUN rm -fr host-manager
+EXPOSE 8079
+ENTRYPOINT /usr/local/soft/apache-tomcat-7.0.85/bin/startup.sh && tail -F /usr/local/soft/apache-tomcat-7.0.85/logs/catalina.out
+~~~
+
+`docker build -t centos7-jenkins . `
+
+~~~shell
+docker run -di --name=jenkins --restart=always -p 8079:8080 -p 50000:50000 -v $PWD/jenkins:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock centos7-jenkins
+~~~
+
+## Docker可视化容器
+
+Windows 安装了Docker,自带Docker UI,不需要安装.
+
+### 构建Shipyard容器 
+
+~~~
+docker pull shipyard/shipyard 
+docker pull swarm 
+docker pull shipyard/docker-proxy 
+docker pull alpine 
+docker pull microbox/etcd 
+docker pull rethinkdb
+~~~
+
+ ~~~
+docker run -ti -d --restart=always --name shipyard-rethinkdb rethinkdb
+ ~~~
+
+~~~
+docker run -ti -d -p 4001:4001 -p 7001:7001 --restart=always --name shipyard-discovery  microbox/etcd:latest -name discovery 
+~~~
+
+~~~
+docker run -ti -d -p 2375:2375 --hostname=$HOSTNAME --restart=always --name shipyard-proxy -v /var/run/docker.sock:/var/run/docker.sock -e PORT=2375 shipyard/docker-proxy:latest
+~~~
+
+~~~
+docker run -ti -d --restart=always --name shipyard-swarm-manager swarm:latest manage --host tcp://0.0.0.0:3375 etcd://121.37.172.25:4001
+~~~
+
+~~~
+docker run -ti -d --restart=always --name shipyard-swarm-agent swarm:latest join --addr 121.37.172.25:2375 etcd://121.37.172.25:4001 
+~~~
+
+~~~
+docker run -ti -d --restart=always --name shipyard-controller --link shipyard-rethinkdb:rethinkdb --link shipyard-swarm-manager:swarm -p 8081:8080 shipyard/shipyard:latest server -d tcp://swarm:3375 
+~~~
+
+用户名/密码 admin/shipyard
+
+## 手动安装
+
+### 创建自己的网络(可选)
+
+~~~shell
+docker network create --subnet=192.168.0.0/24 basenet
+~~~
+
+### 安装Jenkins
+
+~~~shell
+docker run -u root --rm -d -p 8079:8080 -p 50000:50000 -v $PWD/jenkins:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock jenkinsci/blueocean
+~~~
+
+> `$PWD`代表当前目录
+
