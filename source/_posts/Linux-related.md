@@ -537,15 +537,15 @@ docker inspect --format='{{.NetworkSettings.IPAddress}}' centos
 
 1. 查看镜像
    
-~~~
-   docker images
-~~~
+    ~~~
+       docker images
+    ~~~
 
 2. 搜索镜像
    
-~~~
-   docker search xxx
-~~~
+    ~~~
+       docker search xxx
+    ~~~
 
 3. 拉取镜像
 
@@ -561,9 +561,10 @@ docker inspect --format='{{.NetworkSettings.IPAddress}}' centos
 
 5. 删除所有镜像
 
-   ~~~
-   docker rmi 'docker images -q'
-   ~~~
+    ~~~
+    docker rmi 'docker images -q'
+    ~~~
+
 
 ## Docker里面安装软件
 
@@ -929,4 +930,203 @@ docker run -u root --rm -d -p 8079:8080 -p 50000:50000 -v $PWD/jenkins:/var/jenk
 ~~~
 
 > `$PWD`代表当前目录
+
+# Nginx RMPT服务器
+
+## 安装Nginx
+
+### 安装所需的开发包
+
+#### Ubuntu系统
+
+~~~
+sudo apt-get install gcc
+sudo apt-get install libpcre3 libpcre3-dev
+sudo apt-get install openssl libssl-dev
+sudo apt-get install zlib1g.dev
+sudo apt-get install zlib1g
+sudo apt-get install unzip
+~~~
+
+#### CentOS系统
+
+~~~
+yum install gcc
+yum install pcre pcre-devel pcre-static pcre-tools
+yum install openssl openssl-static openssl-devel
+yum install wget unzip
+~~~
+
+
+
+### 下载nginx和nginx-rtmp-module
+
+~~~
+wget http://nginx.org/download/nginx-1.14.2.tar.gz
+wget https://github.com/arut/nginx-rtmp-module/archive/master.zip
+tar -zxvf nginx-1.14.2.tar.gz
+unzip master.zip
+~~~
+
+### 编译和安装nginx
+
+~~~
+cd nginx-1.14.2
+./configure --with-http_ssl_module --with-http_secure_link_module --add-module=../nginx-rtmp-module-master
+make
+sudo make install
+~~~
+
+## 安装ffmpeg
+
+官网安装 具体参照http://ffmpeg.org/download.html#build-linux 
+
+~~~bash
+#CentOS安装
+yum localinstall --nogpgcheck https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm 
+yum install ffmpeg
+#Ubuntu安装
+apt-get install ffmpeg
+~~~
+
+## 配置Nginx
+
+修改`/usr/local/nginx/conf/nginx.conf`配置文件中`pid`的配置为`/var/run/nginx.pid`。
+
+```
+pid        /var/run/nginx.pid;
+```
+
+创建nginx日志目录
+
+```
+mkdir -p /var/log/nginx/
+```
+
+创建SystemD自启动文件`/lib/systemd/system/nginx.service`为如下:
+
+```bash
+[Unit]
+Description=The nginx HTTP and reverse proxy server
+After=syslog.target network.target remote-fs.target nss-lookup.target
+
+[Service]
+Type=forking
+PIDFile=/var/run/nginx.pid
+ExecStartPre=/usr/local/nginx/sbin/nginx t
+ExecStart=/usr/local/nginx/sbin/nginx -c/usr/local/nginx/conf/nginx.conf
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s QUIT $MAINPID
+PrivateTmp=false
+
+[Install]
+WantedBy=multi-user.target
+```
+
+nginx启动命令
+
+```bash
+systemctl enable nginx.service  # 设置开机自启动
+systemctl start nginx.service   # 设置启动nginx
+systemctl stop nginx.service    # 停止nginx
+```
+
+## RTMP配置
+
+~~~
+rtmp_auto_push on;
+rtmp {
+    server {
+        listen 1935;
+        notify_method get;
+        access_log  /var/log/nginx/access.log;
+        chunk_size 4096;
+        application live {
+            # 开启直播模式
+            live on;
+            # 允许从任何源push流
+            allow publish all;
+            # 允许从任何地方来播放流
+            allow play all;
+            # 20秒内没有push，就断开链接。
+            drop_idle_publisher 20s;
+        }
+    }
+}
+~~~
+
+## Nginx 配置
+
+### Nginx 配置校验
+
+~~~
+/usr/local/nginx/sbin/nginx -t
+systemctl reload nginx
+~~~
+
+### 添加hls配置
+
+1. 配置rtmp流产生hls文件
+
+   ~~~bash
+   mkdir -p /usr/local/nginx/hls/
+   #创建存放hls文件的目录, 确保nobody用户可以读写该目录。
+   chown nobody:root /usr/local/nginx/hls/
+   ~~~
+
+   
+
+2. 配置nginx来访问hls文件
+
+   ~~~nginx
+   rtmp_auto_push on;
+   rtmp {
+       server {
+           listen 1935;
+           notify_method get;
+           access_log  /var/log/nginx/access.log;
+           chunk_size 4096;
+           application live {
+               # 开启直播模式
+               live on;
+               # 允许从任何源push流
+               allow publish all;
+               # 允许从任何地方来播放流
+               allow play all;
+               # 20秒内没有push，就断开链接。
+               drop_idle_publisher 20s;
+               # 开启HLS
+               hls on; # Enable HTTP Live Streaming
+               # Pointing this to an SSD is better as this involves lots of IO
+               # 设置hls存放目录
+               hls_path /usr/local/nginx/hls/;
+           }
+       }
+   }
+   ~~~
+
+3. 设置nginx来访问hls文件
+
+   ~~~nginx
+   location /hls {
+       types {
+           application/vnd.apple.mpegurl m3u8;
+           video/mp2t ts;
+       }
+       root /usr/local/nginx/;
+       add_header Cache-Control no-cache; # Prevent caching of HLS fragments
+       add_header Access-Control-Allow-Origin *; # Allow web player to access our playlist
+   }
+   ~~~
+
+   
+
+## ffmpeg相关操作
+
+~~~bash
+#推送
+ffmpeg -re -i demo.mp4 -c copy -f flv 'rtmp://192.168.0.199/live/demo'
+#播放
+ffplay 'rtmp://192.168.0.199/live/xiaozhupeiqi'
+~~~
 
