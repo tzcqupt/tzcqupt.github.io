@@ -29,7 +29,9 @@ archive_dir: archives
 category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
-skip_render:
+# 下面的设置还是不生效
+skip_render: 
+  - "_sync_from_github_to_gitee.sh"
 
 # Writing
 new_post_name: :title.md # File name of new posts
