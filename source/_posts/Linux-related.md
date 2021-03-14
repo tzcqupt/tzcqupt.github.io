@@ -313,6 +313,44 @@ PermitRootLogin yes
 
 > 查看电脑的VMnet配置,设置为dhcp
 
+## 脚本相关
+
+### 脚本定时将github代码同步到gitee
+
+1. 前提:gitee和github都配置了linux的ssh的密钥
+
+2. `git clone git@gitee.com:tzcqupt/tzcqupt.git .`
+
+   > 后面的.表示就下载在当前目录,不新建目录
+
+3. ` git remote add github git@github.com:tzcqupt/tzcqupt.github.io.git`
+
+4.  对origin重命名 `git remote rename origin gitee`
+
+5.  新建同步脚本 `_sync_from_github_to_gitee.sh`
+
+   ~~~
+   #!/bin/bash
+   
+   cd /usr/share/nginx/html
+   
+   git pull github master
+   
+   git push gitee master
+   ~~~
+
+   > 1. 首次执行`git push`,会提示设置 push.default,执行`git config --global push.default simple`进行设置即可
+   > 2. 在windows上新建的文件拷贝到linux上,需要执行 `dos2unix _sync_from_github_to_gitee.sh `,否则linux执行该命令系统会报错
+
+6. 给文件加执行权限`chmod +x _sync_from_github_to_gitee.sh`
+
+7. 再增加定时任务
+
+   ```bash
+   crontab -e
+   1 1 */2 * * /usr/local/data/git/_sync_from_github_to_gitee.sh
+   ```
+
 # Docker相关
 
 ## 安装Docker
@@ -1128,5 +1166,32 @@ systemctl reload nginx
 ffmpeg -re -i demo.mp4 -c copy -f flv 'rtmp://192.168.0.199/live/demo'
 #播放
 ffplay 'rtmp://192.168.0.199/live/xiaozhupeiqi'
+~~~
+
+# Nginx 代理相关
+
+~~~bash
+ #https 配置
+ server {
+        listen 443 ssl;  # 1.1版本后这样写
+        server_name www.tzcqupt.top; #填写绑定证书的域名
+        ssl_certificate /etc/nginx/1_www.tzcqupt.top_bundle.crt;  # 指定证书的位置，绝对路径
+        ssl_certificate_key /etc/nginx/2_www.tzcqupt.top.key;  # 绝对路径，同上
+        ssl_session_timeout 5m;
+        ssl_protocols TLSv1 TLSv1.1 TLSv1.2; #按照这个协议配置
+        ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;#按照这个套件配置
+        ssl_prefer_server_ciphers on;
+        location / {
+            root   html; #站点目录，绝对路径
+            index  index.html index.htm;
+        }
+         location /blog/ {
+           proxy_pass https://127.0.0.1/;
+        }
+        location /redRain/ {
+        #代理到docker 里面的nginx
+        proxy_pass http://127.0.0.1:801/;
+        }
+
 ~~~
 
