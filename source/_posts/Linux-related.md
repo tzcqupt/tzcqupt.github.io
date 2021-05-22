@@ -357,7 +357,7 @@ PermitRootLogin yes
 
 ### Windows 安装Docker
 
-Windows家庭版开启Hyper-V
+#### Windows家庭版开启Hyper-V(可选)
 
 ~~~bash
 pushd "%~dp0"
@@ -367,7 +367,57 @@ del hyper-v.txt
 Dism /online /enable-feature /featurename:Microsoft-Hyper-V-All /LimitAccess /ALL
 ~~~
 
-官网下载安装包进行安装
+#### 官网下载安装包进行安装
+
+~~~
+https://desktop.docker.com/win/stable/amd64/Docker%20Desktop%20Installer.exe?utm_source=docker&amp;utm_medium=webreferral&amp;utm_campaign=dd-smartbutton&amp;utm_location=module
+~~~
+
+#### Win10 修改docker镜像存储位置
+
+1. 查看dockek是否安装成功
+
+   ~~~
+   docker Info
+   ~~~
+
+2. 确保docker使用的Linux Containers(使用的WSL)或者查看上述命令的回显是否如下
+
+   ~~~
+   Docker Root Dir: /var/lib/docker
+   ~~~
+
+3.  关闭`Docker Desktop`,使用下面命令查看是否停止了
+
+   ~~~bash
+   C:\Users\tzcqupt> wsl --list -v
+     NAME                   STATE           VERSION
+     docker-desktop         Stopped         2
+     docker-desktop-data    Stopped         2
+   ~~~
+
+   >默认情况下，Docker Desktop for Window会创建如下两个发行版（distro) 
+   >docker-desktop (`C:\Users\tzcqupt\AppData\Local\Docker\wsl\distro\ext4.vhdx`)
+   >docker-desktop-data (`C:\Users\tzcqupt\AppData\Local\Docker\wsl\data\ext4.vhdx`)
+
+4. 对`docker-desktop`和`docker-desktop-data`分别执行导出,取消注册,导入命令
+
+   ~~~bash
+    #导出
+    wsl --export docker-desktop "D:\\soft\\develop\\docker\\images\\docker-desktop.tar"
+    wsl --export docker-desktop-data "D:\\soft\\develop\\docker\\images\\docker-desktop-data.tar"
+    
+    #取消注册
+    wsl --unregister docker-desktop
+    wsl --unregister docker-desktop-data
+    
+    #导入
+    wsl --import docker-desktop-data "D:\\soft\\develop\\docker\\images\\wsl\\data" "D:\\soft\\develop\\docker\\images\\docker-desktop-data.tar" --version 2
+   
+   wsl --import docker-desktop "D:\\soft\\develop\\docker\\images\\wsl\\distro" "D:\\soft\\develop\\docker\\images\\docker-desktop.tar" --version 2
+   ~~~
+
+   
 
 ### 安装Docker方式(新)
 

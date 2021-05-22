@@ -124,7 +124,9 @@ mysql> set password = password('root123');
 
 ## Linux安装MySQL
 
-### 卸载原有的MySQL
+### Linux
+
+#### 卸载原有的MySQL
 
 1. 关闭正在运行的MySQL
 
@@ -155,9 +157,9 @@ mysql> set password = password('root123');
    - `yum -y remove mysql-community-libs-5.5.62-2.el7.x86_64`
    - `yum -y remove mysql-community-common-5.5.62-2.el7.x86_64`
 
-###  安装软件
+####  安装软件
 
-#### 下载解压
+##### 下载解压
 
 ~~~bash
 #进入自定义的mysql目录
@@ -281,7 +283,7 @@ user=mysql
 mysql> set password = password('root123');
 ~~~
 
-### 重置密码
+#### 重置密码
 
 ~~~bash
 # 修改配置文件
@@ -294,6 +296,83 @@ systemctl restart mysqld
 >mysql update user set authentication_string=password('newpassword')  where user='root' 
 # 退出mysql,编辑配置文件,去掉skip-grant-tables的注释
 # 使用新密码登录mysql
+~~~
+
+### Ubuntu
+
+#### 卸载
+
+~~~
+#查看已安装的依赖包
+dpkg --list|grep mysql
+#卸载
+sudo apt-get remove mysql-common
+#卸载不掉可以用这个命令
+sudo apt-get autoremove --purge mysql-server-5.7
+~~~
+
+#### 安装
+
+~~~
+#更新apt-get，更新后将会使用最新资源库
+sudo apt-get update
+
+#安装MySQL:
+sudo apt-get install mysql-server
+
+#查看MySQL版本: 
+mysql -V
+
+#进入MySQL: 
+mysql -u root -p
+
+#启动: 
+sudo service mysql start
+
+#重启:
+sudo  service mysql restart 
+
+#关闭: 
+sudo service mysql stop
+~~~
+
+#### 密码修改
+
+~~~
+show databases;
+use mysql;
+update user set authentication_string=PASSWORD("tzcqupt@root") where user='root';
+update user set plugin="mysql_native_password";
+flush privileges;
+exit;
+~~~
+
+#### 授权远程登录
+
+~~~
+use mysql;
+update user set host = '%' where user = 'root';
+~~~
+
+
+
+#### 修改编码格式
+
+~~~
+show variables like 'character%';
+#找到mysqld.cnf文件：
+find / -name mysqld.cnf
+##修改的内容
+
+[mysql]
+
+default-character-set=utf8
+
+[mysqld]
+
+character_set_server=utf8
+
+collation_server=utf8_general_ci
 ~~~
 
 
