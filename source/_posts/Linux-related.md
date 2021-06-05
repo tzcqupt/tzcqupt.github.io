@@ -250,13 +250,83 @@ rm -rf /etc/sysconfig/jenkins
    mvn -version
    ~~~
 
+## 安装Yapi
+
+[官网内网部署](https://yapi.baidu.com/doc/devops/index.ht)
+
+### 软件安装
+
+#### Ubuntu 安装`nodejs` `npm` `git` `mongodb`
+
+~~~
+#安装git
+sudo apt install git
+#安装mongodb(v3.6.3)
+sudo apt install mongodb
+sudo systemctl enable mongodb
+#安装nodejs
+sudo apt install nodejs
+#安装npm
+sudo apt install npm
+#查看版本(node 版本最好在v12.x.x版本)
+node -v
+~~~
+
+#### 修改安装的`nodejs`版本
+
+~~~
+#安装n工具管理node版本
+npm install n -g
+#安装指定版本
+n 12.16.3
+#卸载指定版本
+n rm 0.9.4 v0.10.0
+#查看已有的node版本并切换
+n
+~~~
+
+#### 安装`yapi-cli`
+
+node 版本安装`v12.22.1`版本即可,不然会有问题
+
+```bash
+npm install -g yapi-cli --registry https://registry.npm.taobao.org
+yapi server
+```
+
+#### 使用`pm2`管理node服务
+
+~~~
+#安装pm2
+sudo npm install -g pm2
+# 后台启动
+sudo pm2 start /usr/local/soft/yapi/my-yapi/vendors/server/app.js
+~~~
+
+
+
+#### `nginx` 配置
+
+~~~
+在location /添加
+proxy_http_version 1.1;
+proxy_set_header Upgrade $http_upgrade;
+proxy_set_header Connection "upgrade";
+~~~
+
 
 
 ## 其他问题
 
-### Nginx日志查看
+### Nginx相关
 
-`/var/log/nginx`
+#### 配置相关
+
+##### `SSL`配置
+
+
+
+##### 端口转发
 
 # Linux常用相关操作
 

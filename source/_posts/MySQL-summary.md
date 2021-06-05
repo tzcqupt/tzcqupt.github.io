@@ -330,7 +330,7 @@ mysql -u root -p
 sudo service mysql start
 
 #重启:
-sudo  service mysql restart 
+sudo service mysql restart 
 
 #关闭: 
 sudo service mysql stop
