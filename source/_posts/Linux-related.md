@@ -250,6 +250,25 @@ rm -rf /etc/sysconfig/jenkins
    mvn -version
    ~~~
 
+## 安装Nginx
+
+~~~
+#安装nginx
+sudo apt install nginx
+#安装ssl(ubuntu)
+sudo apt-get install libssl-dev
+~~~
+
+
+
+#### 配置相关
+
+##### `SSL`配置
+
+
+
+##### 端口转发
+
 ## 安装Yapi
 
 [官网内网部署](https://yapi.baidu.com/doc/devops/index.ht)
@@ -305,7 +324,7 @@ sudo pm2 start /usr/local/soft/yapi/my-yapi/vendors/server/app.js
 
 
 
-#### `nginx` 配置
+### `nginx` 配置
 
 ~~~
 在location /添加
@@ -314,19 +333,120 @@ proxy_set_header Upgrade $http_upgrade;
 proxy_set_header Connection "upgrade";
 ~~~
 
+## 安装nginx
+
+~~~
+sudo apt install nginx
+~~~
+
+### **nginx ssl/二级域名配置**
+
+1. dns域名解析配置
+
+2. [申请免费ssl](https://letsencrypt.osfipin.com/)
+
+   > 验证时,若遇到403,直接修改nginx.conf配置,第一行的`user www-data`改为`user root`
+
+~~~
+user www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+include /etc/nginx/modules-enabled/*.conf;
+
+events {
+	worker_connections 768;
+	# multi_accept on;
+}
+
+http {
 
 
-## 其他问题
+	sendfile on;
+	tcp_nopush on;
+	tcp_nodelay on;
+	keepalive_timeout 65;
+	types_hash_max_size 2048;
 
-### Nginx相关
-
-#### 配置相关
-
-##### `SSL`配置
+	include /etc/nginx/mime.types;
+	default_type application/octet-stream;
 
 
+	access_log /var/log/nginx/access.log;
+	error_log /var/log/nginx/error.log;
 
-##### 端口转发
+	gzip on;
+
+	include /etc/nginx/conf.d/*.conf;
+	include /etc/nginx/sites-enabled/*;
+
+        upstream yapi {
+        server 127.0.0.1:3000;
+	       } 
+
+        server{
+		listen 80;
+		server_name tzcqupt.top;
+		return 301 https://$host$request_uri;
+          location / {
+           	root html;
+		index index.html;
+		}	
+	}
+
+ 	server{
+                listen 443;
+                ssl on;
+                server_name tzcqupt.top;
+                ssl_certificate /usr/local/soft/ssl/tzcqupt-top/certificate.crt;
+                ssl_certificate_key /usr/local/soft/ssl/tzcqupt-top/private.key;
+                ssl_session_timeout 5m;
+                ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+                ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;
+                ssl_prefer_server_ciphers on;
+
+
+        location / {
+                 root html;
+		 index index.html;
+       		 }
+
+	}
+
+
+	server{
+		listen 80;
+		server_name yapi.tzcqupt.top;
+		return 301 https://$host$request_uri;
+	}
+	server{
+		listen 443;
+        	ssl on;
+		server_name yapi.tzcqupt.top;
+		ssl_certificate /usr/local/soft/ssl/x-tzcqupt-top/certificate.crt;
+		ssl_certificate_key /usr/local/soft/ssl/x-tzcqupt-top/private.key;
+		ssl_session_timeout 5m;
+		ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+		ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;
+		ssl_prefer_server_ciphers on;
+	
+	
+	location / {
+     		 proxy_pass  http://yapi;
+     		 proxy_set_header Host $host;
+    		 proxy_set_header  X-Real-IP        $remote_addr;
+   		 proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;
+     		 proxy_set_header X-NginX-Proxy true;
+     		 proxy_set_header Connection "upgrade";
+     		 proxy_set_header Upgrade $http_upgrade;
+     		 proxy_http_version 1.1;
+	}
+     }
+}
+
+
+~~~
+
+
 
 # Linux常用相关操作
 
