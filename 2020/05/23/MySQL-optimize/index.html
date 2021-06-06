@@ -1,0 +1,113 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="MySQL 优化学习"><meta name="keywords" content="MySQL"><meta name="author" content="tzcqupt"><meta name="copyright" content="tzcqupt"><title>MySQL 优化学习 | 个人学习博客</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.7.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.7.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  }
+} </script><meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="个人学习博客" type="application/atom+xml">
+</head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#MySQL-基本架构"><span class="toc-number">1.</span> <span class="toc-text">MySQL 基本架构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基础说明"><span class="toc-number">1.1.</span> <span class="toc-text">基础说明</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MySQL优化"><span class="toc-number">2.</span> <span class="toc-text">MySQL优化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#单表查询优化"><span class="toc-number">2.1.</span> <span class="toc-text">单表查询优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多表查询优化"><span class="toc-number">2.2.</span> <span class="toc-text">多表查询优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#JOIN-实现原理"><span class="toc-number">2.2.1.</span> <span class="toc-text">JOIN 实现原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#优化结论"><span class="toc-number">2.2.2.</span> <span class="toc-text">优化结论</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#慢查询优化"><span class="toc-number">2.3.</span> <span class="toc-text">慢查询优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#开启慢查询日志"><span class="toc-number">2.3.1.</span> <span class="toc-text">开启慢查询日志</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分析日志"><span class="toc-number">2.3.2.</span> <span class="toc-text">分析日志</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MySQL-索引"><span class="toc-number">3.</span> <span class="toc-text">MySQL 索引</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#索引的基本原理"><span class="toc-number">3.1.</span> <span class="toc-text">索引的基本原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#硬盘中数据的读取"><span class="toc-number">3.2.</span> <span class="toc-text">硬盘中数据的读取</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#硬盘中的概念"><span class="toc-number">3.2.1.</span> <span class="toc-text">硬盘中的概念</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#扇区"><span class="toc-number">3.2.1.1.</span> <span class="toc-text">扇区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#硬盘块"><span class="toc-number">3.2.1.2.</span> <span class="toc-text">硬盘块</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#硬盘读取数据"><span class="toc-number">3.2.1.3.</span> <span class="toc-text">硬盘读取数据</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#寻道时间"><span class="toc-number">3.2.1.3.1.</span> <span class="toc-text">寻道时间</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#旋转延迟"><span class="toc-number">3.2.1.3.2.</span> <span class="toc-text">旋转延迟</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#传输时间"><span class="toc-number">3.2.1.3.3.</span> <span class="toc-text">传输时间</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#InnoDB-中的索引"><span class="toc-number">3.3.</span> <span class="toc-text">InnoDB 中的索引</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#索引解释"><span class="toc-number">3.3.1.</span> <span class="toc-text">索引解释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建索引的原则"><span class="toc-number">3.3.2.</span> <span class="toc-text">创建索引的原则</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MySQL中的页"><span class="toc-number">3.4.</span> <span class="toc-text">MySQL中的页</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#解释"><span class="toc-number">3.4.1.</span> <span class="toc-text">解释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#页结构"><span class="toc-number">3.4.2.</span> <span class="toc-text">页结构</span></a></li></ol></li></ol></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://portrait.gitee.com/uploads/avatars/user/762/2287861_tzcqupt_1588209320.png"></div><div class="author-info__name text-center">tzcqupt</div><div class="author-info__description text-center">一个努力的Java程序员小白</div><div class="follow-button"><a href="https://gitee.com/tzcqupt" target="_blank" rel="noopener">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">25</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">22</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">17</span></a></div></div></div><div id="content-outer"><div class="no-bg" id="top-container"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">个人学习博客</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">主页</a><a class="site-page" href="/archives">归档</a><a class="site-page" href="/tags">标签</a><a class="site-page" href="/categories">分类</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> 搜索</span></a></span></div><div id="post-info"><div id="post-title">MySQL 优化学习</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2020-05-23</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><div class="post-meta-wordcount"><span>字数总计: </span><span class="word-count">2.1k</span><span class="post-meta__separator">|</span><span>阅读时长: 6 分钟</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h1 id="MySQL-基本架构"><a href="#MySQL-基本架构" class="headerlink" title="MySQL 基本架构"></a>MySQL 基本架构</h1><h2 id="基础说明"><a href="#基础说明" class="headerlink" title="基础说明"></a>基础说明</h2><p><img src="http://img.tzcqupt.top/MySQL-base.png" alt=""></p>
+<p>MySQL 分为 Server 层和存储引擎层两部分</p>
+<p>Server 层包括连接器、查询缓存、分析器、优化器、执行器等，涵盖 MySQL 的大多数核心服务功能，以及所有的内置函数（如日期、时间、数学和加密函数等），所有跨存储引擎的功能都在这一层实现，比如存储过程、触发器、视图等。</p>
+<p>存储引擎层负责数据的存储和提取.</p>
+<h1 id="MySQL优化"><a href="#MySQL优化" class="headerlink" title="MySQL优化"></a>MySQL优化</h1><h2 id="单表查询优化"><a href="#单表查询优化" class="headerlink" title="单表查询优化"></a>单表查询优化</h2><ol>
+<li>明确需要的字段,而不是select *</li>
+<li>使用连接JOIN 代替子查询</li>
+<li>使用分页语句(limit [offset,] rows) 或者where 字句时,有什么限制条件就尽量加上,查一条就limit 1</li>
+</ol>
+<h2 id="多表查询优化"><a href="#多表查询优化" class="headerlink" title="多表查询优化"></a>多表查询优化</h2><p>多表查询包括 <code>INNER JOIN</code>/<code>LEFT JOIN</code>/<code>RIGHT JOIN</code></p>
+<p><code>cross join(交叉连接)</code>==&gt; 两个表的笛卡尔积</p>
+<h3 id="JOIN-实现原理"><a href="#JOIN-实现原理" class="headerlink" title="JOIN 实现原理"></a>JOIN 实现原理</h3><p>MySQL 中的JOIN算法==&gt;Nested Loop Join,就是通过驱动表的结果集作为循环基础数据,然后一条一条的通过该结果集中的数据作为过滤条件到下一个表中查询数据,然后合并结果.</p>
+<h3 id="优化结论"><a href="#优化结论" class="headerlink" title="优化结论"></a>优化结论</h3><ol>
+<li><p>内连接加上<code>ON</code>限定条件,否则会被解释为交叉连接</p>
+</li>
+<li><p>连接表格使用<code>,</code>会被解释为交叉连接</p>
+</li>
+<li><p>超大型数据尽可能不写子查询,使用JOIN替换</p>
+<ol>
+<li><strong>当查询出来的数据需要进一步处理时,采用子查询,可读性和效率都更好</strong></li>
+<li>特定的场景,如直接从数据库中读取,采用<code>JOIN</code>比<code>WHERE</code> 快</li>
+</ol>
+</li>
+<li><p>使用<code>UNION</code>来代替手动创建的临时表</p>
+<ol>
+<li><code>UNION</code>就是把两次或多次查询结果合并起来</li>
+<li><code>UNION</code>会去掉重复的行,而<code>UNION ALL</code>不会</li>
+<li>子句中有<code>ORDER BY/LIMIT</code>需要用括号<code>()</code>包起来,推荐放到所有字句后,对最终合并的结果来排序或筛选</li>
+</ol>
+</li>
+<li><p>尽量避免在 <code>WHERE</code>子句中对字段进行<code>NULL</code>值判断,否则将导致引擎放弃使用索引而进行全表扫描.</p>
+</li>
+<li><p><code>IN</code>和<code>NOT IN</code>也要慎用,否则导致全盘扫描</p>
+<ol>
+<li><p>对于连续的数值,采用<code>BETWEEN AND</code></p>
+</li>
+<li><p>采用 <code>EXISTS</code>代替<code>IN</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">select id from t where num in(1,2,3)</span><br><span class="line">#&#x3D;&#x3D;&#x3D;&#x3D;&gt;</span><br><span class="line">select id from t where num between 1 and 3</span><br><span class="line"></span><br><span class="line">select num from a where num in(select num from b)</span><br><span class="line">#&#x3D;&#x3D;&#x3D;&#x3D;&gt;</span><br><span class="line">select num from a where exists(select 1 from b where num&#x3D;a.num)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p><strong>尽量使用数字型字段</strong>,若只包含数值信息的字段尽量不要设计为字符型,这会降低查询和连接的性能,增加内存开销. 是因为引擎在处理查询和连接时会逐个比较字符串中每一个字符，而对于数字型而言只需要比较一次就够了 </p>
+</li>
+<li><p>尽量使用表变量来代替临时表</p>
+</li>
+<li><p>索引才能将MySQL的查询优化得更好</p>
+</li>
+</ol>
+<h2 id="慢查询优化"><a href="#慢查询优化" class="headerlink" title="慢查询优化"></a>慢查询优化</h2><h3 id="开启慢查询日志"><a href="#开启慢查询日志" class="headerlink" title="开启慢查询日志"></a>开启慢查询日志</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">variables</span> <span class="keyword">like</span> <span class="string">'slow_query_log'</span>  </span><br><span class="line"><span class="comment">--查看是否开启慢查询日志</span></span><br><span class="line"><span class="comment">-- 查看慢查询的日志位置</span></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">variables</span> <span class="keyword">like</span> <span class="string">'%log%'</span>;</span><br><span class="line"><span class="keyword">set</span> <span class="keyword">global</span> slow_query_log_file=<span class="string">'/var/lib/mysql/VM_0_17_centos-slow.log'</span>;</span><br><span class="line"><span class="comment">--慢查询日志的位置</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span> <span class="keyword">global</span> slow_query_log =<span class="keyword">on</span>;</span><br><span class="line"><span class="comment">--开启慢查询日志</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span> <span class="keyword">global</span> long_query_time=<span class="number">1</span>;  </span><br><span class="line"><span class="comment">--大于1秒钟的数据记录到慢日志中，如果设置为默认0，则会有大量的信息存储在磁盘中，磁盘很容易满掉</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="分析日志"><a href="#分析日志" class="headerlink" title="分析日志"></a>分析日志</h3><ol>
+<li>MySQL提供的 <strong>mysqldumpslow</strong></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#slow记录最多的10个语句</span><br><span class="line">mysqldumpslow -s r -t 10 &#x2F;VM_0_17_centos-slow.log </span><br><span class="line">#按照时间排序前10中含有 left join的</span><br><span class="line">mysqldumpslow -s r -t 10 -g &quot;left join&quot; &#x2F;VM_0_17_centos-slow.log</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p><strong>mysqlsla</strong>工具</p>
+<p> mysqlsla会自动判断日志类型,建立一个配置文件<code>.mysqlsla</code>在文件里写上<code>top=100</code>,这样会打印出前100条结果.参数说明:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">queries total: 总查询次数 unique:去重后的sql数量</span><br><span class="line">sorted by : 输出报表的内容排序</span><br><span class="line"></span><br><span class="line">最重大的慢sql统计信息, 包括 平均执行时间, 等待锁时间, 结果行的总数, 扫描的行总数.</span><br><span class="line"></span><br><span class="line">Count, sql的执行次数及占总的slow log数量的百分比.</span><br><span class="line">Time, 执行时间, 包括总时间, 平均时间, 最小, 最大时间, 时间占到总慢sql时间的百分比.</span><br><span class="line">95% of Time, 去除最快和最慢的sql, 覆盖率占95%的sql的执行时间.</span><br><span class="line">Lock Time, 等待锁的时间.</span><br><span class="line">95% of Lock , 95%的慢sql等待锁时间.</span><br><span class="line">Rows sent, 结果行统计数量, 包括平均, 最小, 最大数量.</span><br><span class="line">Rows examined, 扫描的行数量.</span><br><span class="line">Database, 属于哪个数据库</span><br><span class="line">Users, 哪个用户,IP, 占到所有用户执行的sql百分比</span><br><span class="line">Query abstract, 抽象后的sql语句</span><br><span class="line">Query sample, sql语句</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<h1 id="MySQL-索引"><a href="#MySQL-索引" class="headerlink" title="MySQL 索引"></a>MySQL 索引</h1><h2 id="索引的基本原理"><a href="#索引的基本原理" class="headerlink" title="索引的基本原理"></a>索引的基本原理</h2><p> 通过不断地缩小想要获取数据的范围来筛选出最终想要的结果，同时把随机的事件变成顺序的事件 ===&gt;<strong>把无序的数据变成有序的数据</strong></p>
+<ol>
+<li><p>把创建了索引的列的内容进行排序</p>
+</li>
+<li><p>对排序结果生成倒排表</p>
+</li>
+<li><p>在倒排表内容上拼上数据地址链</p>
+</li>
+<li><p>在查询的时候，先拿到倒排表内容，再取出数据地址链，从而拿到具体数据</p>
+</li>
+</ol>
+<h2 id="硬盘中数据的读取"><a href="#硬盘中数据的读取" class="headerlink" title="硬盘中数据的读取"></a>硬盘中数据的读取</h2><h3 id="硬盘中的概念"><a href="#硬盘中的概念" class="headerlink" title="硬盘中的概念"></a>硬盘中的概念</h3><p>以机械硬盘为例.</p>
+<h4 id="扇区"><a href="#扇区" class="headerlink" title="扇区"></a>扇区</h4><p> 磁盘存储的最小单位，扇区一般大小为512Byte。 </p>
+<h4 id="硬盘块"><a href="#硬盘块" class="headerlink" title="硬盘块"></a>硬盘块</h4><p> 文件系统与磁盘交互的的最小单位（计算机系统读写磁盘的最小单位），一个磁盘块由连续几个（2^n）扇区组成，块一般大小一般为4KB。 </p>
+<h4 id="硬盘读取数据"><a href="#硬盘读取数据" class="headerlink" title="硬盘读取数据"></a>硬盘读取数据</h4><p> 磁盘读取数据靠的是机械运动，每次读取数据花费的时间可以分为<strong>寻道时间、旋转延迟、传输时间</strong>三个部分 .</p>
+<h5 id="寻道时间"><a href="#寻道时间" class="headerlink" title="寻道时间"></a>寻道时间</h5><p> 磁臂移动到指定磁道所需要的时间，主流磁盘一般在5ms以下 </p>
+<h5 id="旋转延迟"><a href="#旋转延迟" class="headerlink" title="旋转延迟"></a>旋转延迟</h5><p> 旋转延迟就是我们经常听说的磁盘转速，比如一个磁盘7200转，表示每分钟能转7200次，也就是说1秒钟能转120次，旋转延迟就是1/120/2 = 4.17ms </p>
+<h5 id="传输时间"><a href="#传输时间" class="headerlink" title="传输时间"></a>传输时间</h5><p> 传输时间指的是从磁盘读出或将数据写入磁盘的时间，一般在零点几毫秒，相对于前两个时间可以忽略不计 </p>
+<h2 id="InnoDB-中的索引"><a href="#InnoDB-中的索引" class="headerlink" title="InnoDB 中的索引"></a>InnoDB 中的索引</h2><h3 id="索引解释"><a href="#索引解释" class="headerlink" title="索引解释"></a>索引解释</h3><p><strong>InnoDB中有2种索引：</strong>主键索引（聚集索引）、辅助索引（非聚集索引）。</p>
+<p><strong>主键索引：</strong>每个表只有一个主键索引，叶子节点同时保存了主键的值也数据记录。</p>
+<p><strong>辅助索引：</strong>叶子节点保存了索引字段的值以及主键的值。</p>
+<p>辅助索引的查询过程在MySQL中叫做回表.</p>
+<h3 id="创建索引的原则"><a href="#创建索引的原则" class="headerlink" title="创建索引的原则"></a>创建索引的原则</h3><ol>
+<li>最左前缀匹配原则，组合索引非常重要的原则，MySQL会一直向右匹配直到遇到范围查询(<code>&gt;、&lt;、between、like</code>)就停止匹配，比如<code>a = 1 and b = 2 and c &gt; 3 and d = 4</code> 如果建立<code>(a,b,c,d)</code>顺序的索引，d是用不到索引的，如果建立<code>(a,b,d,c)</code>的索引则都可以用到，a,b,d的顺序可以任意调整。 </li>
+<li>较频繁作为查询条件的字段才去创建索引 </li>
+<li>更新频繁字段不适合创建索引 </li>
+<li>尽量的扩展索引，不要新建索引。比如表中已经有a的索引，现在要加(a,b)的索引，那么只需要修改原来的索引即可。 </li>
+<li>定义有外键的数据列一定要建立索引。</li>
+<li>对于那些查询中很少涉及的列，重复值比较多的列不要建立索引。 </li>
+<li>对于定义为text、image和bit的数据类型的列不要建立索引。 </li>
+</ol>
+<h2 id="MySQL中的页"><a href="#MySQL中的页" class="headerlink" title="MySQL中的页"></a>MySQL中的页</h2><h3 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h3><p>MySQL中和磁盘交互的最小单位称为页，页是MySQL内部定义的一种数据结构，默认为16kb，相当于4个磁盘块，也就是说MySQL每次从磁盘中读取一次数据是16KB，要么不读取，要读取就是16KB，此值可以修改的。 </p>
+<h3 id="页结构"><a href="#页结构" class="headerlink" title="页结构"></a>页结构</h3><p> MySQL中页是InnoDB 中存储数据的基本单位，也是MySQL中管理数据的最小单位，和磁盘交互的时候都是以页来进行的，默认是16kb，MySQL中采用b+树存储数据，页相当于b+树中的一个节点。 </p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">tzcqupt</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://github.com/tzcqupt/tzcqupt.github.io/2020/05/23/MySQL-optimize/">https://github.com/tzcqupt/tzcqupt.github.io/2020/05/23/MySQL-optimize/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://github.com/tzcqupt/tzcqupt.github.io">个人学习博客</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/MySQL/">MySQL</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2020/05/30/Java-experience/"><i class="fa fa-chevron-left">  </i><span>Java 自己开发经验总结</span></a></div><div class="next-post pull-right"><a href="/2020/05/10/time-task/"><span>定时/延迟任务处理</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2020 - 2021 By tzcqupt</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">要想一天什么时候开始,而不是什么时候结束</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.7.0"></script><script src="/js/fancybox.js?version=1.7.0"></script><script src="/js/sidebar.js?version=1.7.0"></script><script src="/js/copy.js?version=1.7.0"></script><script src="/js/fireworks.js?version=1.7.0"></script><script src="/js/transition.js?version=1.7.0"></script><script src="/js/scroll.js?version=1.7.0"></script><script src="/js/head.js?version=1.7.0"></script><script src="/js/search/local-search.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>

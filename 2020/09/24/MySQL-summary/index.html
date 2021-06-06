@@ -1,0 +1,1048 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="MySQL 学习强化总结版"><meta name="keywords" content="MySQL"><meta name="author" content="tzcqupt"><meta name="copyright" content="tzcqupt"><title>MySQL 学习强化总结版 | 个人学习博客</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.7.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.7.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  }
+} </script><meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="个人学习博客" type="application/atom+xml">
+</head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#MySQL-安装"><span class="toc-number">1.</span> <span class="toc-text">MySQL 安装</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Windows安装MySQL"><span class="toc-number">1.1.</span> <span class="toc-text">Windows安装MySQL</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#前提条件"><span class="toc-number">1.1.1.</span> <span class="toc-text">前提条件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装"><span class="toc-number">1.1.2.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#初始化数据库"><span class="toc-number">1.1.3.</span> <span class="toc-text">初始化数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#启动-停止数据库"><span class="toc-number">1.1.4.</span> <span class="toc-text">启动&#x2F;停止数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改密码"><span class="toc-number">1.1.5.</span> <span class="toc-text">修改密码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux安装MySQL"><span class="toc-number">1.2.</span> <span class="toc-text">Linux安装MySQL</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux"><span class="toc-number">1.2.1.</span> <span class="toc-text">Linux</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#卸载原有的MySQL"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">卸载原有的MySQL</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#安装软件"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">安装软件</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#下载解压"><span class="toc-number">1.2.1.2.1.</span> <span class="toc-text">下载解压</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#依次安装MySQL-rpm"><span class="toc-number">1.2.1.3.</span> <span class="toc-text">依次安装MySQL rpm</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#启动MySQL"><span class="toc-number">1.2.1.4.</span> <span class="toc-text">启动MySQL</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#配置开机启动"><span class="toc-number">1.2.1.5.</span> <span class="toc-text">配置开机启动</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#登录MySQL"><span class="toc-number">1.2.1.6.</span> <span class="toc-text">登录MySQL</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#修改密码-1"><span class="toc-number">1.2.1.7.</span> <span class="toc-text">修改密码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#重置密码"><span class="toc-number">1.2.1.8.</span> <span class="toc-text">重置密码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ubuntu"><span class="toc-number">1.2.2.</span> <span class="toc-text">Ubuntu</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#卸载"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">卸载</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#安装-1"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#密码修改"><span class="toc-number">1.2.2.3.</span> <span class="toc-text">密码修改</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#授权远程登录"><span class="toc-number">1.2.2.4.</span> <span class="toc-text">授权远程登录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#修改编码格式"><span class="toc-number">1.2.2.5.</span> <span class="toc-text">修改编码格式</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考文章"><span class="toc-number">1.3.</span> <span class="toc-text">参考文章</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MySQL-数据类型"><span class="toc-number">2.</span> <span class="toc-text">MySQL 数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#整数"><span class="toc-number">2.1.</span> <span class="toc-text">整数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#浮点数"><span class="toc-number">2.2.</span> <span class="toc-text">浮点数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字符串"><span class="toc-number">2.3.</span> <span class="toc-text">字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#日期"><span class="toc-number">2.4.</span> <span class="toc-text">日期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据类型选择建议"><span class="toc-number">2.5.</span> <span class="toc-text">数据类型选择建议</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DDL-操作数据库、表"><span class="toc-number">3.</span> <span class="toc-text">DDL 操作数据库、表</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库CRUD"><span class="toc-number">3.1.</span> <span class="toc-text">数据库CRUD</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#操作表CRUD"><span class="toc-number">3.2.</span> <span class="toc-text">操作表CRUD</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#C-Create-创建"><span class="toc-number">3.2.1.</span> <span class="toc-text">C(Create):创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#R-Retrieve-：查询"><span class="toc-number">3.2.2.</span> <span class="toc-text">R(Retrieve)：查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#U-Update-修改"><span class="toc-number">3.2.3.</span> <span class="toc-text">U(Update):修改</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DML-增删改表中数据"><span class="toc-number">4.</span> <span class="toc-text">DML 增删改表中数据</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#添加数据"><span class="toc-number">4.1.</span> <span class="toc-text">添加数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#删除数据"><span class="toc-number">4.2.</span> <span class="toc-text">删除数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改数据"><span class="toc-number">4.3.</span> <span class="toc-text">修改数据</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DQL-查询表中的记录-简单查询"><span class="toc-number">5.</span> <span class="toc-text">DQL 查询表中的记录 简单查询</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#语法"><span class="toc-number">5.1.</span> <span class="toc-text">语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基础查询"><span class="toc-number">5.2.</span> <span class="toc-text">基础查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#条件查询"><span class="toc-number">5.3.</span> <span class="toc-text">条件查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NULL的坑"><span class="toc-number">5.4.</span> <span class="toc-text">NULL的坑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#经典问题"><span class="toc-number">5.5.</span> <span class="toc-text">经典问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">5.6.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DQL-查询语句-复杂查询"><span class="toc-number">6.</span> <span class="toc-text">DQL 查询语句 复杂查询</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#排序查询"><span class="toc-number">6.1.</span> <span class="toc-text">排序查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#聚合函数"><span class="toc-number">6.2.</span> <span class="toc-text">聚合函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分组查询"><span class="toc-number">6.3.</span> <span class="toc-text">分组查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分页查询"><span class="toc-number">6.4.</span> <span class="toc-text">分页查询</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#实例"><span class="toc-number">6.4.1.</span> <span class="toc-text">实例</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#获取前n行记录"><span class="toc-number">6.4.1.1.</span> <span class="toc-text">获取前n行记录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#获取最大的一条记录"><span class="toc-number">6.4.1.2.</span> <span class="toc-text">获取最大的一条记录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#获取排名第n到m的记录"><span class="toc-number">6.4.1.3.</span> <span class="toc-text">获取排名第n到m的记录</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#联合查询"><span class="toc-number">6.5.</span> <span class="toc-text">联合查询</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MySQL-函数"><span class="toc-number">7.</span> <span class="toc-text">MySQL 函数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#数值型函数"><span class="toc-number">7.1.</span> <span class="toc-text">数值型函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字符串函数"><span class="toc-number">7.2.</span> <span class="toc-text">字符串函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#日期和时间函数"><span class="toc-number">7.3.</span> <span class="toc-text">日期和时间函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MySQL-聚合函数"><span class="toc-number">7.4.</span> <span class="toc-text">MySQL 聚合函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MySQL-流程控制函数"><span class="toc-number">7.5.</span> <span class="toc-text">MySQL 流程控制函数</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MySQL-查询深入"><span class="toc-number">8.</span> <span class="toc-text">MySQL 查询深入</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#连接查询"><span class="toc-number">8.1.</span> <span class="toc-text">连接查询</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#笛卡尔积"><span class="toc-number">8.1.1.</span> <span class="toc-text">笛卡尔积</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#解释"><span class="toc-number">8.1.1.1.</span> <span class="toc-text">解释</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#语法-1"><span class="toc-number">8.1.1.2.</span> <span class="toc-text">语法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Java-伪代码"><span class="toc-number">8.1.1.3.</span> <span class="toc-text">Java 伪代码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内连接"><span class="toc-number">8.1.2.</span> <span class="toc-text">内连接</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#解释-1"><span class="toc-number">8.1.2.1.</span> <span class="toc-text">解释</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#语法-2"><span class="toc-number">8.1.2.2.</span> <span class="toc-text">语法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Java-伪代码-1"><span class="toc-number">8.1.2.3.</span> <span class="toc-text">Java 伪代码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#外连接"><span class="toc-number">8.1.3.</span> <span class="toc-text">外连接</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#子查询"><span class="toc-number">8.2.</span> <span class="toc-text">子查询</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#分类"><span class="toc-number">8.2.1.</span> <span class="toc-text">分类</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MySQL-连接查询内部如何优化"><span class="toc-number">8.3.</span> <span class="toc-text">MySQL 连接查询内部如何优化</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MySQL-事务"><span class="toc-number">9.</span> <span class="toc-text">MySQL 事务</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#事务的特性"><span class="toc-number">9.1.</span> <span class="toc-text">事务的特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#原子性-Atomicity"><span class="toc-number">9.1.1.</span> <span class="toc-text">原子性(Atomicity)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#一致性-Consistency"><span class="toc-number">9.1.2.</span> <span class="toc-text">一致性(Consistency)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#隔离性-Isolation"><span class="toc-number">9.1.3.</span> <span class="toc-text">隔离性(Isolation)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#持久性-Durability"><span class="toc-number">9.1.4.</span> <span class="toc-text">持久性(Durability)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事务中的问题"><span class="toc-number">9.2.</span> <span class="toc-text">事务中的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#脏读"><span class="toc-number">9.2.1.</span> <span class="toc-text">脏读</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#读已提交"><span class="toc-number">9.2.2.</span> <span class="toc-text">读已提交</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#可重复读"><span class="toc-number">9.2.3.</span> <span class="toc-text">可重复读</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#幻读"><span class="toc-number">9.2.4.</span> <span class="toc-text">幻读</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事务的隔离级别"><span class="toc-number">9.3.</span> <span class="toc-text">事务的隔离级别</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#隔离级别"><span class="toc-number">9.3.1.</span> <span class="toc-text">隔离级别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#隔离级别出现的问题"><span class="toc-number">9.3.2.</span> <span class="toc-text">隔离级别出现的问题</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MySQL-踩坑点"><span class="toc-number">10.</span> <span class="toc-text">MySQL 踩坑点</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#NULL"><span class="toc-number">10.1.</span> <span class="toc-text">NULL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#枚举ENUM"><span class="toc-number">10.2.</span> <span class="toc-text">枚举ENUM</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ENUM-枚举值字面量和内部索引"><span class="toc-number">10.2.1.</span> <span class="toc-text">ENUM 枚举值字面量和内部索引</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#字面量"><span class="toc-number">10.2.1.1.</span> <span class="toc-text">字面量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#内部索引"><span class="toc-number">10.2.1.2.</span> <span class="toc-text">内部索引</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ENUM-中的-NULL-或空-39-39-值问题"><span class="toc-number">10.2.2.</span> <span class="toc-text">ENUM 中的 NULL 或空 &#39;&#39; 值问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ENUM-枚举值的排序问题"><span class="toc-number">10.2.3.</span> <span class="toc-text">ENUM 枚举值的排序问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据类型的限制"><span class="toc-number">10.2.4.</span> <span class="toc-text">数据类型的限制</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分页"><span class="toc-number">10.3.</span> <span class="toc-text">分页</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分组"><span class="toc-number">10.4.</span> <span class="toc-text">分组</span></a></li></ol></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://portrait.gitee.com/uploads/avatars/user/762/2287861_tzcqupt_1588209320.png"></div><div class="author-info__name text-center">tzcqupt</div><div class="author-info__description text-center">一个努力的Java程序员小白</div><div class="follow-button"><a href="https://gitee.com/tzcqupt" target="_blank" rel="noopener">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">25</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">22</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">17</span></a></div></div></div><div id="content-outer"><div class="no-bg" id="top-container"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">个人学习博客</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">主页</a><a class="site-page" href="/archives">归档</a><a class="site-page" href="/tags">标签</a><a class="site-page" href="/categories">分类</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> 搜索</span></a></span></div><div id="post-info"><div id="post-title">MySQL 学习强化总结版</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2020-09-24</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/MySQL/">MySQL</a><div class="post-meta-wordcount"><span>字数总计: </span><span class="word-count">9.8k</span><span class="post-meta__separator">|</span><span>阅读时长: 37 分钟</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h1 id="MySQL-安装"><a href="#MySQL-安装" class="headerlink" title="MySQL 安装"></a>MySQL 安装</h1><h2 id="Windows安装MySQL"><a href="#Windows安装MySQL" class="headerlink" title="Windows安装MySQL"></a>Windows安装MySQL</h2><h3 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h3><ol>
+<li>获取Mysql安装包，去官网直接下载：<a href="https://downloads.mysql.com/archives/community/" target="_blank" rel="noopener">https://downloads.mysql.com/archives/community/</a></li>
+<li>解压到D盘根目录:D:/mysql-5.7.21</li>
+</ol>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>若本机已安装mysql，此处将端口设为3307</p>
+<ol>
+<li><p>配置my.ini：在根目录下新建my.ini文件，在[mysqld]下配置：</p>
+</li>
+<li><p>数据库根目录：basedir = D:/mysql-5.7.21-3307</p>
+</li>
+<li><p>数据存放目录：datadir = D:/mysql-5.7.21-3307/data</p>
+</li>
+<li><p>端口：port = 3307</p>
+</li>
+<li><p>添加字符编码的设置：character-set-server=utf8</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[mysql]</span></span><br><span class="line"><span class="comment">#设置mysql客户端默认字符集</span></span><br><span class="line"></span><br><span class="line"><span class="attr">default-character-set</span>=utf8 </span><br><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="comment">#设置3307端口</span></span><br><span class="line"><span class="attr">port</span> = <span class="number">3307</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#设置mysql的安装目录</span></span><br><span class="line"></span><br><span class="line"><span class="attr">basedir</span> = D:/mysql-<span class="number">5.7</span>.<span class="number">21</span></span><br><span class="line"><span class="attr">datadir</span> = D:/mysql-<span class="number">5.7</span>.<span class="number">21</span>/data</span><br><span class="line"></span><br><span class="line"><span class="comment">#允许最大连接数</span></span><br><span class="line"></span><br><span class="line"><span class="attr">max_connections</span>=<span class="number">200</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#服务端使用的字符集默认为8比特编码的latin1字符集</span></span><br><span class="line"></span><br><span class="line"><span class="attr">character-set-server</span>=utf8</span><br><span class="line"></span><br><span class="line"><span class="comment">#创建新表时将使用的默认存储引擎</span></span><br><span class="line"></span><br><span class="line"><span class="attr">default-storage-engine</span>=INNODB</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="6">
+<li><p>开始执行安装和添加服务的步骤，在cmd中执行如下命令：</p>
+<p><code>D:\mysql-5.7.21\bin&gt;mysqld install mysql --defaults-file=&quot;D:/mysql-5.7.21\my.ini&quot;</code><br>成功安装后会提示：Service successfully installed.</p>
+</li>
+<li><p>安装成功后服务的名称就是mysql</p>
+</li>
+</ol>
+<h3 id="初始化数据库"><a href="#初始化数据库" class="headerlink" title="初始化数据库"></a>初始化数据库</h3><p>mysql服务安装成功后，就需要初始化数据库了，否则是无法启动服务的。</p>
+<p>在bin目录下执行如下命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">D:\mysql-5.7.21\bin&gt;mysqld.exe --defaults-file="D:\mysql-5.7.21\my.ini" --initialize --explicit_defaults_for_timestamp</span><br></pre></td></tr></table></figure>
+
+<p>default-file 即配置文件路径，必须进行指定。</p>
+<p>–initialize 说明执行数据库初始化。</p>
+<p>–explicit_defaults_for_timestamp说明Timestamp类型的字段，必须进行指定，否则就是NULL。（这个是为了避免麻烦，因为5.6以后的mysql的Timestamp类型字段进行了一些调整）</p>
+<h3 id="启动-停止数据库"><a href="#启动-停止数据库" class="headerlink" title="启动/停止数据库"></a>启动/停止数据库</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">net start mysql</span><br><span class="line">net stop mysql</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改密码"><a href="#修改密码" class="headerlink" title="修改密码"></a>修改密码</h3><p>接下来就需要登录修改密码了，登录的临时密码在data目录的的日志文件里是”.err”文件，打开搜索”password”关键字。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2019-11-07T02:39:33.180905Z 1 [Note] A temporary password is generated <span class="keyword">for</span> root@localhost: <span class="comment">#JheTLHho2!L</span></span><br></pre></td></tr></table></figure>
+
+<p>临时密码就是：<code>#JheTLHho2!L</code></p>
+<p>登录mysql：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">D:\mysql-5.7.21\bin&gt;mysql -u root -p</span><br><span class="line">Enter password:<span class="comment">#JheTLHho2!L</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>登录其他主机mysql</p>
+<p><code>mysql -h ip -uroot -p</code></p>
+</blockquote>
+<p>登录成功后，修改root的密码了：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; <span class="built_in">set</span> password = password(<span class="string">'root123'</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="Linux安装MySQL"><a href="#Linux安装MySQL" class="headerlink" title="Linux安装MySQL"></a>Linux安装MySQL</h2><h3 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h3><h4 id="卸载原有的MySQL"><a href="#卸载原有的MySQL" class="headerlink" title="卸载原有的MySQL"></a>卸载原有的MySQL</h4><ol>
+<li><p>关闭正在运行的MySQL</p>
+<p><code>systemctl stop mysql</code></p>
+</li>
+<li><p>查看MySQL是否运行</p>
+<ul>
+<li><p><code>systemctl status mysql</code></p>
+</li>
+<li><p><code>ps -ef |grep mysql</code></p>
+</li>
+</ul>
+</li>
+<li><p>查看原有的MySQL</p>
+<p><code>rpm -qa|grep -i mysql</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mysql-community-libs-5.5.62-2.el7.x86_64</span><br><span class="line">mysql-community-server-5.5.62-2.el7.x86_64</span><br><span class="line">mysql-community-client-5.5.62-2.el7.x86_64</span><br><span class="line">mysql-community-common-5.5.62-2.el7.x86_64</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>卸载原有的MySQL组件</p>
+<p>执行下面的命令依次卸载</p>
+<ul>
+<li><code>yum -y remove mysql-community-client-5.5.62-2.el7.x86_64</code></li>
+<li><code>yum -y remove mysql-community-libs-5.5.62-2.el7.x86_64</code></li>
+<li><code>yum -y remove mysql-community-common-5.5.62-2.el7.x86_64</code></li>
+</ul>
+</li>
+</ol>
+<h4 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h4><h5 id="下载解压"><a href="#下载解压" class="headerlink" title="下载解压"></a>下载解压</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#进入自定义的mysql目录</span></span><br><span class="line">[root@VM_0_17_centos ~]<span class="comment">## cd /usr/local/soft/mysql</span></span><br><span class="line"><span class="comment">#下载软件包</span></span><br><span class="line">[root@VM_0_17_centos mysql]<span class="comment">## wget -c https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.23-1.el7.x86_64.rpm-bundle.tar</span></span><br><span class="line"><span class="comment">#解压包</span></span><br><span class="line">[root@VM_0_17_centos mysql]<span class="comment">## tar -xvf mysql-5.7.23-1.el7.x86_64.rpm-bundle.tar</span></span><br><span class="line"><span class="comment">#查看包</span></span><br><span class="line">[root@VM_0_17_centos mysql]<span class="comment">## ls</span></span><br><span class="line">mysql-5.7.23-1.el7.x86_64.rpm-bundle.tar                 </span><br><span class="line">mysql-community-libs-5.7.23-1.el7.x86_64.rpm</span><br><span class="line">mysql-community-client-5.7.23-1.el7.x86_64.rpm           </span><br><span class="line">mysql-community-libs-compat-5.7.23-1.el7.x86_64.rpm</span><br><span class="line">mysql-community-common-5.7.23-1.el7.x86_64.rpm           </span><br><span class="line">mysql-community-minimal-debuginfo-5.7.23-1.el7.x86_64.rpm</span><br><span class="line">mysql-community-devel-5.7.23-1.el7.x86_64.rpm            </span><br><span class="line">mysql-community-server-5.7.23-1.el7.x86_64.rpm</span><br><span class="line">mysql-community-embedded-5.7.23-1.el7.x86_64.rpm         </span><br><span class="line">mysql-community-server-minimal-5.7.23-1.el7.x86_64.rpm</span><br><span class="line">mysql-community-embedded-compat-5.7.23-1.el7.x86_64.rpm  </span><br><span class="line">mysql-community-test-5.7.23-1.el7.x86_64.rpm</span><br><span class="line">mysql-community-embedded-devel-5.7.23-1.el7.x86_64.rpm</span><br></pre></td></tr></table></figure>
+
+<h4 id="依次安装MySQL-rpm"><a href="#依次安装MySQL-rpm" class="headerlink" title="依次安装MySQL rpm"></a>依次安装MySQL rpm</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_0_17_centos mysql]<span class="comment">#rpm -ivh mysql-community-server-5.7.23-1.el7.x86_64.rpm --force --nodeps</span></span><br><span class="line">rpm -ivh mysql-community-libs-5.7.23-1.el7.x86_64.rpm --force --nodeps</span><br><span class="line">rpm -ivh mysql-community-client-5.7.23-1.el7.x86_64.rpm --force --nodeps</span><br><span class="line">rpm -ivh mysql-community-common-5.7.23-1.el7.x86_64.rpm --force --nodeps</span><br><span class="line">rpm -ivh mysql-community-libs-compat-5.7.23-1.el7.x86_64.rpm --force --nodeps</span><br></pre></td></tr></table></figure>
+
+<h4 id="启动MySQL"><a href="#启动MySQL" class="headerlink" title="启动MySQL"></a>启动MySQL</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_0_17_centos mysql]<span class="comment">## systemctl start mysqld</span></span><br><span class="line">[root@VM_0_17_centos mysql]<span class="comment">## ps -aux|grep mysqld</span></span><br><span class="line">mysql     5983  0.0 16.9 1139408 172280 ?      Sl   11:30   0:01 /usr/sbin/mysqld --daemonize --pid-file=/var/run/mysqld/mysqld.pid</span><br><span class="line">root      8268  0.0  0.0 112712   964 pts/1    R+   12:39   0:00 grep --color=auto mysqld</span><br><span class="line">[root@VM_0_17_centos mysql]<span class="comment">##</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>启动失败，需要对配置文件进行配置</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#编辑配置文件</span></span><br><span class="line">[root@VM_0_17_centos mysql]<span class="comment">## vim /etc/my.cnf</span></span><br><span class="line"><span class="comment">#配置文件内容</span></span><br><span class="line"><span class="comment">#数据库存放目录，如果不存在旧创建</span></span><br><span class="line">datadir=/var/lib/mysql/data</span><br><span class="line"><span class="comment">#连接文件，如果不存在则创建，并设置mysql用户所有者和mysql组</span></span><br><span class="line">socket=/var/lib/mysql/mysql.sock</span><br><span class="line"><span class="comment">#定义默认时间戳</span></span><br><span class="line">explicit_defaults_for_timestamp=<span class="literal">true</span></span><br><span class="line"><span class="comment">#设置运行用户</span></span><br><span class="line">user=mysql</span><br></pre></td></tr></table></figure>
+
+<h4 id="配置开机启动"><a href="#配置开机启动" class="headerlink" title="配置开机启动"></a>配置开机启动</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_0_17_centos mysql]<span class="comment">## systemctl enable mysqld </span></span><br><span class="line">[root@VM_0_17_centos mysql]<span class="comment">## systemctl daemon-reload</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="登录MySQL"><a href="#登录MySQL" class="headerlink" title="登录MySQL"></a>登录MySQL</h4><ol>
+<li><p>查看默认的root密码。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_0_17_centos mysql]<span class="comment">## cat /var/log/mysqld.log |grep 'temporary password'</span></span><br><span class="line">[root@VM_0_17_centos mysql]<span class="comment">#[Note] A temporary password is generated for root@localhost: iefe_ggtr; </span></span><br><span class="line"><span class="comment">#其中 iefe_ggtr; 就是初始密码了。</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>(可选)查询不到密码，需要初始化数据库，生成默认系统库表</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_0_17_centos mysql]<span class="comment">## mysqld --initialize --user=mysql --console </span></span><br><span class="line">[root@VM_0_17_centos mysql]<span class="comment">## grep 'temporary password' /var/log/mysqld.log </span></span><br><span class="line">[Note] A temporary password is generated <span class="keyword">for</span> root@localhost: iefe_ggtr</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>登录MySQL</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_0_17_centos mysql]<span class="comment">## mysql -uroot -p</span></span><br><span class="line">Enter password: iefe_ggtr</span><br><span class="line"><span class="comment">## 登录成功</span></span><br><span class="line">mysql-&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>（可选）使用查询到的默认密码登录失败。</p>
+<ol>
+<li><p>修改<code>/etc/my.cnf</code>，在<code>[mysqld]</code>下面添加一行: <code>skip-grant-tables=1</code>，让<code>mysqld</code>启动时不对密码进行验证</p>
+</li>
+<li><p>重启<code>mysqld</code>服务 ：<code>systemctl restart mysqld</code></p>
+</li>
+<li><p>使用 root 用户登录：<code>mysql -uroot</code></p>
+</li>
+<li><p><code>use mysql</code>切换到<code>mysql</code>数据库，更新<code>user</code>表。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 网上说明执行这条语句，能将root用户的密码修改为root123</span></span><br><span class="line">update user <span class="built_in">set</span> authentication_string = password ( <span class="string">'root123'</span> ), password_expired = <span class="string">'N'</span> , password_last_changed = now() <span class="built_in">where</span> user = <span class="string">'root'</span> ;</span><br><span class="line"><span class="comment">## 自己实际环境中执行</span></span><br><span class="line">update user <span class="built_in">set</span> authentication_string = password ( <span class="string">'root123'</span> )<span class="built_in">where</span> user = <span class="string">'root'</span> ;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>退出<code>mysql</code>，修改<code>/etc/my.cnf</code>文件，注释掉之前的<code>skip-grant-tables=1</code>。</p>
+</li>
+<li><p>重启<code>mysqld</code>服务，使用新密码登录即可。</p>
+</li>
+</ol>
+</li>
+</ol>
+<h4 id="修改密码-1"><a href="#修改密码-1" class="headerlink" title="修改密码"></a>修改密码</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; <span class="built_in">set</span> password = password(<span class="string">'root123'</span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="重置密码"><a href="#重置密码" class="headerlink" title="重置密码"></a>重置密码</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 修改配置文件</span></span><br><span class="line">vim /etc/my.cnf</span><br><span class="line"><span class="comment"># 将skip-grant-tables注释掉</span></span><br><span class="line"><span class="comment"># 刷新配置</span></span><br><span class="line">systemctl restart mysqld</span><br><span class="line"><span class="comment"># 直接登录 mysql -uroot -p</span></span><br><span class="line"><span class="comment"># 修改密码</span></span><br><span class="line">&gt;mysql update user <span class="built_in">set</span> authentication_string=password(<span class="string">'newpassword'</span>)  <span class="built_in">where</span> user=<span class="string">'root'</span> </span><br><span class="line"><span class="comment"># 退出mysql,编辑配置文件,去掉skip-grant-tables的注释</span></span><br><span class="line"><span class="comment"># 使用新密码登录mysql</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Ubuntu"><a href="#Ubuntu" class="headerlink" title="Ubuntu"></a>Ubuntu</h3><h4 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#查看已安装的依赖包</span><br><span class="line">dpkg --list|grep mysql</span><br><span class="line">#卸载</span><br><span class="line">sudo apt-get remove mysql-common</span><br><span class="line">#卸载不掉可以用这个命令</span><br><span class="line">sudo apt-get autoremove --purge mysql-server-5.7</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#更新apt-get，更新后将会使用最新资源库</span><br><span class="line">sudo apt-get update</span><br><span class="line"></span><br><span class="line">#安装MySQL:</span><br><span class="line">sudo apt-get install mysql-server</span><br><span class="line"></span><br><span class="line">#查看MySQL版本: </span><br><span class="line">mysql -V</span><br><span class="line"></span><br><span class="line">#进入MySQL: </span><br><span class="line">mysql -u root -p</span><br><span class="line"></span><br><span class="line">#启动: </span><br><span class="line">sudo service mysql start</span><br><span class="line"></span><br><span class="line">#重启:</span><br><span class="line">sudo service mysql restart </span><br><span class="line"></span><br><span class="line">#关闭: </span><br><span class="line">sudo service mysql stop</span><br></pre></td></tr></table></figure>
+
+<h4 id="密码修改"><a href="#密码修改" class="headerlink" title="密码修改"></a>密码修改</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">show databases;</span><br><span class="line">use mysql;</span><br><span class="line">update user set authentication_string&#x3D;PASSWORD(&quot;tzcqupt@root&quot;) where user&#x3D;&#39;root&#39;;</span><br><span class="line">update user set plugin&#x3D;&quot;mysql_native_password&quot;;</span><br><span class="line">flush privileges;</span><br><span class="line">exit;</span><br></pre></td></tr></table></figure>
+
+<h4 id="授权远程登录"><a href="#授权远程登录" class="headerlink" title="授权远程登录"></a>授权远程登录</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">use mysql;</span><br><span class="line">update user set host &#x3D; &#39;%&#39; where user &#x3D; &#39;root&#39;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="修改编码格式"><a href="#修改编码格式" class="headerlink" title="修改编码格式"></a>修改编码格式</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">show variables like &#39;character%&#39;;</span><br><span class="line">#找到mysqld.cnf文件：</span><br><span class="line">find &#x2F; -name mysqld.cnf</span><br><span class="line">##修改的内容</span><br><span class="line"></span><br><span class="line">[mysql]</span><br><span class="line"></span><br><span class="line">default-character-set&#x3D;utf8</span><br><span class="line"></span><br><span class="line">[mysqld]</span><br><span class="line"></span><br><span class="line">character_set_server&#x3D;utf8</span><br><span class="line"></span><br><span class="line">collation_server&#x3D;utf8_general_ci</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://zixuephp.net/article-261.html" target="_blank" rel="noopener">https://zixuephp.net/article-261.html</a></p>
+<p><a href="https://blog.csdn.net/qq_23077403/article/details/85093705" target="_blank" rel="noopener">https://blog.csdn.net/qq_23077403/article/details/85093705</a></p>
+<h1 id="MySQL-数据类型"><a href="#MySQL-数据类型" class="headerlink" title="MySQL 数据类型"></a>MySQL 数据类型</h1><h2 id="整数"><a href="#整数" class="headerlink" title="整数"></a>整数</h2><table>
+<thead>
+<tr>
+<th align="left">类型</th>
+<th align="left">字节数</th>
+<th align="left">无符号值范围</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>unsigned tinyint</code></td>
+<td align="left">1</td>
+<td align="left">0 到 255</td>
+</tr>
+<tr>
+<td align="left"><code>unsigned smallint</code></td>
+<td align="left">2</td>
+<td align="left">0 到 65535</td>
+</tr>
+<tr>
+<td align="left"><code>unsigned int</code></td>
+<td align="left">4</td>
+<td align="left">0 到 43亿</td>
+</tr>
+<tr>
+<td align="left"><code>unsigned bigint</code></td>
+<td align="left">8</td>
+<td align="left">0 到10 <sup>19</sup></td>
+</tr>
+</tbody></table>
+<p><code>int(n)</code> 无论 n 等于多少, int永远占4个字节;n 表示的是显示宽度，不足的用 0 补足，超过的无视长度而直接显示整个数字，但这要整型设置了 <code>unsigned zerofill</code> 才有效</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; CREATE TABLE test3 (</span><br><span class="line">       `a` int,</span><br><span class="line">       `b` int(5),</span><br><span class="line">       `c` int(5) unsigned,</span><br><span class="line">       `d` int(5) zerofill,</span><br><span class="line">       `e` int(5) unsigned zerofill,</span><br><span class="line">       `f` int    zerofill,</span><br><span class="line">       `g` int    unsigned zerofill</span><br><span class="line">     );</span><br><span class="line">Query OK, 0 rows affected (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into test3 values (1,1,1,1,1,1,1),(11,11,11,11,11,11,11),(12345,12345,12345,12345,12345,12345,12345);</span><br><span class="line">Query OK, 3 rows affected (0.00 sec)</span><br><span class="line">Records: 3  Duplicates: 0  Warnings: 0</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from test3;</span><br><span class="line">+<span class="comment">-------+-------+-------+-------+-------+------------+------------+</span></span><br><span class="line">| a     | b     | c     | d     | e     | f          | g          |</span><br><span class="line">+<span class="comment">-------+-------+-------+-------+-------+------------+------------+</span></span><br><span class="line">|     1 |     1 |     1 | 00001 | 00001 | 0000000001 | 0000000001 |</span><br><span class="line">|    11 |    11 |    11 | 00011 | 00011 | 0000000011 | 0000000011 |</span><br><span class="line">| 12345 | 12345 | 12345 | 12345 | 12345 | 0000012345 | 0000012345 |</span><br><span class="line">+<span class="comment">-------+-------+-------+-------+-------+------------+------------+</span></span><br><span class="line">3 rows in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; <span class="keyword">show</span> <span class="keyword">create</span> <span class="keyword">table</span> test3;</span><br><span class="line">| Table | <span class="keyword">Create</span> <span class="keyword">Table</span>                                                   </span><br><span class="line">| test3 | <span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`test3`</span> (</span><br><span class="line">  <span class="string">`a`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`b`</span> <span class="built_in">int</span>(<span class="number">5</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`c`</span> <span class="built_in">int</span>(<span class="number">5</span>) <span class="keyword">unsigned</span> <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`d`</span> <span class="built_in">int</span>(<span class="number">5</span>) <span class="keyword">unsigned</span> zerofill <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`e`</span> <span class="built_in">int</span>(<span class="number">5</span>) <span class="keyword">unsigned</span> zerofill <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`f`</span> <span class="built_in">int</span>(<span class="number">10</span>) <span class="keyword">unsigned</span> zerofill <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`g`</span> <span class="built_in">int</span>(<span class="number">10</span>) <span class="keyword">unsigned</span> zerofill <span class="keyword">DEFAULT</span> <span class="literal">NULL</span></span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8</span><br><span class="line"><span class="number">1</span> <span class="keyword">row</span> <span class="keyword">in</span> <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>原始的d字段是<code>有符号</code>的,使用了<code>zerofill</code>会自动转为无符号</p>
+</blockquote>
+<h2 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h2><p>float/double/decimal</p>
+<ol>
+<li><p>float 数值类型用于表示单精度浮点数值，而 double 数值类型用于表示双精度浮点数值，float 和 double 都是浮点型，而 decimal 是定点型。</p>
+</li>
+<li><p>浮点型和定点型可以用类型名称后加（M，D）来表示(如经纬度<code>decimal(10,7)</code>)，M 表示该值的总共长度，D 表示小数点后面的长度，M 和 D 又称为精度和标度。</p>
+</li>
+<li><p>float 和 double 在不指定精度时，默认会按照实际的精度来显示，而 DECIMAL 在不指定精度时，默认整数为 10，小数为 0。</p>
+</li>
+<li><p>decimal 采用的是<strong>四舍五入</strong>,float 和 double 采用的是<strong>四舍六入五成双</strong></p>
+<blockquote>
+<p><strong>四舍六入五成双</strong>:就是 5 以下舍弃 5 以上进位，如果需要处理数字为 5 的时候，需要看 5 后面是否还有不为 0 的任何数字，如果有，则直接进位，如果没有，需要看 5 前面的数字，若是奇数则进位，若是偶数则将 5 舍掉</p>
+</blockquote>
+</li>
+<li><p><code>float</code>、<code>double</code>会存在精度问题，<code>decimal</code>精度正常的</p>
+</li>
+</ol>
+<h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><table>
+<thead>
+<tr>
+<th align="left">类型</th>
+<th align="left">范围</th>
+<th align="left">存储所需字节</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">char(M)</td>
+<td align="left">[0,m]，m 的范围 [0,2<sup>8</sup>-1]</td>
+<td align="left">m</td>
+<td align="left">定长字符串</td>
+</tr>
+<tr>
+<td align="left">varchar(M)</td>
+<td align="left">[0,m]，m 的范围 [0,2<sup>16</sup>-1]</td>
+<td align="left">m</td>
+<td align="left">0-65535 字节</td>
+</tr>
+<tr>
+<td align="left">tinyblob</td>
+<td align="left">0-255(2<sup>8</sup>-1) 字节</td>
+<td align="left">L+1</td>
+<td align="left">不超过 255 个字符的二进制字符串</td>
+</tr>
+<tr>
+<td align="left">blob</td>
+<td align="left">0-65535(2<sup>16</sup>-1) 字节</td>
+<td align="left">L+2</td>
+<td align="left">二进制形式的长文本数据</td>
+</tr>
+<tr>
+<td align="left">mediumblob</td>
+<td align="left">0-16777215(2<sup>24</sup>-1) 字节</td>
+<td align="left">L+3</td>
+<td align="left">二进制形式的中等长度文本数据</td>
+</tr>
+<tr>
+<td align="left">longblob</td>
+<td align="left">0-4294967295(2<sup>32</sup>-1) 字节</td>
+<td align="left">L+4</td>
+<td align="left">二进制形式的极大文本数据</td>
+</tr>
+<tr>
+<td align="left">tinytext</td>
+<td align="left">0-255(2<sup>8</sup>-1) 字节</td>
+<td align="left">L+1</td>
+<td align="left">短文本字符串</td>
+</tr>
+<tr>
+<td align="left">text</td>
+<td align="left">0-65535(2<sup>16</sup>-1) 字节</td>
+<td align="left">L+2</td>
+<td align="left">长文本数据</td>
+</tr>
+<tr>
+<td align="left">mediumtext</td>
+<td align="left">0-16777215(2<sup>24</sup>-1) 字节</td>
+<td align="left">L+3</td>
+<td align="left">中等长度文本数据</td>
+</tr>
+<tr>
+<td align="left">longtext</td>
+<td align="left">0-4294967295(2<sup>32</sup>-1) 字节</td>
+<td align="left">L+4</td>
+<td align="left">极大文本数据</td>
+</tr>
+</tbody></table>
+<ol>
+<li><p>char 类型占用固定长度，如果存放的数据为固定长度的建议使用 char 类型，如：手机号码、身份证等固定长度的信息。</p>
+</li>
+<li><p>表格中的 L 表示存储的数据本身占用的字节，L 以外所需的额外字节为存放该值的长度所需的字节数。</p>
+<p>MySQL 通过存储值的内容及其长度来处理可变长度的值，这些额外的字节是无符号整数。</p>
+</li>
+</ol>
+<h2 id="日期"><a href="#日期" class="headerlink" title="日期"></a>日期</h2><table>
+<thead>
+<tr>
+<th align="left">类型</th>
+<th align="left">字节大小</th>
+<th align="left">范围</th>
+<th align="left">格式</th>
+<th align="left">用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">DATE</td>
+<td align="left">3</td>
+<td align="left">1000-01-01/9999-12-31</td>
+<td align="left">YYYY-MM-DD</td>
+<td align="left">日期值</td>
+</tr>
+<tr>
+<td align="left">TIME</td>
+<td align="left">3</td>
+<td align="left">‘-838:59:59’/‘838:59:59’</td>
+<td align="left">HH:MM:SS</td>
+<td align="left">时间值或持续时间</td>
+</tr>
+<tr>
+<td align="left">YEAR</td>
+<td align="left">1</td>
+<td align="left">1901/2155</td>
+<td align="left">YYYY</td>
+<td align="left">年份值</td>
+</tr>
+<tr>
+<td align="left">DATETIME</td>
+<td align="left">8</td>
+<td align="left">1000-01-01 00:00:00/9999-12-31 23:59:59</td>
+<td align="left">YYYY-MM-DD HH:MM:SS</td>
+<td align="left">混合日期和时间值</td>
+</tr>
+<tr>
+<td align="left">TIMESTAMP</td>
+<td align="left">4</td>
+<td align="left">1970-01-01 00:00:00/2038 结束时间是第 <strong>2147483647</strong> 秒，北京时间 <strong>2038-1-19 11:14:07</strong>，格林尼治时间 2038 年 1 月 19 日 凌晨 03:14:07</td>
+<td align="left">YYYYMMDD HHMMSS</td>
+<td align="left">混合日期和时间值，时间戳</td>
+</tr>
+</tbody></table>
+<h2 id="数据类型选择建议"><a href="#数据类型选择建议" class="headerlink" title="数据类型选择建议"></a>数据类型选择建议</h2><ul>
+<li><strong>选小不选大</strong>：一般情况下选择可以正确存储数据的最小数据类型，越小的数据类型通常更快，占用磁盘，内存和 CPU 缓存更小。</li>
+<li><strong>简单就好</strong>：简单的数据类型的操作通常需要更少的 CPU 周期，例如：整型比字符操作代价要小得多，因为字符集和校对规则 (排序规则) 使字符比整型比较更加复杂。</li>
+<li><strong>尽量避免 NULL</strong>：尽量制定列为 NOT NULL，除非真的需要 NULL 类型的值，有 NULL 的列值会使得索引、索引统计和值比较更加复杂。</li>
+<li><strong>浮点类型的建议统一选择 decimal</strong></li>
+<li><strong>记录时间的建议使用 int 或者 bigint 类型，将时间转换为时间戳格式，如将时间转换为秒、毫秒，进行存储，方便走索引</strong></li>
+</ul>
+<h1 id="DDL-操作数据库、表"><a href="#DDL-操作数据库、表" class="headerlink" title="DDL 操作数据库、表"></a>DDL 操作数据库、表</h1><h2 id="数据库CRUD"><a href="#数据库CRUD" class="headerlink" title="数据库CRUD"></a>数据库CRUD</h2><ol>
+<li>C(Create):创建<ul>
+<li>创建数据库<br><code>create database 数据库名称;</code></li>
+<li>创建数据库，判断不存在，再创建<br><code>create database if not exists 数据库名称;</code></li>
+<li>创建数据库，并指定字符集<br><code>create database 数据库名称 character set 字符集名;</code></li>
+<li>练习:创建db4数据库，判断是否存在，并制定字符集为gbk<br><code>create database if not exists db4 character set gbk;</code></li>
+</ul>
+</li>
+<li>R(Retrieve):查询<ul>
+<li>查询所有数据库的名称<br><code>show databases;</code></li>
+<li>查询某个数据库的字符集:查询某个数据库的创建语句<br><code>show create database 数据库名称;</code></li>
+</ul>
+</li>
+<li>U(Update):修改<br>修改数据库的字符集<br> <code>alter database 数据库名称 character set 字符集名称;</code></li>
+<li>D(Delete):删除<ul>
+<li>删除数据库<br><code>drop database 数据库名称;</code></li>
+<li>判断数据库存在，存在再删除<br><code>drop database if exists 数据库名称;</code></li>
+</ul>
+</li>
+<li>使用数据库  <ul>
+<li>查询当前正在使用的数据库名称<br><code>select database();</code></li>
+<li>使用数据库<br><code>use 数据库名称;</code></li>
+</ul>
+</li>
+</ol>
+<h2 id="操作表CRUD"><a href="#操作表CRUD" class="headerlink" title="操作表CRUD"></a>操作表CRUD</h2><h3 id="C-Create-创建"><a href="#C-Create-创建" class="headerlink" title="C(Create):创建"></a>C(Create):创建</h3><ul>
+<li><p>语法  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">create table 表名(</span><br><span class="line">                    列名1 数据类型1,</span><br><span class="line">                    列名2 数据类型2,</span><br><span class="line">                    ....</span><br><span class="line">                    列名n 数据类型n</span><br><span class="line">                 );</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：最后一列，不需要加逗号(,)</p>
+</blockquote>
+</li>
+<li><p>创建表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">create table student(</span><br><span class="line">id int,</span><br><span class="line">name varchar(32),</span><br><span class="line">age int ,</span><br><span class="line">score double(4,1),</span><br><span class="line">birthday date,</span><br><span class="line">insert_time timestamp</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>复制表：<br><code>create table 表名 like 被复制的表名;</code>    </p>
+</li>
+</ul>
+<h3 id="R-Retrieve-：查询"><a href="#R-Retrieve-：查询" class="headerlink" title="R(Retrieve)：查询"></a>R(Retrieve)：查询</h3><ul>
+<li>查询某个数据库中所有的表名称<br><code>show tables;</code></li>
+<li>查询表结构<br><code>desc 表名;</code></li>
+</ul>
+<h3 id="U-Update-修改"><a href="#U-Update-修改" class="headerlink" title="U(Update):修改"></a>U(Update):修改</h3><ol>
+<li>修改表名<br><code>alter table 表名 rename to 新的表名;</code></li>
+<li>修改表的字符集<br><code>alter table 表名 character set 字符集名称;</code></li>
+<li>添加一列<br><code>alter table 表名 add 列名 数据类型;</code></li>
+<li>修改列名称 类型<br><code>alter table 表名 change 列名 新列别 新数据类型;</code><br><code>alter table 表名 modify 列名 新数据类型;</code></li>
+<li>删除列<br><code>alter table 表名 drop 列名;</code></li>
+<li>D(Delete):删除<br><code>drop table 表名;</code><br><code>drop table  if exists 表名 ;</code></li>
+</ol>
+<h1 id="DML-增删改表中数据"><a href="#DML-增删改表中数据" class="headerlink" title="DML 增删改表中数据"></a>DML 增删改表中数据</h1><h2 id="添加数据"><a href="#添加数据" class="headerlink" title="添加数据"></a>添加数据</h2><p>  <code>insert into 表名(列名1,列名2,...列名n) values(值1,值2,...值n);</code></p>
+<ol>
+<li>列名和值要一一对应。    </li>
+<li>如果表名后，不定义列名，则默认给所有列添加值<br><code>insert into 表名 values(值1,值2,...值n);</code>      </li>
+<li>除了数字类型，其他类型需要使用引号(单双都可以)引起来</li>
+</ol>
+<h2 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h2><p>单表删除  <code>delete from 表名 [where 条件];</code><br>多表删除<code>delete [别名1,别名2] from 表1 [[as] 别名1],表2 [[as] 别名2] [where条件];</code></p>
+<ol>
+<li>如果不加条件，则删除表中所有记录。  </li>
+<li>如果要删除所有记录  <ol>
+<li><code>delete from 表名;</code> – <strong><em>不推荐使用</em></strong>。有多少条记录就会执行多少次删除操作  </li>
+<li><code>TRUNCATE TABLE 表名;</code> – <strong>推荐使用</strong>，效率更高 先删除表，然后再创建一张一样的表。</li>
+</ol>
+</li>
+</ol>
+<h2 id="修改数据"><a href="#修改数据" class="headerlink" title="修改数据"></a>修改数据</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">update 表名 set 列名1 &#x3D; 值1, 列名2 &#x3D; 值2,... [where 条件];</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果不加任何条件，则会将表中所有记录全部修改。</p>
+</blockquote>
+<h1 id="DQL-查询表中的记录-简单查询"><a href="#DQL-查询表中的记录-简单查询" class="headerlink" title="DQL 查询表中的记录 简单查询"></a>DQL 查询表中的记录 简单查询</h1><p>   <code>select * from 表名;</code></p>
+<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">select</span><br><span class="line">	字段列表</span><br><span class="line">from</span><br><span class="line">	表名列表</span><br><span class="line">where</span><br><span class="line">	条件列表</span><br><span class="line">group by</span><br><span class="line">	分组字段</span><br><span class="line">having</span><br><span class="line">	分组之后的条件</span><br><span class="line">order by</span><br><span class="line">	排序</span><br><span class="line">limit</span><br><span class="line">	分页限定</span><br></pre></td></tr></table></figure>
+
+<h2 id="基础查询"><a href="#基础查询" class="headerlink" title="基础查询"></a>基础查询</h2><ol>
+<li><p>多个字段的查询<br><code>select 字段名1，字段名2... from 表名;</code>  </p>
+<blockquote>
+<p>如果查询所有字段，则可以使用*来替代字段列表。</p>
+</blockquote>
+</li>
+<li><p>去除重复<br><code>distinct</code></p>
+</li>
+<li><p>计算列</p>
+<ol>
+<li>一般可以使用四则运算计算一些列的值。（一般只会进行数值型的计算）</li>
+<li><code>ifnull</code>(列名,默认值)<br>判断列名的值是否为 NULL,如果为 NULL 则返回第二个参数,如果不为 NULL 则返回第一个参数的值。  </li>
+</ol>
+</li>
+<li><p>起别名<code>as</code>  </p>
+<blockquote>
+<p>as也可以省略</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="条件查询"><a href="#条件查询" class="headerlink" title="条件查询"></a>条件查询</h2><ol>
+<li><p>where子句后跟条件</p>
+</li>
+<li><p>运算符</p>
+<ul>
+<li><code>&gt; 、&lt; 、&lt;= 、&gt;= 、= 、&lt;&gt;</code></li>
+<li><code>BETWEEN...AND</code></li>
+<li><code>IN(集合)</code></li>
+<li><code>LIKE：模糊查询</code><br>占位符：</li>
+<li><code>_</code> 单个任意字符</li>
+<li><code>%</code> 多个任意字符</li>
+<li><code>IS NULL</code> </li>
+<li><code>and</code> 或 <code>&amp;&amp;</code></li>
+<li><code>or</code> 或 <code>||</code> </li>
+<li><code>not</code>  或 <code>!</code></li>
+</ul>
+<blockquote>
+<p>比较:数值按照大小比较,字符按照<code>ASCII</code>码对应的值进行比较,比较时按照字符对应的位置一个字符一个字符的比较。</p>
+</blockquote>
+</li>
+</ol>
+<ul>
+<li><p>查询年龄大于20岁</p>
+<p><code>SELECT * FROM student WHERE age &gt; 20;</code>     </p>
+<p><code>SELECT * FROM student WHERE age &gt;= 20;</code></p>
+</li>
+<li><p>查询年龄等于20岁<br><code>SELECT * FROM student WHERE age = 20;</code></p>
+</li>
+<li><p>查询年龄不等于20岁<br><code>SELECT * FROM student WHERE age != 20;</code></p>
+<p><code>SELECT * FROM student WHERE age &lt;&gt; 20;</code></p>
+</li>
+<li><p>查询年龄大于等于20 小于等于30  </p>
+<p><code>SELECT * FROM student WHERE age &gt;= 20 &amp;&amp;  age &lt;=30;</code></p>
+<p><code>SELECT * FROM student WHERE age &gt;= 20 AND  age &lt;=30;</code></p>
+<p><code>SELECT * FROM student WHERE age BETWEEN 20 AND 30;</code></p>
+</li>
+<li><p>查询年龄22岁，18岁，25岁的信息<br><code>SELECT * FROM student WHERE age = 22 OR age = 18 OR age = 25</code></p>
+<p><code>SELECT * FROM student WHERE age IN (22,18,25);</code></p>
+</li>
+<li><p>查询英语成绩为null<br><code>SELECT * FROM student WHERE english = NULL;</code></p>
+<blockquote>
+<p>不对的。null值不能使用 = (!=) 判断</p>
+</blockquote>
+<p><code>SELECT * FROM student WHERE english IS NULL;</code></p>
+</li>
+<li><p>查询英语成绩不为null<br><code>SELECT * FROM student WHERE english  IS NOT NULL;</code></p>
+</li>
+<li><p>查询姓马的有哪些？ like<br><code>SELECT * FROM student WHERE NAME LIKE &#39;马%&#39;;</code></p>
+</li>
+<li><p>查询姓名第二个字是化的人<br><code>SELECT * FROM student WHERE NAME LIKE &quot;_化%&quot;;</code></p>
+</li>
+<li><p>查询姓名是3个字的人<br><code>SELECT * FROM student WHERE NAME LIKE &#39;___&#39;;</code></p>
+</li>
+<li><p>查询姓名中包含德的人<br><code>SELECT * FROM student WHERE NAME LIKE &#39;%德%&#39;;</code></p>
+</li>
+</ul>
+<h2 id="NULL的坑"><a href="#NULL的坑" class="headerlink" title="NULL的坑"></a>NULL的坑</h2><p><strong>查询运算符、like、between and、in、not in对NULL值查询不起效。</strong></p>
+<p><strong>IS NULL/IS NOT NULL（NULL值专用查询）</strong></p>
+<h2 id="经典问题"><a href="#经典问题" class="headerlink" title="经典问题"></a>经典问题</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select * from students;</span><br><span class="line">select * from students where name like &#39;%&#39;;</span><br></pre></td></tr></table></figure>
+
+<p>当name没有NULL值时，返回的结果一样。</p>
+<p>当name有NULL值时，<strong>第2个sql查询不出name为NULL的记录</strong>。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li><strong>like中的%可以匹配一个到多个任意的字符，_可以匹配任意一个字符</strong></li>
+<li><strong>空值查询需要使用IS NULL或者IS NOT NULL，其他查询运算符对NULL值无效</strong></li>
+<li><strong>建议创建表的时候，尽量设置表的字段不能为空，给字段设置一个默认值</strong></li>
+</ul>
+<h1 id="DQL-查询语句-复杂查询"><a href="#DQL-查询语句-复杂查询" class="headerlink" title="DQL 查询语句 复杂查询"></a>DQL 查询语句 复杂查询</h1><h2 id="排序查询"><a href="#排序查询" class="headerlink" title="排序查询"></a>排序查询</h2><ul>
+<li>语法：order by 子句<br><code>order by 排序字段1 排序方式1, 排序字段2 排序方式2...</code></li>
+<li>排序方式<ul>
+<li><code>ASC</code>：升序，默认的。</li>
+<li><code>DESC</code>：降序。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>如果有多个排序条件，则当前边的条件值一样时，才会判断第二条件。<br>如学生有年龄和成绩,先按照成绩降序排名,如果成绩一样,按照年龄升序排名给出结果</p>
+</blockquote>
+<h2 id="聚合函数"><a href="#聚合函数" class="headerlink" title="聚合函数"></a>聚合函数</h2><p>将一列数据作为一个整体，进行纵向的计算。</p>
+<ol>
+<li><code>count</code>：计算个数<ol>
+<li>一般选择非空的列：主键</li>
+<li><code>count(*)</code></li>
+</ol>
+</li>
+<li><code>max</code>：计算最大值</li>
+<li><code>min</code>：计算最小值</li>
+<li><code>sum</code>：计算和</li>
+<li><code>avg</code>：计算平均值</li>
+</ol>
+<blockquote>
+<p>聚合函数的计算，排除<code>null</code>值。  </p>
+<ol>
+<li>选择不包含非空的列进行计算  </li>
+<li><code>IFNULL</code>函数</li>
+</ol>
+</blockquote>
+<h2 id="分组查询"><a href="#分组查询" class="headerlink" title="分组查询"></a>分组查询</h2><ol>
+<li><p>group by 分组字段；</p>
+<blockquote>
+<p>分组之后查询的字段：分组字段、聚合函数</p>
+</blockquote>
+</li>
+<li><p>where 和 having 的区别？  </p>
+<ol>
+<li>where 在<strong>分组之前</strong>进行限定，如果不满足条件，则不参与分组。having在<strong>分组之后</strong>进行限定，如果不满足结果，则不会被查询出来</li>
+<li>where 后不可以跟聚合函数，<strong>having可以进行聚合函数的判断</strong>。</li>
+</ol>
+</li>
+</ol>
+<ul>
+<li><p>按照性别分组。分别查询男、女同学的平均分  </p>
+<p><code>SELECT sex , AVG(math) FROM student GROUP BY sex;</code></p>
+</li>
+<li><p>按照性别分组。分别查询男、女同学的平均分,人数  </p>
+<p><code>SELECT sex , AVG(math),COUNT(id) FROM student GROUP BY sex;</code></p>
+</li>
+<li><p>按照性别分组。分别查询男、女同学的平均分,人数 要求：分数低于70分的人，不参与分组<br><code>SELECT sex , AVG(math),COUNT(id) FROM student WHERE math &gt; 70 GROUP BY sex;</code></p>
+</li>
+<li><p>按照性别分组。分别查询男、女同学的平均分,人数 要求：分数低于70分的人，不参与分组,分组之后。人数要大于2个人<br><code>SELECT sex , AVG(math),COUNT(id) FROM student WHERE math &gt; 70 GROUP BY sex HAVING COUNT(id) &gt; 2;</code><br><code>SELECT sex , AVG(math),COUNT(id) 人数 FROM student WHERE math &gt; 70 GROUP BY sex HAVING 人数 &gt; 2;</code>    </p>
+</li>
+</ul>
+<h2 id="分页查询"><a href="#分页查询" class="headerlink" title="分页查询"></a>分页查询</h2><ol>
+<li><p>语法：<code>limit</code> 开始的索引,每页查询的条数;</p>
+<blockquote>
+<p>limit [offset,] count;</p>
+<p>offset 表示偏移量,就是跳过多少行记录,offset可以省略,默认为0,表示跳过0行</p>
+<p>count 表示offset行之后开始取数据,取count行记录</p>
+</blockquote>
+</li>
+<li><p>公式：开始的索引 = （当前的页码 - 1） * 每页显示的条数&lt;==&gt;当前页=(索引/条数)+1<br>每页显示3条记录 </p>
+<p><code>SELECT * FROM student LIMIT 0,3;</code> ===&gt; 第1页=(0/3)+1</p>
+<p><code>SELECT * FROM student LIMIT 3,3;</code> ===&gt; 第2页=(3/3)+1</p>
+<p><code>SELECT * FROM student LIMIT 6,3;</code> ===&gt; 第3页=(6/3)+1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select 列 from 表名 limit (page - 1) * pageSize,pageSize;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<blockquote>
+<p><code>limit</code> 是一个MySQL”方言”,limit开始的索引默认为0,从0开始计数</p>
+</blockquote>
+<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><h4 id="获取前n行记录"><a href="#获取前n行记录" class="headerlink" title="获取前n行记录"></a>获取前n行记录</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select 列 from 表 limit 0,n;</span><br><span class="line">#等价于</span><br><span class="line">select 列 from 表 limit n;</span><br></pre></td></tr></table></figure>
+
+<h4 id="获取最大的一条记录"><a href="#获取最大的一条记录" class="headerlink" title="获取最大的一条记录"></a>获取最大的一条记录</h4><p>如我们需要获取订单金额最大的一条记录，可以这么做：先按照金额降序，然后取第一条记录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select a.id 订单编号,a.price 订单金额 from t_order a order by a.price desc limit 1;</span><br><span class="line">#等价于</span><br><span class="line">select a.id 订单编号,a.price 订单金额 from t_order a order by a.price desc limit 0,1;</span><br></pre></td></tr></table></figure>
+
+<h4 id="获取排名第n到m的记录"><a href="#获取排名第n到m的记录" class="headerlink" title="获取排名第n到m的记录"></a>获取排名第n到m的记录</h4><p>我们需要先跳过n-1条记录，然后取m-n+1条记录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select 列 from 表 limit n-1,m-n+1;</span><br></pre></td></tr></table></figure>
+
+<h2 id="联合查询"><a href="#联合查询" class="headerlink" title="联合查询"></a>联合查询</h2><p>有学生表，分数表，课程表==&gt;查询每门功课成绩最好的前两名</p>
+<p><code>union 不能在 order by/limit后使用</code>。可以使用select a.* from(select…order by s.score limit 0,2)a union all select b.* from(..) b</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">select a.* from (select s.*, c.c_name, s2.s_score</span><br><span class="line">from student s</span><br><span class="line">         join score s2 on s.s_id &#x3D; s2.s_id</span><br><span class="line">         left join course c on s2.c_id &#x3D; c.c_id</span><br><span class="line">where s2.c_id &#x3D; &quot;01&quot; order by s2.s_score desc limit 0,2) a</span><br><span class="line">union all</span><br><span class="line">select b.* from (select s.*, c.c_name, s2.s_score</span><br><span class="line">from student s</span><br><span class="line">         join score s2 on s.s_id &#x3D; s2.s_id</span><br><span class="line">         left join course c on s2.c_id &#x3D; c.c_id</span><br><span class="line">where s2.c_id &#x3D; &quot;02&quot;  order by s2.s_score desc limit 0,2) b</span><br><span class="line">union all</span><br><span class="line">select c.* from (select s.*, c.c_name, s2.s_score</span><br><span class="line">from student s</span><br><span class="line">         join score s2 on s.s_id &#x3D; s2.s_id</span><br><span class="line">         left join course c on s2.c_id &#x3D; c.c_id</span><br><span class="line">where s2.c_id &#x3D; &quot;03&quot;</span><br><span class="line">order by s_score desc limit 0,2)c</span><br></pre></td></tr></table></figure>
+
+<h1 id="MySQL-函数"><a href="#MySQL-函数" class="headerlink" title="MySQL 函数"></a>MySQL 函数</h1><h2 id="数值型函数"><a href="#数值型函数" class="headerlink" title="数值型函数"></a>数值型函数</h2><table>
+<thead>
+<tr>
+<th align="left">函数名称</th>
+<th align="left">作 用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">abs</td>
+<td align="left">求绝对值</td>
+</tr>
+<tr>
+<td align="left">sqrt</td>
+<td align="left">求二次方根</td>
+</tr>
+<tr>
+<td align="left">mod</td>
+<td align="left">求余数</td>
+</tr>
+<tr>
+<td align="left">ceil 和 ceiling</td>
+<td align="left">两个函数功能相同，都是返回不小于参数的最小整数，即向上取整</td>
+</tr>
+<tr>
+<td align="left">floor</td>
+<td align="left">向下取整，返回值转化为一个BIGINT</td>
+</tr>
+<tr>
+<td align="left">rand</td>
+<td align="left">生成一个0~1之间的随机数，传入整数参数是，用来产生重复序列</td>
+</tr>
+<tr>
+<td align="left">round</td>
+<td align="left">对所传参数进行四舍五入</td>
+</tr>
+<tr>
+<td align="left">sign</td>
+<td align="left">返回参数的符号</td>
+</tr>
+<tr>
+<td align="left">pow 和 power</td>
+<td align="left">两个函数的功能相同，都是所传参数的次方的结果值</td>
+</tr>
+<tr>
+<td align="left">sin</td>
+<td align="left">求正弦值</td>
+</tr>
+<tr>
+<td align="left">asin</td>
+<td align="left">求反正弦值，与函数 SIN 互为反函数</td>
+</tr>
+<tr>
+<td align="left">cos</td>
+<td align="left">求余弦值</td>
+</tr>
+<tr>
+<td align="left">acos</td>
+<td align="left">求反余弦值，与函数 COS 互为反函数</td>
+</tr>
+<tr>
+<td align="left">tan</td>
+<td align="left">求正切值</td>
+</tr>
+<tr>
+<td align="left">atan</td>
+<td align="left">求反正切值，与函数 TAN 互为反函数</td>
+</tr>
+<tr>
+<td align="left">cot</td>
+<td align="left">求余切值</td>
+</tr>
+</tbody></table>
+<h2 id="字符串函数"><a href="#字符串函数" class="headerlink" title="字符串函数"></a>字符串函数</h2><table>
+<thead>
+<tr>
+<th align="left">函数名称</th>
+<th align="left">作 用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">length</td>
+<td align="left">计算字符串长度函数，返回字符串的字节长度</td>
+</tr>
+<tr>
+<td align="left">concat</td>
+<td align="left">合并字符串函数，返回结果为连接参数产生的字符串，参数可以使一个或多个</td>
+</tr>
+<tr>
+<td align="left">insert</td>
+<td align="left">替换字符串函数</td>
+</tr>
+<tr>
+<td align="left">lower</td>
+<td align="left">将字符串中的字母转换为小写</td>
+</tr>
+<tr>
+<td align="left">upper</td>
+<td align="left">将字符串中的字母转换为大写</td>
+</tr>
+<tr>
+<td align="left">left</td>
+<td align="left">从左侧字截取符串，返回字符串左边的若干个字符</td>
+</tr>
+<tr>
+<td align="left">right</td>
+<td align="left">从右侧字截取符串，返回字符串右边的若干个字符</td>
+</tr>
+<tr>
+<td align="left">trim</td>
+<td align="left">删除字符串左右两侧的空格</td>
+</tr>
+<tr>
+<td align="left">replace</td>
+<td align="left">字符串替换函数，返回替换后的新字符串</td>
+</tr>
+<tr>
+<td align="left">substr 和 substring</td>
+<td align="left">截取字符串，返回从指定位置开始的指定长度的字符换</td>
+</tr>
+<tr>
+<td align="left">reverse</td>
+<td align="left">字符串反转（逆序）函数，返回与原始字符串顺序相反的字符串</td>
+</tr>
+</tbody></table>
+<h2 id="日期和时间函数"><a href="#日期和时间函数" class="headerlink" title="日期和时间函数"></a>日期和时间函数</h2><table>
+<thead>
+<tr>
+<th align="left">函数名称</th>
+<th align="left">作 用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">curdate 和 current_date</td>
+<td align="left">两个函数作用相同，返回当前系统的日期值</td>
+</tr>
+<tr>
+<td align="left">curtime 和 current_time</td>
+<td align="left">两个函数作用相同，返回当前系统的时间值</td>
+</tr>
+<tr>
+<td align="left">now 和 sysdate</td>
+<td align="left">两个函数作用相同，返回当前系统的日期和时间值</td>
+</tr>
+<tr>
+<td align="left">unix_timestamp</td>
+<td align="left">获取UNIX时间戳函数，返回一个以 UNIX 时间戳为基础的无符号整数</td>
+</tr>
+<tr>
+<td align="left">from_unixtime</td>
+<td align="left">将 UNIX 时间戳转换为时间格式，与UNIX_TIMESTAMP互为反函数</td>
+</tr>
+<tr>
+<td align="left">month</td>
+<td align="left">获取指定日期中的月份</td>
+</tr>
+<tr>
+<td align="left">monthname</td>
+<td align="left">获取指定日期中的月份英文名称</td>
+</tr>
+<tr>
+<td align="left">dayname</td>
+<td align="left">获取指定曰期对应的星期几的英文名称</td>
+</tr>
+<tr>
+<td align="left">dayofweek</td>
+<td align="left">获取指定日期是一周中是第几天，返回值范围是1~7,1=周日</td>
+</tr>
+<tr>
+<td align="left">week</td>
+<td align="left">获取指定日期是一年中的第几周，返回值的范围是否为 0〜52 或 1〜53</td>
+</tr>
+<tr>
+<td align="left">dayofyear</td>
+<td align="left">获取指定曰期是一年中的第几天，返回值范围是1~366</td>
+</tr>
+<tr>
+<td align="left">dayofmonth</td>
+<td align="left">获取指定日期是一个月中是第几天，返回值范围是1~31</td>
+</tr>
+<tr>
+<td align="left">year</td>
+<td align="left">获取年份，返回值范围是 1970〜2069</td>
+</tr>
+<tr>
+<td align="left">time_to_sec</td>
+<td align="left">将时间参数转换为秒数</td>
+</tr>
+<tr>
+<td align="left">sec_to_time</td>
+<td align="left">将秒数转换为时间，与TIME_TO_SEC 互为反函数</td>
+</tr>
+<tr>
+<td align="left">date_add 和 adddate</td>
+<td align="left">两个函数功能相同，都是向日期添加指定的时间间隔</td>
+</tr>
+<tr>
+<td align="left">date_sub 和 subdate</td>
+<td align="left">两个函数功能相同，都是向日期减去指定的时间间隔</td>
+</tr>
+<tr>
+<td align="left">addtime</td>
+<td align="left">时间加法运算，在原始时间上添加指定的时间</td>
+</tr>
+<tr>
+<td align="left">subtime</td>
+<td align="left">时间减法运算，在原始时间上减去指定的时间</td>
+</tr>
+<tr>
+<td align="left">datediff</td>
+<td align="left">获取两个日期之间间隔，返回参数 1 减去参数 2 的值</td>
+</tr>
+<tr>
+<td align="left">date_format</td>
+<td align="left">格式化指定的日期，根据参数返回指定格式的值</td>
+</tr>
+<tr>
+<td align="left">weekday</td>
+<td align="left">获取指定日期在一周内的对应的工作日索引</td>
+</tr>
+</tbody></table>
+<h2 id="MySQL-聚合函数"><a href="#MySQL-聚合函数" class="headerlink" title="MySQL 聚合函数"></a>MySQL 聚合函数</h2><table>
+<thead>
+<tr>
+<th align="left">函数名称</th>
+<th align="left">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">max</td>
+<td align="left">查询指定列的最大值</td>
+</tr>
+<tr>
+<td align="left">min</td>
+<td align="left">查询指定列的最小值</td>
+</tr>
+<tr>
+<td align="left">count</td>
+<td align="left">统计查询结果的行数</td>
+</tr>
+<tr>
+<td align="left">sum</td>
+<td align="left">求和，返回指定列的总和</td>
+</tr>
+<tr>
+<td align="left">avg</td>
+<td align="left">求平均值，返回指定列数据的平均值</td>
+</tr>
+</tbody></table>
+<h2 id="MySQL-流程控制函数"><a href="#MySQL-流程控制函数" class="headerlink" title="MySQL 流程控制函数"></a>MySQL 流程控制函数</h2><table>
+<thead>
+<tr>
+<th align="left">函数名称</th>
+<th align="left">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">if</td>
+<td align="left">判断，流程控制</td>
+</tr>
+<tr>
+<td align="left">ifnull</td>
+<td align="left">判断是否为空</td>
+</tr>
+<tr>
+<td align="left">case</td>
+<td align="left">搜索语句</td>
+</tr>
+</tbody></table>
+<ol>
+<li><p>IF(expr,v1,v2)</p>
+<p>当 expr 为真是返回 v1 的值，否则返回 v2</p>
+</li>
+<li><p>IFNULL(v1,v2)</p>
+<p>v1为空返回v2，否则返回v1。 </p>
+</li>
+<li><p>case相当于Java的if…else if.. else</p>
+<p><strong>方式1：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CASE  &lt;表达式&gt;</span><br><span class="line">   WHEN &lt;值1&gt; THEN &lt;操作&gt;</span><br><span class="line">   WHEN &lt;值2&gt; THEN &lt;操作&gt;</span><br><span class="line">   ...</span><br><span class="line">   ELSE &lt;操作&gt;</span><br><span class="line">END CASE;</span><br></pre></td></tr></table></figure>
+
+<p><strong>方式2：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CASE</span><br><span class="line">    WHEN &lt;条件1&gt; THEN &lt;命令&gt;</span><br><span class="line">    WHEN &lt;条件2&gt; THEN &lt;命令&gt;</span><br><span class="line">    ...</span><br><span class="line">    ELSE commands</span><br><span class="line">END CASE;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>数据准备</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE t_stu (</span><br><span class="line">  id   INT AUTO_INCREMENT  COMMENT &#39;编号&#39;,</span><br><span class="line">  name VARCHAR(10) COMMENT &#39;姓名&#39;,</span><br><span class="line">  sex  TINYINT COMMENT &#39;性别,0:未知,1:男,2:女&#39;,</span><br><span class="line">  PRIMARY KEY (id)</span><br><span class="line">) COMMENT &#39;学生表&#39;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方式一写法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">SELECT</span><br><span class="line">      t.name 姓名,</span><br><span class="line">      (CASE t.sex</span><br><span class="line">       WHEN 1</span><br><span class="line">         THEN &#39;男&#39;</span><br><span class="line">       WHEN 2</span><br><span class="line">         THEN &#39;女&#39;</span><br><span class="line">       ELSE &#39;未知&#39; END) 性别</span><br><span class="line">    FROM t_stu t;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方式二写法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">SELECT</span><br><span class="line">    t.name          姓名,</span><br><span class="line">    (CASE</span><br><span class="line">    WHEN t.sex &#x3D; 1</span><br><span class="line">    THEN &#39;男&#39;</span><br><span class="line">    WHEN t.sex &#x3D; 2</span><br><span class="line">    THEN &#39;女&#39;</span><br><span class="line">    ELSE &#39;未知&#39; END) 性别</span><br><span class="line">    FROM t_stu t;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+</li>
+</ol>
+<h1 id="MySQL-查询深入"><a href="#MySQL-查询深入" class="headerlink" title="MySQL 查询深入"></a>MySQL 查询深入</h1><h2 id="连接查询"><a href="#连接查询" class="headerlink" title="连接查询"></a>连接查询</h2><h3 id="笛卡尔积"><a href="#笛卡尔积" class="headerlink" title="笛卡尔积"></a>笛卡尔积</h3><h4 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h4><p>有两个集合A和B，笛卡尔积表示A集合中的元素和B集合中的元素任意相互关联产生的所有可能的结果。</p>
+<p>假如A中有m个元素，B中有n个元素，<strong>A、B笛卡尔积</strong>产生的结果有<strong>m*n</strong>个结果，相当于循环遍历两个集合中的元素，任意组合。</p>
+<h4 id="语法-1"><a href="#语法-1" class="headerlink" title="语法"></a>语法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select 字段 from 表1,表2[,表N];</span><br><span class="line">#或者</span><br><span class="line">select 字段 from 表1 join 表2 [join 表N];</span><br></pre></td></tr></table></figure>
+
+<h4 id="Java-伪代码"><a href="#Java-伪代码" class="headerlink" title="Java 伪代码"></a>Java 伪代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(Object eleA : A)&#123;</span><br><span class="line">    <span class="keyword">for</span>(Object eleB : B)&#123;</span><br><span class="line">        System.out.print(eleA+<span class="string">","</span>+eleB);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="内连接"><a href="#内连接" class="headerlink" title="内连接"></a>内连接</h3><h4 id="解释-1"><a href="#解释-1" class="headerlink" title="解释"></a>解释</h4><p>内连接相当于在笛卡尔积的基础上加上了连接的条件。</p>
+<p>当没有连接条件的时候，内连接上升为笛卡尔积。</p>
+<h4 id="语法-2"><a href="#语法-2" class="headerlink" title="语法"></a>语法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select 字段 from 表1 inner join 表2 on 连接条件;</span><br><span class="line">select 字段 from 表1 join 表2 on 连接条件;</span><br><span class="line">select 字段 from 表1, 表2 [where 关联条件];</span><br></pre></td></tr></table></figure>
+
+<h4 id="Java-伪代码-1"><a href="#Java-伪代码-1" class="headerlink" title="Java 伪代码"></a>Java 伪代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">for(Object eleA : A)&#123;</span><br><span class="line">    for(Object eleB : B)&#123;</span><br><span class="line">        if(连接条件是否为true)&#123;</span><br><span class="line">            System.out.print(eleA+&quot;,&quot;+eleB);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="外连接"><a href="#外连接" class="headerlink" title="外连接"></a>外连接</h3><p>分为:主表和从表，要查询的信息<strong>主要</strong>来自于哪个表，谁就是主表。</p>
+<p>外连接查询结果为主表中所有记录。如果从表中有和它匹配的，则显示匹配的值，这部分相当于内连接查询出来的结果；如果从表中没有和它匹配的，则显示null。</p>
+<p><strong>左外链接：使用left join关键字，left join左边的是主表。</strong></p>
+<p><strong>右外连接：使用right join关键字，right join右边的是主表。</strong></p>
+<h2 id="子查询"><a href="#子查询" class="headerlink" title="子查询"></a>子查询</h2><h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><ul>
+<li>标量子查询（结果集只有一行一列）</li>
+<li>列子查询（结果集只有一列多行）</li>
+<li>行子查询（结果集有一行多列）</li>
+<li>表子查询（结果集一般为多行多列）</li>
+</ul>
+<p><strong>按子查询出现在主查询中的不同位置分</strong></p>
+<ul>
+<li><p><strong>select后面</strong>：仅仅支持标量子查询。</p>
+</li>
+<li><p><strong>from后面</strong>：支持表子查询</p>
+<blockquote>
+<p>将子查询的结果集充当<code>一张表</code>，要求必须起别名，否者这个表找不到。然后将真实的表和子查询结果表进行连接查询。</p>
+</blockquote>
+</li>
+<li><p><strong>where或having后面</strong>：支持标量子查询（单列单行）、列子查询（单列多行）、行子查询（多列多行）</p>
+</li>
+<li><p><strong>exists后面（即相关子查询）</strong>：表子查询（多行、多列）</p>
+</li>
+</ul>
+<h2 id="MySQL-连接查询内部如何优化"><a href="#MySQL-连接查询内部如何优化" class="headerlink" title="MySQL 连接查询内部如何优化"></a>MySQL 连接查询内部如何优化</h2><p>msql内部使用了一个内存缓存空间，就叫他<code>join_buffer</code>吧，先把外循环的数据放到<code>join_buffer</code>中，然后对从表进行遍历，从表中取一条数据和<code>join_buffer</code>的数据进行比较，然后从表中再取第2条和<code>join_buffer</code>数据进行比较，直到从表遍历完成，使用这方方式来减少从表的io扫描次数，当<code>join_buffer</code>足够大的时候，大到可以存放主表所有数据，那么从表只需要全表扫描一次（即只需要一次全表io读取操作）。</p>
+<p>mysql中这种方式叫做<code>Block Nested Loop</code>。</p>
+<h1 id="MySQL-事务"><a href="#MySQL-事务" class="headerlink" title="MySQL 事务"></a>MySQL 事务</h1><h2 id="事务的特性"><a href="#事务的特性" class="headerlink" title="事务的特性"></a>事务的特性</h2><h3 id="原子性-Atomicity"><a href="#原子性-Atomicity" class="headerlink" title="原子性(Atomicity)"></a>原子性(Atomicity)</h3><p>事务的整个过程如原子操作一样，最终要么全部成功，或者全部失败，这个原子性是从最终结果来看的，从最终结果来看这个过程是不可分割的。</p>
+<h3 id="一致性-Consistency"><a href="#一致性-Consistency" class="headerlink" title="一致性(Consistency)"></a>一致性(Consistency)</h3><p>事务开始之前、执行中、执行完毕，这些时间点，多个人去观察事务操作的数据的时候，看到的数据都是一致的，比如在事务操作过程中，A连接看到的是100，那么B此时也去看的时候也是100，不会说AB看到的数据不一样，他们在某个时间点看到的数据是一致的。</p>
+<h3 id="隔离性-Isolation"><a href="#隔离性-Isolation" class="headerlink" title="隔离性(Isolation)"></a>隔离性(Isolation)</h3><p>一个事务的执行不能被其他事务干扰。即一个事务内部的操作及使用的数据对并发的其他事务是隔离的，并发执行的各个事务之间不能互相干扰。</p>
+<h3 id="持久性-Durability"><a href="#持久性-Durability" class="headerlink" title="持久性(Durability)"></a>持久性(Durability)</h3><p>一个事务一旦提交，他对数据库中数据的改变就应该是永久性的。当事务提交之后，数据会持久化到硬盘，修改是永久性的。</p>
+<h2 id="事务中的问题"><a href="#事务中的问题" class="headerlink" title="事务中的问题"></a>事务中的问题</h2><h3 id="脏读"><a href="#脏读" class="headerlink" title="脏读"></a>脏读</h3><p>一个事务在执行的过程中读取到了<strong>其他事务还没有提交</strong>的数据。</p>
+<h3 id="读已提交"><a href="#读已提交" class="headerlink" title="读已提交"></a>读已提交</h3><p>一个事务操作过程中可以读取到其他事务已经提交的数据。</p>
+<p>事务中的每次读取操作，读取到的都是数据库中<strong>其他事务已提交</strong>的最新的数据（相当于当前读）</p>
+<h3 id="可重复读"><a href="#可重复读" class="headerlink" title="可重复读"></a>可重复读</h3><p>一个事务操作中对于一个读取操作不管多少次，读取到的结果都是一样的。</p>
+<h3 id="幻读"><a href="#幻读" class="headerlink" title="幻读"></a>幻读</h3><p>幻读现象例子：</p>
+<p>可重复读模式下，比如有个用户表，手机号码为主键，有两个事物进行如下操作</p>
+<p>事务A操作如下：<br>1、打开事务<br>2、查询号码为X的记录，不存在<br>3、插入号码为X的数据，插入报错（为什么会报错，先向下看）<br>4、查询号码为X的记录，发现还是不存在（由于是可重复读，所以读取记录X还是不存在的）</p>
+<p>事物B操作：在事务A第2步操作时插入了一条X的记录，所以会导致A中第3步插入报错（违反了唯一约束）</p>
+<p>上面操作对A来说就像发生了幻觉一样，明明查询X（A中第二步、第四步）不存在，但却无法插入成功</p>
+<p><strong>幻读可以这么理解：事务中后面的操作（插入号码X）需要上面的读取操作（查询号码X的记录）提供支持，但读取操作却不能支持下面的操作时产生的错误，就像发生了幻觉一样。</strong></p>
+<h2 id="事务的隔离级别"><a href="#事务的隔离级别" class="headerlink" title="事务的隔离级别"></a>事务的隔离级别</h2><h3 id="隔离级别"><a href="#隔离级别" class="headerlink" title="隔离级别"></a>隔离级别</h3><ol>
+<li><strong>读未提交：READ-UNCOMMITTED</strong></li>
+<li><strong>读已提交：READ-COMMITTED</strong></li>
+<li><strong>可重复读：REPEATABLE-READ</strong></li>
+<li><strong>串行：SERIALIZABLE</strong></li>
+</ol>
+<h3 id="隔离级别出现的问题"><a href="#隔离级别出现的问题" class="headerlink" title="隔离级别出现的问题"></a>隔离级别出现的问题</h3><table>
+<thead>
+<tr>
+<th align="left">隔离级别</th>
+<th align="left">脏读</th>
+<th align="left">不可重复读</th>
+<th align="left">幻读</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">READ-UNCOMMITTED</td>
+<td align="left">有</td>
+<td align="left">有</td>
+<td align="left">无</td>
+</tr>
+<tr>
+<td align="left">READ-COMMITTED</td>
+<td align="left">无</td>
+<td align="left">有</td>
+<td align="left">无</td>
+</tr>
+<tr>
+<td align="left">REPEATABLE-READ</td>
+<td align="left">无</td>
+<td align="left">无</td>
+<td align="left">有</td>
+</tr>
+<tr>
+<td align="left">SERIALIZABLE</td>
+<td align="left">无</td>
+<td align="left">无</td>
+<td align="left">无</td>
+</tr>
+</tbody></table>
+<h1 id="MySQL-踩坑点"><a href="#MySQL-踩坑点" class="headerlink" title="MySQL 踩坑点"></a>MySQL 踩坑点</h1><h2 id="NULL"><a href="#NULL" class="headerlink" title="NULL"></a>NULL</h2><ul>
+<li><strong>NULL作为布尔值的时候，不为1也不为0</strong></li>
+<li><strong>任何值和NULL使用运算符（&gt;、&lt;、&gt;=、&lt;=、!=、&lt;&gt;）或者（in、not in、any/some、all），返回值都为NULL</strong></li>
+<li><strong>当IN和NULL比较时，无法查询出为NULL的记录</strong></li>
+<li><strong>当NOT IN 后面有NULL值时，不论什么情况下，整个sql的查询结果都为空</strong></li>
+<li><strong>判断是否为空只能用IS NULL、IS NOT NULL</strong></li>
+<li><strong>count(字段)无法统计字段为NULL的值，count(*)可以统计值为null的行</strong></li>
+<li><strong>当字段为主键的时候，字段会自动设置为not null</strong></li>
+<li><strong>NULL导致的坑让人防不胜防，强烈建议创建字段的时候字段不允许为NULL，给个默认值</strong></li>
+</ul>
+<h2 id="枚举ENUM"><a href="#枚举ENUM" class="headerlink" title="枚举ENUM"></a>枚举ENUM</h2><h3 id="ENUM-枚举值字面量和内部索引"><a href="#ENUM-枚举值字面量和内部索引" class="headerlink" title="ENUM 枚举值字面量和内部索引"></a>ENUM 枚举值字面量和内部索引</h3><h4 id="字面量"><a href="#字面量" class="headerlink" title="字面量"></a>字面量</h4><p>在创建表结构时，<code>MySQL</code> 会自动删除 <code>ENUM</code> 枚举值的尾随空格，例如会把 <code>&#39;medium &#39;</code> 转换成 <code>&#39;medium&#39;</code>。</p>
+<h4 id="内部索引"><a href="#内部索引" class="headerlink" title="内部索引"></a>内部索引</h4><p>ENUM 类型中的任何一个枚举值都有一个内部的数字索引.</p>
+<ol>
+<li><p>创建表结构时指定的枚举值都会分配一个内部索引,索引的小标从<code>1</code>开始.</p>
+</li>
+<li><p>空字符串错误值的索引为 <code>0</code>，这样，我们可以直接使用 <code>0</code> 值来查询那些插入的或更新的无效的枚举值</p>
+</li>
+<li><p><code>NULL</code> 值的索引为 <code>NULL</code></p>
+</li>
+<li><p><code>ENUM</code> 最多只能包含 <code>65,535</code> 个不同的枚举值</p>
+<blockquote>
+<p>在老版本,或者取消了严格模式的MySQL中,如果在 <code>ENUM</code> 列中插入无效值（即，允许值列表中不存在的字符串），则会插入空字符串 ( <code>&#39;&#39;</code> ) 作为特殊错误值，这个空字符串可以通过此字符串具有数字值 <code>0</code> 来区分 <strong>正常</strong> 的空字符串</p>
+</blockquote>
+</li>
+</ol>
+<p>当在 ENUM 列上使用 <code>SUM()</code> 或 <code>AVG()</code> 等聚合函数时，因为这些函数的参数必须是一个数字，所以 <code>MySQL</code> 会自动使用它们的索引值作为参数。也就是说，对于需要计算的场景，都会使用内部索引。其实，真实的枚举值，只有在插入或者显示或者查询时才会用到。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">numbers ENUM(&#39;0&#39;,&#39;1&#39;,&#39;2&#39;)</span><br><span class="line">#枚举成员的字符串值为 &#39;0&#39;、&#39;1&#39; 和 &#39;2&#39;，而数字索引值为 1 、2 和 3</span><br></pre></td></tr></table></figure>
+
+<h3 id="ENUM-中的-NULL-或空-39-39-值问题"><a href="#ENUM-中的-NULL-或空-39-39-值问题" class="headerlink" title="ENUM 中的 NULL 或空 &#39;&#39; 值问题"></a>ENUM 中的 NULL 或空 <code>&#39;&#39;</code> 值问题</h3><ol>
+<li><p>如果在 ENUM 列中插入无效值（即，允许值列表中不存在的字符串），则会插入空字符串 ( <code>&#39;&#39;</code> ) 作为特殊错误值，这个特殊错误值空字符串的索引为 <code>0</code> ，从而与实际的 <strong>正常</strong> 的空字符串 ( 索引大于 1 ) 区分开来</p>
+<blockquote>
+<p>当然了，如果启用了严格的 SQL 模式 ( <code>sql_mode</code> ) ，尝试插入无效的 ENUM 值会导致错误</p>
+</blockquote>
+</li>
+<li><p>如果一个 <code>ENUM</code> 列添加了 <code>NULL</code> 约束，那么这个 <code>ENUM</code> 列就允许 <code>NULL</code> 值，且默认的值就是 <code>NULL</code></p>
+</li>
+<li><p>如果一个 <code>ENUM</code> 列添加了 <code>NOT NULL</code> 约束，那么它的默认值就是第一个枚举值。</p>
+</li>
+</ol>
+<h3 id="ENUM-枚举值的排序问题"><a href="#ENUM-枚举值的排序问题" class="headerlink" title="ENUM 枚举值的排序问题"></a>ENUM 枚举值的排序问题</h3><p>因为 <code>ENUM</code> 类型存储的是枚举值的内部索引，所以 ENUM 值根据其索引号进行排序，具体显示出来，则取决于定义列是的枚举成员顺序。</p>
+<p>例如，如果在定义列时，指定了 <code>&#39;b&#39;</code> 在 <code>&#39;a&#39;</code> 前面 <code>(&#39;b&#39;，&#39;a&#39;)</code>，那么 <code>&#39;b&#39;</code> 的顺序就会在 <code>&#39;a&#39;</code> 之前，且空字符串在非空字符串之前排序，<code>NULL</code> 值在所有其他枚举值之前排序</p>
+<p>也就是排序的顺序默认是 <code>NULL &#39;&#39; &#39;b&#39; &#39;a&#39;</code></p>
+<blockquote>
+<ol>
+<li>指定<code>ENUM</code>列的排序顺序使用字母顺序表</li>
+<li>使用 <code>ORDER BY CAST (col AS CHAR)</code> 或 <code>ORDER BY CONCAT(col)</code> 确保 enum 列按词法排序而不是索引编号排序</li>
+</ol>
+</blockquote>
+<h3 id="数据类型的限制"><a href="#数据类型的限制" class="headerlink" title="数据类型的限制"></a>数据类型的限制</h3><ol>
+<li>枚举值不能是表达式,即使该表达式用于计算字符串值</li>
+<li>不能使用用户变量作为枚举值</li>
+<li><strong>建议不要使用数字用作枚举值</strong></li>
+</ol>
+<h2 id="分页"><a href="#分页" class="headerlink" title="分页"></a>分页</h2><p><code>limit [offset,] count;</code></p>
+<ol>
+<li><p>limit 中offset和count的值不能用表达式</p>
+</li>
+<li><p>limit中offset 和 count都必须大于等于0</p>
+</li>
+<li><p>分页排序时，排序不要有二义性，二义性情况下可能会导致分页结果乱序，可以在后面追加一个主键排序</p>
+<blockquote>
+<p>排序过程中遇到相同的值,增加排序规则</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="分组"><a href="#分组" class="headerlink" title="分组"></a>分组</h2><p>分组中select后面的列只能有2种</p>
+<ol>
+<li>出现在group by 后面的列</li>
+<li>使用聚合函数的列</li>
+</ol>
+<p>可以通过子查询的方式避免这种限制</p>
+<p><strong>数据准备</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">drop table if exists t_order;</span><br><span class="line"></span><br><span class="line">-- 创建订单表</span><br><span class="line">create table t_order(</span><br><span class="line">  id int not null AUTO_INCREMENT COMMENT &#39;订单id&#39;,</span><br><span class="line">  user_id bigint not null comment &#39;下单人id&#39;,</span><br><span class="line">  user_name varchar(16) not null default &#39;&#39; comment &#39;用户名&#39;,</span><br><span class="line">  price decimal(10,2) not null default 0 comment &#39;订单金额&#39;,</span><br><span class="line">  the_year SMALLINT not null comment &#39;订单创建年份&#39;,</span><br><span class="line">  PRIMARY KEY (id)</span><br><span class="line">) comment &#39;订单表&#39;;</span><br><span class="line"></span><br><span class="line">-- 插入数据</span><br><span class="line">insert into t_order(user_id,user_name,price,the_year) values</span><br><span class="line">  (1001,&#39;路人甲Java&#39;,11.11,&#39;2017&#39;),</span><br><span class="line">  (1001,&#39;路人甲Java&#39;,22.22,&#39;2018&#39;),</span><br><span class="line">  (1001,&#39;路人甲Java&#39;,88.88,&#39;2018&#39;),</span><br><span class="line">  (1002,&#39;刘德华&#39;,33.33,&#39;2018&#39;),</span><br><span class="line">  (1002,&#39;刘德华&#39;,12.22,&#39;2018&#39;),</span><br><span class="line">  (1002,&#39;刘德华&#39;,16.66,&#39;2018&#39;),</span><br><span class="line">  (1002,&#39;刘德华&#39;,44.44,&#39;2019&#39;),</span><br><span class="line">  (1003,&#39;张学友&#39;,55.55,&#39;2018&#39;),</span><br><span class="line">  (1003,&#39;张学友&#39;,66.66,&#39;2019&#39;);</span><br></pre></td></tr></table></figure>
+
+<p> <strong>需求：获取每个用户下单的最大金额及下单的年份，输出：用户id，最大金额，年份</strong> </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#解除mysql分组限制的原始写法,查询出的数据可能不准</span><br><span class="line">SELECT</span><br><span class="line">	user_id as 用户id,</span><br><span class="line">	max( price ) as 最大金额,</span><br><span class="line">	the_year as 年份 </span><br><span class="line">FROM</span><br><span class="line">	t_order t </span><br><span class="line">GROUP BY</span><br><span class="line">	t.user_id;</span><br><span class="line"># 子查询的写法,避免分组查询限制</span><br><span class="line">SELECT</span><br><span class="line">	user_id AS &#96;用户id&#96;,</span><br><span class="line">	price AS 最大金额,</span><br><span class="line">	the_year AS 年份 </span><br><span class="line">FROM</span><br><span class="line">	t_order t1 </span><br><span class="line">WHERE</span><br><span class="line">	( t1.user_id, t1.price ) IN ( SELECT t.user_id, MAX( t.price ) FROM t_order t GROUP BY t.user_id ) limit 1;</span><br><span class="line">	</span><br><span class="line"># 第二种写法</span><br><span class="line">	SELECT</span><br><span class="line">	user_id AS &#96;用户id&#96;,</span><br><span class="line">	price AS 最大金额,</span><br><span class="line">	the_year AS 年份 </span><br><span class="line">FROM</span><br><span class="line">	t_order t1,</span><br><span class="line">	( SELECT t.user_id uid, MAX( t.price ) pc FROM t_order t GROUP BY t.user_id ) t2 </span><br><span class="line">WHERE</span><br><span class="line">	t1.user_id &#x3D; t2.uid </span><br><span class="line">	AND t1.price &#x3D; t2.pc </span><br><span class="line">	LIMIT 1;</span><br></pre></td></tr></table></figure>
+
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">tzcqupt</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://github.com/tzcqupt/tzcqupt.github.io/2020/09/24/MySQL-summary/">https://github.com/tzcqupt/tzcqupt.github.io/2020/09/24/MySQL-summary/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://github.com/tzcqupt/tzcqupt.github.io">个人学习博客</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/MySQL/">MySQL</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2021/06/06/ffmepg/"><i class="fa fa-chevron-left">  </i><span>ffmepg</span></a></div><div class="next-post pull-right"><a href="/2020/08/28/design-pattern/"><span>设计模式学习比较</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2020 - 2021 By tzcqupt</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">要想一天什么时候开始,而不是什么时候结束</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.7.0"></script><script src="/js/fancybox.js?version=1.7.0"></script><script src="/js/sidebar.js?version=1.7.0"></script><script src="/js/copy.js?version=1.7.0"></script><script src="/js/fireworks.js?version=1.7.0"></script><script src="/js/transition.js?version=1.7.0"></script><script src="/js/scroll.js?version=1.7.0"></script><script src="/js/head.js?version=1.7.0"></script><script src="/js/search/local-search.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="深入浅出多线程学习笔记-原理篇"><meta name="keywords" content="Java,多线程"><meta name="author" content="tzcqupt"><meta name="copyright" content="tzcqupt"><title>深入浅出多线程学习笔记-原理篇 | 个人学习博客</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.7.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.7.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  }
+} </script><meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="个人学习博客" type="application/atom+xml">
+</head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Java内存模型"><span class="toc-number">1.</span> <span class="toc-text">Java内存模型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Java内存模型的抽象结构"><span class="toc-number">1.1.</span> <span class="toc-text">Java内存模型的抽象结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#运行时内存的划分"><span class="toc-number">1.1.1.</span> <span class="toc-text">运行时内存的划分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#堆中的内存不可见问题"><span class="toc-number">1.1.2.</span> <span class="toc-text">堆中的内存不可见问题</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#重排序与happens-before"><span class="toc-number">2.</span> <span class="toc-text">重排序与happens-before</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#重排序"><span class="toc-number">2.1.</span> <span class="toc-text">重排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#顺序一致性模型和JMM保证"><span class="toc-number">2.2.</span> <span class="toc-text">顺序一致性模型和JMM保证</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据竞争与顺序一致性"><span class="toc-number">2.2.1.</span> <span class="toc-text">数据竞争与顺序一致性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#happens-before"><span class="toc-number">2.3.</span> <span class="toc-text">happens-before</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#天然的happens-before"><span class="toc-number">2.3.1.</span> <span class="toc-text">天然的happens-before</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#volatitle"><span class="toc-number">3.</span> <span class="toc-text">volatitle</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#相关概念回顾"><span class="toc-number">3.1.</span> <span class="toc-text">相关概念回顾</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#内存可见性"><span class="toc-number">3.1.1.</span> <span class="toc-text">内存可见性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#重排序-1"><span class="toc-number">3.1.2.</span> <span class="toc-text">重排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#happens-before规则"><span class="toc-number">3.1.3.</span> <span class="toc-text">happens-before规则</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#volatile的内存语义"><span class="toc-number">3.2.</span> <span class="toc-text">volatile的内存语义</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#JMM内存屏障插⼊策略"><span class="toc-number">3.2.1.</span> <span class="toc-text">JMM内存屏障插⼊策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#volatile与普通变量的重排序规则"><span class="toc-number">3.2.2.</span> <span class="toc-text">volatile与普通变量的重排序规则</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#volatile用途"><span class="toc-number">3.3.</span> <span class="toc-text">volatile用途</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#synchronzied与锁"><span class="toc-number">4.</span> <span class="toc-text">synchronzied与锁</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#synchronzied关键字"><span class="toc-number">4.1.</span> <span class="toc-text">synchronzied关键字</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3种形式"><span class="toc-number">4.1.1.</span> <span class="toc-text">3种形式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#临界区"><span class="toc-number">4.1.2.</span> <span class="toc-text">临界区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#等价的写法"><span class="toc-number">4.1.3.</span> <span class="toc-text">等价的写法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#锁为当前实例"><span class="toc-number">4.1.3.1.</span> <span class="toc-text">锁为当前实例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#锁为Class对象"><span class="toc-number">4.1.3.2.</span> <span class="toc-text">锁为Class对象</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#几种锁"><span class="toc-number">4.2.</span> <span class="toc-text">几种锁</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Java对象头"><span class="toc-number">4.2.1.</span> <span class="toc-text">Java对象头</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#偏向锁"><span class="toc-number">4.2.2.</span> <span class="toc-text">偏向锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#轻量级锁"><span class="toc-number">4.2.3.</span> <span class="toc-text">轻量级锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#重量级锁"><span class="toc-number">4.2.4.</span> <span class="toc-text">重量级锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#锁的升级流程"><span class="toc-number">4.2.5.</span> <span class="toc-text">锁的升级流程</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CAS与原子操作"><span class="toc-number">5.</span> <span class="toc-text">CAS与原子操作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#乐观锁和悲观锁"><span class="toc-number">5.1.</span> <span class="toc-text">乐观锁和悲观锁</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#悲观锁"><span class="toc-number">5.1.1.</span> <span class="toc-text">悲观锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#乐观锁"><span class="toc-number">5.1.2.</span> <span class="toc-text">乐观锁</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CAS"><span class="toc-number">5.2.</span> <span class="toc-text">CAS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ABA问题"><span class="toc-number">5.2.1.</span> <span class="toc-text">ABA问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#循环时间长开销大"><span class="toc-number">5.2.2.</span> <span class="toc-text">循环时间长开销大</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#只能保证一个共享变量的原子操作"><span class="toc-number">5.2.3.</span> <span class="toc-text">只能保证一个共享变量的原子操作</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#AQS"><span class="toc-number">6.</span> <span class="toc-text">AQS</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#AQS简介"><span class="toc-number">6.1.</span> <span class="toc-text">AQS简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AQS数据结构"><span class="toc-number">6.2.</span> <span class="toc-text">AQS数据结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#资源共享模式"><span class="toc-number">6.3.</span> <span class="toc-text">资源共享模式</span></a></li></ol></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://portrait.gitee.com/uploads/avatars/user/762/2287861_tzcqupt_1588209320.png"></div><div class="author-info__name text-center">tzcqupt</div><div class="author-info__description text-center">一个努力的Java程序员小白</div><div class="follow-button"><a href="https://gitee.com/tzcqupt" target="_blank" rel="noopener">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">25</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">22</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">17</span></a></div></div></div><div id="content-outer"><div class="no-bg" id="top-container"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">个人学习博客</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">主页</a><a class="site-page" href="/archives">归档</a><a class="site-page" href="/tags">标签</a><a class="site-page" href="/categories">分类</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> 搜索</span></a></span></div><div id="post-info"><div id="post-title">深入浅出多线程学习笔记-原理篇</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2020-04-28</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E7%BC%96%E7%A8%8B%E4%B9%A6%E7%B1%8D/">编程书籍</a><div class="post-meta-wordcount"><span>字数总计: </span><span class="word-count">3.9k</span><span class="post-meta__separator">|</span><span>阅读时长: 12 分钟</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h1 id="Java内存模型"><a href="#Java内存模型" class="headerlink" title="Java内存模型"></a>Java内存模型</h1><h2 id="Java内存模型的抽象结构"><a href="#Java内存模型的抽象结构" class="headerlink" title="Java内存模型的抽象结构"></a>Java内存模型的抽象结构</h2><h3 id="运行时内存的划分"><a href="#运行时内存的划分" class="headerlink" title="运行时内存的划分"></a>运行时内存的划分</h3><p>对于每一个线程来说，<strong>栈都是私有的，堆是共有的。</strong></p>
+<p>线程<strong>私有</strong>的数据区：<strong>虚拟机栈、本地方法栈、程序计数器</strong>。</p>
+<p>所有线程<strong>共享</strong>的数据区：<strong>方法区、堆</strong>。</p>
+<p>在<strong>栈</strong>中的变量（局部变量、⽅法定义参数、异常处理器参数）不会在线程 </p>
+<p>之间共享。<strong>堆中</strong>的变量是共享的，内存可见性针对的是<strong>共享变量</strong>。</p>
+<h3 id="堆中的内存不可见问题"><a href="#堆中的内存不可见问题" class="headerlink" title="堆中的内存不可见问题"></a>堆中的内存不可见问题</h3><p>JMM ==&gt;Java内存模型</p>
+<p><img src="https://gitee.com/tzcqupt/blog-image/raw/master/img/JMM%E6%8A%BD%E8%B1%A1%E7%A4%BA%E6%84%8F%E5%9B%BE.PNG" alt=""></p>
+<ol>
+<li><p>线程<strong>A</strong>⽆法直接访问线程<strong>B</strong>的⼯作内存，线程间通信必须经过主内存。</p>
+</li>
+<li><p>根据JMM的规定，线程对共享变量的所有操作都必须在⾃⼰的本地内存中进⾏，不能直接从主内存中读取。</p>
+<blockquote>
+<p>先在本地内存中找到共享变量，发现共享变量更新了，就从主内存中拷贝新的值到本地内存，最后从本地内存读取。</p>
+</blockquote>
+</li>
+<li><p><strong>JMM</strong>通过控制主内存与每个线程的本地内存之间的交互，来提供内存可⻅性保证。</p>
+</li>
+</ol>
+<h1 id="重排序与happens-before"><a href="#重排序与happens-before" class="headerlink" title="重排序与happens-before"></a>重排序与happens-before</h1><h2 id="重排序"><a href="#重排序" class="headerlink" title="重排序"></a>重排序</h2><p>计算机执行程序时，为了提高性能，编译器和处理器对指令做出重排。</p>
+<p>指令重排可以保证串⾏语义⼀致，但是没有义务保证多线程间的语义也⼀致。</p>
+<h2 id="顺序一致性模型和JMM保证"><a href="#顺序一致性模型和JMM保证" class="headerlink" title="顺序一致性模型和JMM保证"></a>顺序一致性模型和JMM保证</h2><h3 id="数据竞争与顺序一致性"><a href="#数据竞争与顺序一致性" class="headerlink" title="数据竞争与顺序一致性"></a>数据竞争与顺序一致性</h3><p>数据竞争：在⼀个线程中写⼀个变量，在另⼀个线程读同⼀个变量，并且写和读没有通过同步来排序。 </p>
+<p>JMM保证：如果程序是正确同步的，程序的执⾏将具有顺序⼀致性。</p>
+<blockquote>
+<p>正确使用<code>volatile</code>、<code>final</code>、<code>synchronized</code>等关键字来实现<strong>多线程下的同步</strong>。</p>
+</blockquote>
+<h2 id="happens-before"><a href="#happens-before" class="headerlink" title="happens-before"></a>happens-before</h2><p>程序员只要遵循happens-before规则，那他写的程序就能保证在JMM中具有强的内存可见性。</p>
+<p>如果操作A happens-before操作B，那么操作A在内存上所做的操作对操作B都是可见的，不管它们在不在一个线程。</p>
+<h3 id="天然的happens-before"><a href="#天然的happens-before" class="headerlink" title="天然的happens-before"></a>天然的happens-before</h3><ul>
+<li><p>程序顺序规则：一个线程中的每一个操作，happens-before于该线程中的任意后续操作。</p>
+</li>
+<li><p>监视器锁规则：对一个锁的解锁，happens-before于随后对这个锁的加锁。</p>
+</li>
+<li><p>volatile变量规则：对一个volatile域的写，happens-before于任意后续对这个volatile域的读。</p>
+</li>
+<li><p>传递性：如果A happens-before B，且B happens-before C，那么A happens-before C。</p>
+</li>
+<li><p>start规则：如果线程A执行操作ThreadB.start()启动线程B，那么A线程的ThreadB.start（）操作happens-before于线程B中的任意操作、</p>
+</li>
+<li><p>join规则：如果线程A执行操作ThreadB.join（）并成功返回，那么线程B中的任意操作happens-before于线程A从ThreadB.join()操作成功返回。</p>
+</li>
+</ul>
+<h1 id="volatitle"><a href="#volatitle" class="headerlink" title="volatitle"></a>volatitle</h1><h2 id="相关概念回顾"><a href="#相关概念回顾" class="headerlink" title="相关概念回顾"></a>相关概念回顾</h2><h3 id="内存可见性"><a href="#内存可见性" class="headerlink" title="内存可见性"></a>内存可见性</h3><p><strong>线程之间的可见性，当一个线程修改了共享变量时，另一个线程可以读取到这个修改后的值</strong>。</p>
+<h3 id="重排序-1"><a href="#重排序-1" class="headerlink" title="重排序"></a>重排序</h3><p>为优化程序性能，对原有的指令执行顺序进行优化重新排序。重排序可能发生在多个阶段，比如编译重排序、CPU重排序等。</p>
+<h3 id="happens-before规则"><a href="#happens-before规则" class="headerlink" title="happens-before规则"></a>happens-before规则</h3><p>是一个给程序员使用的规则，只要程序员在写代码的时候遵循happens-before规则，JVM就能保证指令在多线程之间的顺序性符合程序员的预期。</p>
+<h2 id="volatile的内存语义"><a href="#volatile的内存语义" class="headerlink" title="volatile的内存语义"></a>volatile的内存语义</h2><ol>
+<li>保证变量的<strong>内存可见性</strong></li>
+<li>禁止volatile变量与普通变量<strong>重排序</strong>。</li>
+</ol>
+<h3 id="JMM内存屏障插⼊策略"><a href="#JMM内存屏障插⼊策略" class="headerlink" title="JMM内存屏障插⼊策略"></a><strong>JMM</strong>内存屏障插⼊策略</h3><ul>
+<li><p>在每个volatile写操作前插⼊⼀个StoreStore屏障； </p>
+</li>
+<li><p>在每个volatile写操作后插⼊⼀个StoreLoad屏障； </p>
+</li>
+<li><p>在每个volatile读操作后插⼊⼀个LoadLoad屏障； </p>
+</li>
+<li><p>在每个volatile读操作后再插⼊⼀个LoadStore屏障。</p>
+</li>
+</ul>
+<h3 id="volatile与普通变量的重排序规则"><a href="#volatile与普通变量的重排序规则" class="headerlink" title="volatile与普通变量的重排序规则"></a>volatile与普通变量的重排序规则</h3><ol>
+<li><p>如果第⼀个操作是volatile读，那⽆论第⼆个操作是什么，都不能重排序； </p>
+</li>
+<li><p>如果第⼆个操作是volatile写，那⽆论第⼀个操作是什么，都不能重排序； </p>
+</li>
+<li><p>如果第⼀个操作是volatile写，第⼆个操作是volatile读，那不能重排序。 </p>
+</li>
+</ol>
+<blockquote>
+<p>第一个操作是普通变量读，第二个操作是volatile变量读，可以重排序</p>
+</blockquote>
+<h2 id="volatile用途"><a href="#volatile用途" class="headerlink" title="volatile用途"></a>volatile用途</h2><p>功能上锁比volatile强大，性能上，volatile更有优势。</p>
+<h1 id="synchronzied与锁"><a href="#synchronzied与锁" class="headerlink" title="synchronzied与锁"></a>synchronzied与锁</h1><p><strong>Java</strong>多线程的锁都是基于对象的，Java中的每⼀个对象都可以作为⼀个锁。 </p>
+<h2 id="synchronzied关键字"><a href="#synchronzied关键字" class="headerlink" title="synchronzied关键字"></a>synchronzied关键字</h2><h3 id="3种形式"><a href="#3种形式" class="headerlink" title="3种形式"></a>3种形式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 关键字在实例方法上，锁为当前实例</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">instanceLock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// code</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 关键字在静态方法上，锁为当前Class对象</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">classLock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// code</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 关键字在代码块上，锁为括号里面的对象</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">blockLock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Object o = <span class="keyword">new</span> Object();</span><br><span class="line">    <span class="keyword">synchronized</span> (o) &#123;</span><br><span class="line">        <span class="comment">// code</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="临界区"><a href="#临界区" class="headerlink" title="临界区"></a>临界区</h3><p>指的是某一块代码区域，它同一时刻只能由一个线程执行。</p>
+<h3 id="等价的写法"><a href="#等价的写法" class="headerlink" title="等价的写法"></a>等价的写法</h3><h4 id="锁为当前实例"><a href="#锁为当前实例" class="headerlink" title="锁为当前实例"></a>锁为当前实例</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 关键字在实例方法上，锁为当前实例</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">instanceLock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// code</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 关键字在代码块上，锁为括号里面的对象，也就是当前实例</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">blockLock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">        <span class="comment">// code</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="锁为Class对象"><a href="#锁为Class对象" class="headerlink" title="锁为Class对象"></a>锁为Class对象</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 关键字在静态方法上，锁为当前Class对象</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">classLock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// code</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 关键字在代码块上，锁为括号里面的对象，为Class对象</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">blockLock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">synchronized</span> (<span class="keyword">this</span>.getClass()) &#123;</span><br><span class="line">        <span class="comment">// code</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="几种锁"><a href="#几种锁" class="headerlink" title="几种锁"></a>几种锁</h2><p>Java 6 为了减少获得锁和释放锁带来的性能消耗，引入了“偏向锁”和“轻量级锁“。在Java 6 以前，所有的锁都是”重量级“锁。</p>
+<p>Java 6后，一个对象有4种锁状态。</p>
+<p>无锁状态、偏向锁状态、轻量级锁状态、重量级锁状态。</p>
+<p>锁降级情况，参考JVM学习。锁降级发生在Stop The World期间，当JVM进入安全点的时候，会检查是否有闲置的锁，然后进行降级。</p>
+<h3 id="Java对象头"><a href="#Java对象头" class="headerlink" title="Java对象头"></a>Java对象头</h3><p>每个Java对象都有对象头。如果是非数组类型，则用2个字宽来存储对象头，如果是数组，则会用3个字宽来存储对象头。在32位处理器中，一个字宽是32位；在64位虚拟机中，一个字宽是64位。</p>
+<table>
+<thead>
+<tr>
+<th>长度</th>
+<th>内容</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>32/64bit</td>
+<td>Mark Word</td>
+<td>存储对象的hashCode或锁信息等</td>
+</tr>
+<tr>
+<td>32/64bit</td>
+<td>Class Metadata Address</td>
+<td>存储到对象类型数据的指针</td>
+</tr>
+<tr>
+<td>32/64bit</td>
+<td>Array length</td>
+<td>数组的长度（如果是数组）</td>
+</tr>
+</tbody></table>
+<p>当对象状态为偏向锁时，<code>Mark Word</code>存储的是偏向的线程ID；当状态为轻量级锁时，<code>Mark Word</code>存储的是指向线程栈中<code>Lock Record</code>的指针；当状态为重量级锁时，<code>Mark Word</code>为指向堆中的monitor对象的指针。</p>
+<h3 id="偏向锁"><a href="#偏向锁" class="headerlink" title="偏向锁"></a>偏向锁</h3><h3 id="轻量级锁"><a href="#轻量级锁" class="headerlink" title="轻量级锁"></a>轻量级锁</h3><h3 id="重量级锁"><a href="#重量级锁" class="headerlink" title="重量级锁"></a>重量级锁</h3><p>每一个对象都可以当做一个锁，当多个线程同时请求某个对象锁时，对象锁会设置几种状态用来区分请求的线程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Contention List：所有请求锁的线程将被首先放置到该竞争队列</span><br><span class="line">Entry List：Contention List中那些有资格成为候选人的线程被移到Entry List</span><br><span class="line">Wait Set：那些调用wait方法被阻塞的线程被放置到Wait Set</span><br><span class="line">OnDeck：任何时刻最多只能有一个线程正在竞争锁，该线程称为OnDeck</span><br><span class="line">Owner：获得锁的线程称为Owner</span><br><span class="line">!Owner：释放锁的线程</span><br></pre></td></tr></table></figure>
+
+<p>当一个线程尝试获得锁时，如果该锁已经被占用，则会将该线程封装成一个<code>ObjectWaiter</code>对象插入到Contention List的队列的队首，然后调用<code>park</code>函数挂起当前线程。</p>
+<p>当线程释放锁时，会从Contention List或EntryList中挑选一个线程唤醒，被选中的线程叫做<code>Heir presumptive</code>即假定继承人，假定继承人被唤醒后会尝试获得锁，但<code>synchronized</code>是非公平的，所以假定继承人不一定能获得锁。这是因为对于重量级锁，线程先自旋尝试获得锁，这样做的目的是为了减少执行操作系统同步操作带来的开销。如果自旋不成功再进入等待队列。这对那些已经在等待队列中的线程来说，稍微显得不公平，还有一个不公平的地方是自旋线程可能会抢占了Ready线程的锁。</p>
+<p>果线程获得锁后调用<code>Object.wait</code>方法，则会将线程加入到WaitSet中，当被<code>Object.notify</code>唤醒后，会将线程从WaitSet移动到Contention List或EntryList中去。需要注意的是，当调用一个锁对象的<code>wait</code>或<code>notify</code>方法时，<strong>如当前锁的状态是偏向锁或轻量级锁则会先膨胀成重量级锁</strong>。</p>
+<h3 id="锁的升级流程"><a href="#锁的升级流程" class="headerlink" title="锁的升级流程"></a>锁的升级流程</h3><p>每一个线程在准备获取共享资源时。</p>
+<ol>
+<li><p>检查MarkWord里面是不是放的自己的ThreadId ,如果是，表示当前线程是处于 “偏向锁” 。</p>
+</li>
+<li><p>如果MarkWord不是自己的ThreadId，锁升级，这时候，用CAS来执行切换，新的线程根据MarkWord里面现有的ThreadId，通知之前线程暂停，之前线程将Markword的内容置为空。</p>
+</li>
+<li><p>两个线程都把锁对象的HashCode复制到自己新建的用于存储锁的记录空间，接着开始通过CAS操作， 把锁对象的MarKword的内容修改为自己新建的记录空间的地址的方式竞争MarkWord。</p>
+</li>
+<li><p>第三步中成功执行CAS的获得资源，失败的则进入自旋 。</p>
+</li>
+<li><p>自旋的线程在自旋过程中，成功获得资源(即之前获的资源的线程执行完成并释放了共享资源)，则整个状态依然处于 轻量级锁的状态，如果自旋失败 。</p>
+</li>
+<li><p>进入重量级锁的状态，这个时候，自旋的线程进行阻塞，等待之前线程执行完成并唤醒自己。</p>
+</li>
+</ol>
+<h1 id="CAS与原子操作"><a href="#CAS与原子操作" class="headerlink" title="CAS与原子操作"></a>CAS与原子操作</h1><h2 id="乐观锁和悲观锁"><a href="#乐观锁和悲观锁" class="headerlink" title="乐观锁和悲观锁"></a>乐观锁和悲观锁</h2><h3 id="悲观锁"><a href="#悲观锁" class="headerlink" title="悲观锁"></a>悲观锁</h3><p>对于悲观锁来说，它总是认为每次访问共享资源时会发生冲突，所以必须对每次数据操作加上锁，以保证临界区的程序同一时间只能有一个线程在执行。</p>
+<p>多用于”写多读少“的环境，避免频繁失败和重试影响性能。</p>
+<h3 id="乐观锁"><a href="#乐观锁" class="headerlink" title="乐观锁"></a>乐观锁</h3><p>观锁总是假设对共享资源的访问没有冲突，线程可以不停地执行，无需加锁也无需等待。而一旦多个线程发生冲突，乐观锁通常是使用一种称为CAS的技术来保证线程执行的安全性。</p>
+<p>没有锁存在，不可能出现死锁的情况。</p>
+<p>多用于“读多写少“的环境，避免频繁加锁影响性能。</p>
+<h2 id="CAS"><a href="#CAS" class="headerlink" title="CAS"></a>CAS</h2><p>CAS全称：比较并交换（Compare And Swap）。</p>
+<p>CAS种有3个值：V：要更新的变量(var)、E：预期值(expected)、N：新值(new)。</p>
+<p>比较并交换过程如下：</p>
+<p>判断V是否等于E，如果等于，将V的值设置为N；如果不等，说明已经有其它线程更新了V，则当前线程放弃更新，什么都不做。</p>
+<blockquote>
+<p><strong>预期值E本质上指的是“旧值”</strong>。</p>
+</blockquote>
+<p><strong>CAS是一种原子操作</strong>，它是一种系统原语，是一条CPU的原子指令，从CPU层面保证它的原子性。</p>
+<blockquote>
+<p>当多个线程同时使用CAS操作一个变量时，只有一个会胜出，并成功更新，其余均会失败，但失败的线程并不会被挂起，仅是被告知失败，并且允许再次尝试，当然也允许失败的线程放弃操作。</p>
+</blockquote>
+<h3 id="ABA问题"><a href="#ABA问题" class="headerlink" title="ABA问题"></a>ABA问题</h3><p>一个值原来是A，变成了B，又变回了A。</p>
+<p>解决思路：在变量前面追加<strong>版本号或者时间戳</strong>。JDK1.5开始，atomic包里提供了一个类<code>AtomicStampedReference</code>类来解决ABA问题。</p>
+<p>这个类的<code>compareAndSet</code>方法的作用是首先检查当前引用是否等于预期引用，并且检查当前标志是否等于预期标志，如果二者都相等，才使用CAS设置为新的值和标志。</p>
+<h3 id="循环时间长开销大"><a href="#循环时间长开销大" class="headerlink" title="循环时间长开销大"></a>循环时间长开销大</h3><p>CAS多与自旋结合。如果自旋CAS长时间不成功，会占用大量的CPU资源。</p>
+<p>解决思路：让JVM支持处理器提供的<strong>pause指令</strong>。</p>
+<p>pause指令能让自旋失败时cpu睡眠一小段时间再继续自旋，从而使得读操作的频率低很多,为解决内存顺序冲突而导致的CPU流水线重排的代价也会小很多。</p>
+<h3 id="只能保证一个共享变量的原子操作"><a href="#只能保证一个共享变量的原子操作" class="headerlink" title="只能保证一个共享变量的原子操作"></a>只能保证一个共享变量的原子操作</h3><ol>
+<li>使用JDK 1.5开始就提供的<code>AtomicReference</code>类保证对象之间的原子性，把多个变量放到一个对象里面进行CAS操作；</li>
+<li>使用锁。锁内的临界区代码可以保证只有当前线程能操作。</li>
+</ol>
+<h1 id="AQS"><a href="#AQS" class="headerlink" title="AQS"></a>AQS</h1><h2 id="AQS简介"><a href="#AQS简介" class="headerlink" title="AQS简介"></a>AQS简介</h2><p><strong>AQS</strong>是<code>AbstractQueuedSynchronizer</code>的简称，即<code>抽象队列同步器</code>。</p>
+<ul>
+<li><p>抽象：抽象类，只实现一些主要逻辑，有些方法由子类实现；</p>
+</li>
+<li><p>队列：使用先进先出（FIFO）队列存储数据；</p>
+</li>
+<li><p>同步：实现了同步的功能。</p>
+</li>
+</ul>
+<p>AQS是一个用来构建锁和同步器的框架，使用AQS能简单且高效地构造出应用广泛的同步器，比如我们提到的ReentrantLock，Semaphore，ReentrantReadWriteLock，SynchronousQueue，FutureTask等等皆是基于AQS的。</p>
+<h2 id="AQS数据结构"><a href="#AQS数据结构" class="headerlink" title="AQS数据结构"></a>AQS数据结构</h2><p>AQS内部使用了一个volatile的变量state来作为资源的标识。同时定义了几个获取和改变state的protected方法，子类可以覆盖这些方法来实现自己的逻辑：<code>getState()、setState()、compareAndSetState()</code></p>
+<p>AQS类本身实现的是一些排队和阻塞的机制，比如具体线程等待队列的维护（如获取资源失败入队/唤醒出队等）。它内部使用了一个先进先出（FIFO）的双端队列，并使用了两个指针head和tail用于标识队列的头部和尾部。</p>
+<h2 id="资源共享模式"><a href="#资源共享模式" class="headerlink" title="资源共享模式"></a>资源共享模式</h2><ul>
+<li><p>独占模式（Exclusive）：资源是独占的，一次只能一个线程获取。如<code>ReentrantLock</code>。</p>
+</li>
+<li><p>共享模式（Share）：同时可以被多个线程获取，具体的资源个数可以通过参数指定。如<code>Semaphore/CountDownLatch</code>。</p>
+</li>
+</ul>
+<p>同时实现两种模式的同步类，如<code>ReadWriteLock</code>。</p>
+<p>AQS源码定义:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 标记一个结点（对应的线程）在共享模式下等待</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> Node SHARED = <span class="keyword">new</span> Node();</span><br><span class="line">    <span class="comment">// 标记一个结点（对应的线程）在独占模式下等待</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> Node EXCLUSIVE = <span class="keyword">null</span>; </span><br><span class="line"></span><br><span class="line">    <span class="comment">// waitStatus的值，表示该结点（对应的线程）已被取消</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CANCELLED = <span class="number">1</span>; </span><br><span class="line">    <span class="comment">// waitStatus的值，表示后继结点（对应的线程）需要被唤醒</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SIGNAL = -<span class="number">1</span>;</span><br><span class="line">    <span class="comment">// waitStatus的值，表示该结点（对应的线程）在等待某一条件</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CONDITION = -<span class="number">2</span>;</span><br><span class="line">    <span class="comment">/*waitStatus的值，表示有资源可用，新head结点需要继续唤醒后继结点（共享模式下，多线程并发释放资源，而head唤醒其后继结点后，需要把多出来的资源留给后面的结点；设置新的head结点时，会继续唤醒其后继结点）*/</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> PROPAGATE = -<span class="number">3</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 等待状态，取值范围，-3，-2，-1，0，1</span></span><br><span class="line">    <span class="keyword">volatile</span> <span class="keyword">int</span> waitStatus;</span><br><span class="line">    <span class="keyword">volatile</span> Node prev; <span class="comment">// 前驱结点</span></span><br><span class="line">    <span class="keyword">volatile</span> Node next; <span class="comment">// 后继结点</span></span><br><span class="line">    <span class="keyword">volatile</span> Thread thread; <span class="comment">// 结点对应的线程</span></span><br><span class="line">    Node nextWaiter; <span class="comment">// 等待队列里下一个等待条件的结点</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 判断共享模式的方法</span></span><br><span class="line">    <span class="function"><span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">isShared</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> nextWaiter == SHARED;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Node(Thread thread, Node mode) &#123;     <span class="comment">// Used by addWaiter</span></span><br><span class="line">        <span class="keyword">this</span>.nextWaiter = mode;</span><br><span class="line">        <span class="keyword">this</span>.thread = thread;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// AQS里面的addWaiter私有方法</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> Node <span class="title">addWaiter</span><span class="params">(Node mode)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 使用了Node的这个构造函数</span></span><br><span class="line">    Node node = <span class="keyword">new</span> Node(Thread.currentThread(), mode);</span><br><span class="line">    <span class="comment">// 其它代码省略</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">tzcqupt</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://github.com/tzcqupt/tzcqupt.github.io/2020/04/28/juc/juc-theory/">https://github.com/tzcqupt/tzcqupt.github.io/2020/04/28/juc/juc-theory/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://github.com/tzcqupt/tzcqupt.github.io">个人学习博客</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java/">Java</a><a class="post-meta__tags" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2020/04/28/juc/juc-jdk-util/"><i class="fa fa-chevron-left">  </i><span>深入浅出多线程学习笔记-JDK工具</span></a></div><div class="next-post pull-right"><a href="/2020/04/28/juc/juc-note/"><span>深入浅出多线程学习笔记-基础篇</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2020 - 2021 By tzcqupt</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">要想一天什么时候开始,而不是什么时候结束</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.7.0"></script><script src="/js/fancybox.js?version=1.7.0"></script><script src="/js/sidebar.js?version=1.7.0"></script><script src="/js/copy.js?version=1.7.0"></script><script src="/js/fireworks.js?version=1.7.0"></script><script src="/js/transition.js?version=1.7.0"></script><script src="/js/scroll.js?version=1.7.0"></script><script src="/js/head.js?version=1.7.0"></script><script src="/js/search/local-search.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>
