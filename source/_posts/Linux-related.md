@@ -118,21 +118,35 @@ yum install jenkins
 
    插件管理中的高级进行上传.
 
-### 安装成功但无法访问jenkins
+### Ubuntu 安装
 
-禁用防火墙即可
+[安装Jenkins](https://www.jenkins.io/zh/doc/book/installing/#debianubuntu)
 
-1. 关闭防火墙
+~~~
+wget -q -O - https://pkg.jenkins.io/debian/jenkins.io.key | sudo apt-key add -
+sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+sudo apt-get update
+sudo apt-get install jenkins
+~~~
+
+### 常见问题
+
+#### 安装成功但无法访问jenkins
+
+1. 禁用防火墙即可
+   1. 关闭防火墙
 
    `systemctl stop firewalld.service`
 
-2. 禁止开机启动
+   2. 禁止开机启动
 
    `systemctl disable firewalld.service`
 
-### 插件下载慢的解决办法
+2. 确保安全组已打开相应端口
 
-#### 插件下载管理
+#### 插件下载慢的解决办法
+
+##### 插件下载管理
 
 进入jenkins的插件下载管理
 
@@ -140,7 +154,7 @@ yum install jenkins
 
 修改 **Update Site**中的URL的值为https://mirrors.tuna.tsinghua.edu.cn/jenkins/updates/update-center.json
 
-#### 修改default.json
+##### 修改default.json
 
 进入`/root/.jenkins/updates`中编辑default.json文件
 
@@ -164,7 +178,70 @@ yum install jenkins
 
 重启jenkins `http://ip:端口/jenkins/restart`
 
-### Jenkins离线安装插件
+#### Jenkins任务下载git仓库失败
+
+Jenkins源码管理git报错：Host key verification failed
+
+1. jenkins用户创建ssh-key和gitee通信
+
+   ~~~
+   # 切换为jenkins用户
+   sudo su -s /bin/bash jenkins
+   # 执行git命令
+   git ls-remote -h git@ip:xxx.git HEAD
+   # 下载失败则生成ssh-key  在gitee上配置
+   ssh-keygen -t rsa -C "tzcqupt@jenkins.com"
+   # 在终端提示中输入yes
+   ~~~
+
+2. 切换jenkins运行角色为root
+
+   ~~~
+   vim /etc/default/jenkins
+   #修改jenkins以root用户运行
+   JENKINS_USER=root
+   JENKINS_GROUP=root
+   #重启jenkins
+   ~~~
+
+   
+
+#### 配置git时,凭证添加后选取不了
+
+去Jenkins的全局凭证管理里面添加
+
+#### Jenkins 执行任务时,没有权限
+
+1. 修改jenkins以root用户运行
+
+   ~~~
+   vim /etc/default/jenkins
+   #修改jenkins以root用户运行
+   JENKINS_USER=root
+   JENKINS_GROUP=root
+   #重启jenkins
+   ~~~
+
+2. 给相关的目录(配置的maven 仓库路径)权限
+
+   ~~~
+   cd /usr/share
+   #把该目录和子级目录的权限赋值给jenkins用户组
+   chown -R jenkins:jenkins maven-repo
+   systemctl restart jenkins.service
+   ~~~
+
+#### Jenkins 执行任务时maven下载jar包失败
+
+通过`apt install maven`安装maven 3.6.0下载jar包失败,删除该版本,降低为3.5.4
+
+> 需要关联软连接 /usr/bin/mvn
+>
+> ```ln -s /usr/local/soft/maven/apache-maven-3.5.4/bin/mvn /usr/bin/mvn```
+>
+> ```ll /usr/bin/mvn```
+
+#### Jenkins离线安装插件
 
 Jenkins报413错误
 
@@ -205,6 +282,32 @@ Jenkins报413错误
 [gitee插件文档](https://gitee.com/help/articles/4193)
 
 > 使用离线安装的方式,前往[清华大学开源软件](https://mirror.tuna.tsinghua.edu.cn/)下载插件
+
+部署Java项目并运行
+
+~~~shell
+BUILD_ID=DONTKILLME
+# 获取正在运行的程序pid
+pid=$(ps -aux|grep $JOB_NAME | grep -v grep| gawk '{print $2}')
+if [ ${#pid} != 0 ]
+    then kill -9 $pid
+fi
+cd $WORKSPACE
+mvn clean package
+nohup java -jar $WORKSPACE/target/$JOB_NAME.jar -Xmx128m -Xms256m -Xss4m &
+pid=$(ps -aux|grep $JOB_NAME | grep -v grep| gawk '{print $2}')
+# 获取正在运行的程序的pid并判断其字符串长度，0为不存在(即构建失败)
+if [ ${#pid} == 0 ]
+    then
+     echo "*****  BUILD FAILED  ******"
+     exit 1
+     else
+     echo "*****  BUILD SUCCESS  *****"
+fi
+
+~~~
+
+
 
 ### 卸载Jenkins
 
@@ -249,25 +352,6 @@ rm -rf /etc/sysconfig/jenkins
    which mvn
    mvn -version
    ~~~
-
-## 安装Nginx
-
-~~~
-#安装nginx
-sudo apt install nginx
-#安装ssl(ubuntu)
-sudo apt-get install libssl-dev
-~~~
-
-
-
-#### 配置相关
-
-##### `SSL`配置
-
-
-
-##### 端口转发
 
 ## 安装Yapi
 
@@ -333,7 +417,7 @@ proxy_set_header Upgrade $http_upgrade;
 proxy_set_header Connection "upgrade";
 ~~~
 
-## 安装nginx
+## 安装Nginx
 
 ~~~
 sudo apt install nginx
