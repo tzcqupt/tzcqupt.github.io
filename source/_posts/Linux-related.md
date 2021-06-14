@@ -770,7 +770,7 @@ systemctl status docker
 
 ### 配置镜像加速
 
-修改 ```/etc/docker/daemon.json```,加入
+新增/修改 ```/etc/docker/daemon.json```,加入
 
 ~~~json
 {
@@ -1095,19 +1095,22 @@ docker run \
   -d \
   -u root \
   --restart always \
-  --detach \
   --privileged=true \
   --name jenkins \
-  -p 8082:8080 \
+  -p 8081:8080 \
   -p 50000:50000 \
+  -v /usr/bin/docker:/usr/bin/docker \
   -v /usr/local/soft/jenkins:/var/jenkins_home \
   -v /var/run/docker.sock:/var/run/docker.sock \
+  -v /usr/local/soft/maven/apache-maven-3.5.4:/usr/local/maven \
   jenkinsci/blueocean
 ~~~
 
 后续配置参考 **安装Jenkins章节**
 
-Git/Java/Maven 安装在Docker里的Jenkins和主机交互的文件夹里面`/usr/local/soft/jenkins`
+Git/Java/Maven 
+
+docker安装的jenkins容器已经包含了Git和Java,Maven通过-v 挂载的方式
 
 > yum方式安装Git到指定目录
 >
