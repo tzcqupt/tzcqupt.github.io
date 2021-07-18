@@ -119,7 +119,7 @@ Flex是Flexible Box的缩写，意为”弹性布局”，用来为盒状模型�
 
 交叉轴终点 `cross end`
 
-![Flex布局](http://img.tzcqupt.top/img/flex布局.png)
+![Flex布局](http://file.tzcqupt.top/img/flex布局.png)
 
 
 

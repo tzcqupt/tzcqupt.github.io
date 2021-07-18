@@ -37,7 +37,7 @@ int sum = i + j;
 
 变量i的取值为一个等比数列
 
-![等比数列](http://img.tzcqupt.top/等比数列.jpg)
+![等比数列](http://file.tzcqupt.top/等比数列.jpg)
 
 时间复杂度为O(logn) ,底数被忽略
 
@@ -98,7 +98,7 @@ int sum = i + j;
 
 #### 举例说明
 
-![](http://img.tzcqupt.top/img/20200620234609.png)
+![](http://file.tzcqupt.top/img/20200620234609.png)
 
 #### 代码实现
 
@@ -199,11 +199,11 @@ public class SparseArray {
 
 #### 链表中间插入元素
 
-![](http://img.tzcqupt.top/img/20200620232644.png)
+![](http://file.tzcqupt.top/img/20200620232644.png)
 
 #### 链表元素的删除
 
-![](http://img.tzcqupt.top/img/20200620233236.png)
+![](http://file.tzcqupt.top/img/20200620233236.png)
 
 ### 单链表
 
@@ -258,7 +258,7 @@ class DoubleNode{
 
 ### 循环队列
 
-![循环队列](http://img.tzcqupt.top/loop-queue.png)
+![循环队列](http://file.tzcqupt.top/loop-queue.png)
 
 ## 二叉树
 
@@ -344,7 +344,7 @@ class DoubleNode{
 
 #### 图解
 
-![](http://img.tzcqupt.top//bubble-sort.gif)
+![](http://file.tzcqupt.top//bubble-sort.gif)
 
 #### 算法实现
 
@@ -380,7 +380,7 @@ class DoubleNode{
 
 #### 图解
 
-![](http://img.tzcqupt.top//select-sort.gif)
+![](http://file.tzcqupt.top//select-sort.gif)
 
 #### 算法实现
 
@@ -418,7 +418,7 @@ public void chooseSort(int[] array){
 
 #### 图解
 
-![](http://img.tzcqupt.top//insert-sort.gif)
+![](http://file.tzcqupt.top//insert-sort.gif)
 
 #### 算法实现
 
@@ -454,7 +454,7 @@ public void chooseSort(int[] array){
 
 #### 图解
 
-![](http://img.tzcqupt.top/quick-sort.gif)
+![](http://file.tzcqupt.top/quick-sort.gif)
 
 #### 算法实现
 
