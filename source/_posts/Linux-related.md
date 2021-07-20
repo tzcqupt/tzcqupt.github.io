@@ -404,6 +404,15 @@ yapi server
 sudo npm install -g pm2
 # 后台启动
 sudo pm2 start /usr/local/soft/yapi/my-yapi/vendors/server/app.js
+# 重命名任务
+sudo pm2 start /usr/local/soft/yapi/my-yapi/vendors/server/app.js --name yapi
+# 删除任务(进程)
+#sudo pm2 delete [进程名称]
+sudo pm2 delete app
+#让系统开机启动pm2管理的任务
+sudo pm2 startip
+#可选-保存修改
+sudo pm2 save
 ~~~
 
 
