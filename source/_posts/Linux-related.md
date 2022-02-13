@@ -805,6 +805,12 @@ systemctl status docker
 
 ## 容器相关
 
+如何使进入容器的用户角色为root
+
+ ~~~
+docker exec -u 0 -it 容器名称/id bash
+ ~~~
+
 ### 查看容器
 
 查看正在运行中的容器:```docker ps```
@@ -909,13 +915,13 @@ docker inspect --format='{{.NetworkSettings.IPAddress}}' centos
 1. 查看镜像
    
     ~~~
-       docker images
+    docker images
     ~~~
 
 2. 搜索镜像
    
     ~~~
-       docker search xxx
+    docker search xxx
     ~~~
 
 3. 拉取镜像
@@ -1129,6 +1135,44 @@ docker安装的jenkins容器已经包含了Git和Java,Maven通过-v 挂载的方
 > yum -c /etc/yum.conf --installroot=/usr/local/soft/jenkins/share/soft/git --releasever=/ --nogpgcheck  install git
 > ~~~
 >
+
+### PostgreSQL
+
+1. 安装PostgreSQL
+
+   ~~~
+   docker run --name postgres -d -p 5432:5432 --restart=always -e POSTGRES_PASSWORD=postgres postgres:13.5
+   ~~~
+
+2. 进入容器
+
+   ~~~
+   docker exec -it postgres psql -U postgres -d postgres
+   ~~~
+
+3. 查看数据库所有表
+
+   ~~~
+   select * from pg_tables;
+   ~~~
+
+### NIFI
+
+1. 安装nifi
+
+   ~~~
+   docker run -d --restart=always -p 8080:8080 -e NIFI_WEB_HTTP_PORT='8080' --name nifi apache/nifi:1.14.0
+   ~~~
+
+   > 默认为https,需要这样修改使用http
+
+2. 访问nifi
+
+   ~~~
+   https://localhost:8083/nifi
+   ~~~
+
+   
 
 # Docker环境搭建终极篇
 
