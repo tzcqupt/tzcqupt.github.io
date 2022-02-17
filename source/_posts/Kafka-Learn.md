@@ -49,33 +49,50 @@ date: 2022-02-13 00:00:00
       bin/kafka-server-stop.sh
       ~~~
 
-      
 
-4. kafka常见命令
+4. wsl 下设置kafka的开机自启
 
-   1. 创建topic
+   ~~~bash
+   #ssh
+   /etc/init.d/ssh start
+   #zookeeper
+   /home/tzcqupt/soft/apache-zookeeper-3.5.7-bin/bin/zkServer.sh start
+   sleep 30s
+   #30s后启动kafka
+   #kafka
+   nohup /home/tzcqupt/soft/kafka_2.11-2.4.0/bin/kafka-server-start.sh /home/tzcqupt/soft/kafka_2.11-2.4.0/config/server.properties &
+   #network static ip
+   ip addr add 192.168.50.28/24 broadcast 192.168.50.255 dev eth0 label eth0:1
+   
+   ~~~
 
-      ~~~
-      bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic tzcqupt-topic
-      ~~~
+   
 
-   2. 查看已经创建的Topic信息
+# Kafka常见命令
 
-      ~~~
-      bin/kafka-topics.sh --list --zookeeper localhost:2181
-      ~~~
+## 创建topic
 
-   3. 发送消息
+~~~
+bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic tzcqupt-topic
+~~~
 
-      ~~~
-      bin/kafka-console-producer.sh --broker-list 192.168.50.28:9092 --topic tzcqupt-topic
-      ~~~
+## 查看已经创建的Topic信息
 
-   4. 接收消息
+~~~
+bin/kafka-topics.sh --list --zookeeper localhost:2181
+~~~
 
-      ~~~
-      bin/kafka-console-consumer.sh --bootstrap-server 192.168.50.28:9092 --topic tzcqupt-topic --from-beginning
-      ~~~
+## 发送消息
 
-      
+~~~
+bin/kafka-console-producer.sh --broker-list 192.168.50.28:9092 --topic tzcqupt-topic
+~~~
+
+## 接收消息
+
+~~~
+bin/kafka-console-consumer.sh --bootstrap-server 192.168.50.28:9092 --topic tzcqupt-topic --from-beginning
+~~~
+
+
 

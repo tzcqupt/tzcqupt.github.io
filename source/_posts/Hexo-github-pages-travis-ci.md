@@ -137,7 +137,7 @@ type: "categories"
 
 6. 前往 GitHub 的 [Applications settings](https://github.com/settings/installations)，配置 Travis CI 权限，使其能够访问你的 repository。
 
-7. 进入重定向的Travis CI页面，或者访问https://travis-ci.com/。
+7. 进入重定向的Travis CI页面，或者访问[travis](https://travis-ci.com/)。
 
 8. 在浏览器新建一个标签页，前往 GitHub 新建[Personal Access Token](https://github.com/settings/tokens)，只勾选 `repo` 的权限并生成一个新的 Token。Token 生成后请复制并保存好。
 
