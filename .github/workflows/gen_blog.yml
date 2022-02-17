@@ -8,9 +8,9 @@ on:
 env:
   GIT_USER: tzcqupt
   GIT_EMAIL: tzcqupt@163.com
-  THEME_REPO: git@github.com:tzcqupt/hexo-theme-melody.git
+  THEME_REPO: tzcqupt/hexo-theme-melody
   THEME_BRANCH: master
-  DEPLOY_REPO: git@github.com:tzcqupt/tzcqupt.github.io.git
+  DEPLOY_REPO: tzcqupt/tzcqupt.github.io
   DEPLOY_BRANCH: master
 
 jobs:
