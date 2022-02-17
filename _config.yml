@@ -12,8 +12,8 @@ language: zh-Hans
 timezone: ''
 
 # URL
-## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: https://github.com/tzcqupt/tzcqupt.github.io
+
+url: git@github.com:tzcqupt/tzcqupt.github.io.git
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -104,5 +104,5 @@ search:
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://gh_token@github.com/tzcqupt/tzcqupt.github.io
+  repo: git@gh_token@github.com:tzcqupt/tzcqupt.github.io.git
   branch: master
