@@ -8,12 +8,300 @@
     noSupport: '浏览器不支持'
   }
 } </script><meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="个人学习博客" type="application/atom+xml">
-</head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#MySQL-基本架构"><span class="toc-number">1.</span> <span class="toc-text">MySQL 基本架构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基础说明"><span class="toc-number">1.1.</span> <span class="toc-text">基础说明</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MySQL优化"><span class="toc-number">2.</span> <span class="toc-text">MySQL优化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#单表查询优化"><span class="toc-number">2.1.</span> <span class="toc-text">单表查询优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多表查询优化"><span class="toc-number">2.2.</span> <span class="toc-text">多表查询优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#JOIN-实现原理"><span class="toc-number">2.2.1.</span> <span class="toc-text">JOIN 实现原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#优化结论"><span class="toc-number">2.2.2.</span> <span class="toc-text">优化结论</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#慢查询优化"><span class="toc-number">2.3.</span> <span class="toc-text">慢查询优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#开启慢查询日志"><span class="toc-number">2.3.1.</span> <span class="toc-text">开启慢查询日志</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分析日志"><span class="toc-number">2.3.2.</span> <span class="toc-text">分析日志</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MySQL-索引"><span class="toc-number">3.</span> <span class="toc-text">MySQL 索引</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#索引的基本原理"><span class="toc-number">3.1.</span> <span class="toc-text">索引的基本原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#硬盘中数据的读取"><span class="toc-number">3.2.</span> <span class="toc-text">硬盘中数据的读取</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#硬盘中的概念"><span class="toc-number">3.2.1.</span> <span class="toc-text">硬盘中的概念</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#扇区"><span class="toc-number">3.2.1.1.</span> <span class="toc-text">扇区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#硬盘块"><span class="toc-number">3.2.1.2.</span> <span class="toc-text">硬盘块</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#硬盘读取数据"><span class="toc-number">3.2.1.3.</span> <span class="toc-text">硬盘读取数据</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#寻道时间"><span class="toc-number">3.2.1.3.1.</span> <span class="toc-text">寻道时间</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#旋转延迟"><span class="toc-number">3.2.1.3.2.</span> <span class="toc-text">旋转延迟</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#传输时间"><span class="toc-number">3.2.1.3.3.</span> <span class="toc-text">传输时间</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#InnoDB-中的索引"><span class="toc-number">3.3.</span> <span class="toc-text">InnoDB 中的索引</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#索引解释"><span class="toc-number">3.3.1.</span> <span class="toc-text">索引解释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建索引的原则"><span class="toc-number">3.3.2.</span> <span class="toc-text">创建索引的原则</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MySQL中的页"><span class="toc-number">3.4.</span> <span class="toc-text">MySQL中的页</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#解释"><span class="toc-number">3.4.1.</span> <span class="toc-text">解释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#页结构"><span class="toc-number">3.4.2.</span> <span class="toc-text">页结构</span></a></li></ol></li></ol></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://portrait.gitee.com/uploads/avatars/user/762/2287861_tzcqupt_1588209320.png"></div><div class="author-info__name text-center">tzcqupt</div><div class="author-info__description text-center">一个努力的Java程序员小白</div><div class="follow-button"><a href="https://gitee.com/tzcqupt" target="_blank" rel="noopener">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">25</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">22</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">17</span></a></div></div></div><div id="content-outer"><div class="no-bg" id="top-container"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">个人学习博客</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">主页</a><a class="site-page" href="/archives">归档</a><a class="site-page" href="/tags">标签</a><a class="site-page" href="/categories">分类</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> 搜索</span></a></span></div><div id="post-info"><div id="post-title">MySQL 优化学习</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2020-05-23</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><div class="post-meta-wordcount"><span>字数总计: </span><span class="word-count">2.1k</span><span class="post-meta__separator">|</span><span>阅读时长: 6 分钟</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h1 id="MySQL-基本架构"><a href="#MySQL-基本架构" class="headerlink" title="MySQL 基本架构"></a>MySQL 基本架构</h1><h2 id="基础说明"><a href="#基础说明" class="headerlink" title="基础说明"></a>基础说明</h2><p><img src="http://img.tzcqupt.top/MySQL-base.png" alt=""></p>
+</head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#MySQL-基本架构"><span class="toc-number">1.</span> <span class="toc-text">MySQL 基本架构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基础说明"><span class="toc-number">1.1.</span> <span class="toc-text">基础说明</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Explain关键字"><span class="toc-number">2.</span> <span class="toc-text">Explain关键字</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据准备"><span class="toc-number">2.1.</span> <span class="toc-text">数据准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用explain查询SQL的执行计划"><span class="toc-number">2.2.</span> <span class="toc-text">使用explain查询SQL的执行计划</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#执行计划的字段解释和举例"><span class="toc-number">2.3.</span> <span class="toc-text">执行计划的字段解释和举例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#id"><span class="toc-number">2.3.1.</span> <span class="toc-text">id</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#select-type"><span class="toc-number">2.3.2.</span> <span class="toc-text">select_type</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#simple"><span class="toc-number">2.3.2.1.</span> <span class="toc-text">simple</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#primary"><span class="toc-number">2.3.2.2.</span> <span class="toc-text">primary</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#union"><span class="toc-number">2.3.2.3.</span> <span class="toc-text">union</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#union-result"><span class="toc-number">2.3.2.4.</span> <span class="toc-text">union result</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dependent-union"><span class="toc-number">2.3.2.5.</span> <span class="toc-text">dependent union</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#subquery"><span class="toc-number">2.3.2.6.</span> <span class="toc-text">subquery</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dependent-subquery"><span class="toc-number">2.3.2.7.</span> <span class="toc-text">dependent subquery</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#derived"><span class="toc-number">2.3.2.8.</span> <span class="toc-text">derived</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#materialization"><span class="toc-number">2.3.2.9.</span> <span class="toc-text">materialization</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#table"><span class="toc-number">2.3.3.</span> <span class="toc-text">table</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#type"><span class="toc-number">2.3.4.</span> <span class="toc-text">type</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#system"><span class="toc-number">2.3.4.1.</span> <span class="toc-text">system</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#const"><span class="toc-number">2.3.4.2.</span> <span class="toc-text">const</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#eq-ref"><span class="toc-number">2.3.4.3.</span> <span class="toc-text">eq_ref</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ref"><span class="toc-number">2.3.4.4.</span> <span class="toc-text">ref</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#fulltext"><span class="toc-number">2.3.4.5.</span> <span class="toc-text">fulltext</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ref-or-null"><span class="toc-number">2.3.4.6.</span> <span class="toc-text">ref_or_null</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#unique-subquery"><span class="toc-number">2.3.4.7.</span> <span class="toc-text">unique_subquery</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#index-subquery"><span class="toc-number">2.3.4.8.</span> <span class="toc-text">index_subquery</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#range"><span class="toc-number">2.3.4.9.</span> <span class="toc-text">range</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#index-merge"><span class="toc-number">2.3.4.10.</span> <span class="toc-text">index_merge</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#index"><span class="toc-number">2.3.4.11.</span> <span class="toc-text">index</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#all"><span class="toc-number">2.3.4.12.</span> <span class="toc-text">all</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#possible-keys"><span class="toc-number">2.3.5.</span> <span class="toc-text">possible_keys</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#key"><span class="toc-number">2.3.6.</span> <span class="toc-text">key</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#key-len"><span class="toc-number">2.3.7.</span> <span class="toc-text">key_len</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ref-1"><span class="toc-number">2.3.8.</span> <span class="toc-text">ref</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#rows"><span class="toc-number">2.3.9.</span> <span class="toc-text">rows</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#extra"><span class="toc-number">2.3.10.</span> <span class="toc-text">extra</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#no-tables-used"><span class="toc-number">2.3.10.1.</span> <span class="toc-text">no tables used</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NULL"><span class="toc-number">2.3.10.2.</span> <span class="toc-text">NULL</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#using-index"><span class="toc-number">2.3.10.3.</span> <span class="toc-text">using index</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Using-where"><span class="toc-number">2.3.10.4.</span> <span class="toc-text">Using where</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Using-where-Using-index"><span class="toc-number">2.3.10.5.</span> <span class="toc-text">Using where Using index</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Using-index-condition"><span class="toc-number">2.3.10.6.</span> <span class="toc-text">Using index condition</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#using-temporary"><span class="toc-number">2.3.10.7.</span> <span class="toc-text">using temporary</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#using-filesort"><span class="toc-number">2.3.10.8.</span> <span class="toc-text">using filesort</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#using-intersect"><span class="toc-number">2.3.10.9.</span> <span class="toc-text">using intersect</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#using-union"><span class="toc-number">2.3.10.10.</span> <span class="toc-text">using union</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#using-sort-union-using-sort-intersection"><span class="toc-number">2.3.10.11.</span> <span class="toc-text">using sort_union&#x2F;using sort_intersection</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#firstmatch-tb-name"><span class="toc-number">2.3.10.12.</span> <span class="toc-text">firstmatch(tb_name)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#loosescan-m-n"><span class="toc-number">2.3.10.13.</span> <span class="toc-text">loosescan(m..n)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#filtered"><span class="toc-number">2.3.11.</span> <span class="toc-text">filtered</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MySQL优化"><span class="toc-number">3.</span> <span class="toc-text">MySQL优化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#慢查询的总体优化思路"><span class="toc-number">3.1.</span> <span class="toc-text">慢查询的总体优化思路</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#思路"><span class="toc-number">3.1.1.</span> <span class="toc-text">思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实践"><span class="toc-number">3.1.2.</span> <span class="toc-text">实践</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#永远用小结果集驱动大的结果集-小表-left-join-大表"><span class="toc-number">3.1.2.1.</span> <span class="toc-text">永远用小结果集驱动大的结果集 (小表 left join 大表 )</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#单表查询优化"><span class="toc-number">3.2.</span> <span class="toc-text">单表查询优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多表查询优化"><span class="toc-number">3.3.</span> <span class="toc-text">多表查询优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#JOIN-实现原理"><span class="toc-number">3.3.1.</span> <span class="toc-text">JOIN 实现原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#优化结论"><span class="toc-number">3.3.2.</span> <span class="toc-text">优化结论</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#慢查询优化"><span class="toc-number">3.4.</span> <span class="toc-text">慢查询优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#开启慢查询日志"><span class="toc-number">3.4.1.</span> <span class="toc-text">开启慢查询日志</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分析日志"><span class="toc-number">3.4.2.</span> <span class="toc-text">分析日志</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他优化原则"><span class="toc-number">3.5.</span> <span class="toc-text">其他优化原则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#索引失效场景"><span class="toc-number">3.6.</span> <span class="toc-text">索引失效场景</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MySQL-索引"><span class="toc-number">4.</span> <span class="toc-text">MySQL 索引</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#索引的基本原理"><span class="toc-number">4.1.</span> <span class="toc-text">索引的基本原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#硬盘中数据的读取"><span class="toc-number">4.2.</span> <span class="toc-text">硬盘中数据的读取</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#硬盘中的概念"><span class="toc-number">4.2.1.</span> <span class="toc-text">硬盘中的概念</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#扇区"><span class="toc-number">4.2.1.1.</span> <span class="toc-text">扇区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#硬盘块"><span class="toc-number">4.2.1.2.</span> <span class="toc-text">硬盘块</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#硬盘读取数据"><span class="toc-number">4.2.1.3.</span> <span class="toc-text">硬盘读取数据</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#寻道时间"><span class="toc-number">4.2.1.3.1.</span> <span class="toc-text">寻道时间</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#旋转延迟"><span class="toc-number">4.2.1.3.2.</span> <span class="toc-text">旋转延迟</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#传输时间"><span class="toc-number">4.2.1.3.3.</span> <span class="toc-text">传输时间</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#InnoDB-中的索引"><span class="toc-number">4.3.</span> <span class="toc-text">InnoDB 中的索引</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#索引解释"><span class="toc-number">4.3.1.</span> <span class="toc-text">索引解释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建索引的原则"><span class="toc-number">4.3.2.</span> <span class="toc-text">创建索引的原则</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MySQL中的页"><span class="toc-number">4.4.</span> <span class="toc-text">MySQL中的页</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#解释"><span class="toc-number">4.4.1.</span> <span class="toc-text">解释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#页结构"><span class="toc-number">4.4.2.</span> <span class="toc-text">页结构</span></a></li></ol></li></ol></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://portrait.gitee.com/uploads/avatars/user/762/2287861_tzcqupt_1588209320.png"></div><div class="author-info__name text-center">tzcqupt</div><div class="author-info__description text-center">一个努力的Java程序员小白</div><div class="follow-button"><a href="https://gitee.com/tzcqupt" target="_blank" rel="noopener">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">27</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">24</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">19</span></a></div></div></div><div id="content-outer"><div class="no-bg" id="top-container"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">个人学习博客</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">主页</a><a class="site-page" href="/archives">归档</a><a class="site-page" href="/tags">标签</a><a class="site-page" href="/categories">分类</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> 搜索</span></a></span></div><div id="post-info"><div id="post-title">MySQL 优化学习</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2020-05-23</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><div class="post-meta-wordcount"><span>字数总计: </span><span class="word-count">5.3k</span><span class="post-meta__separator">|</span><span>阅读时长: 17 分钟</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h1 id="MySQL-基本架构"><a href="#MySQL-基本架构" class="headerlink" title="MySQL 基本架构"></a>MySQL 基本架构</h1><h2 id="基础说明"><a href="#基础说明" class="headerlink" title="基础说明"></a>基础说明</h2><p><img src="http://file.tzcqupt.top/MySQL-base.png" alt=""></p>
 <p>MySQL 分为 Server 层和存储引擎层两部分</p>
 <p>Server 层包括连接器、查询缓存、分析器、优化器、执行器等，涵盖 MySQL 的大多数核心服务功能，以及所有的内置函数（如日期、时间、数学和加密函数等），所有跨存储引擎的功能都在这一层实现，比如存储过程、触发器、视图等。</p>
 <p>存储引擎层负责数据的存储和提取.</p>
-<h1 id="MySQL优化"><a href="#MySQL优化" class="headerlink" title="MySQL优化"></a>MySQL优化</h1><h2 id="单表查询优化"><a href="#单表查询优化" class="headerlink" title="单表查询优化"></a>单表查询优化</h2><ol>
-<li>明确需要的字段,而不是select *</li>
+<h1 id="Explain关键字"><a href="#Explain关键字" class="headerlink" title="Explain关键字"></a>Explain关键字</h1><h2 id="数据准备"><a href="#数据准备" class="headerlink" title="数据准备"></a>数据准备</h2><p><a href="https://downloads.mysql.com/docs/sakila-db.zip" target="_blank" rel="noopener">MySQL官网提供的影院数据库</a></p>
+<h2 id="使用explain查询SQL的执行计划"><a href="#使用explain查询SQL的执行计划" class="headerlink" title="使用explain查询SQL的执行计划"></a>使用explain查询SQL的执行计划</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain select * from film;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="left">id</th>
+<th align="left">select_type</th>
+<th align="left">table</th>
+<th align="left">partitions</th>
+<th align="left">type</th>
+<th align="left">possible_keys</th>
+<th align="left">key</th>
+<th align="left">key_len</th>
+<th align="left">ref</th>
+<th align="left">rows</th>
+<th align="left">filtered</th>
+<th align="left">Extra</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">1</td>
+<td align="left">SIMPLE</td>
+<td align="left">film</td>
+<td align="left">NULL</td>
+<td align="left">ALL</td>
+<td align="left">NULL</td>
+<td align="left">NULL</td>
+<td align="left">NULL</td>
+<td align="left">NULL</td>
+<td align="left">1000</td>
+<td align="left">100</td>
+<td align="left">NULL</td>
+</tr>
+</tbody></table>
+<h2 id="执行计划的字段解释和举例"><a href="#执行计划的字段解释和举例" class="headerlink" title="执行计划的字段解释和举例"></a>执行计划的字段解释和举例</h2><h3 id="id"><a href="#id" class="headerlink" title="id"></a>id</h3><p>数字越大越先执行，如果数字一样大，那么就从上往下依次执行，id列为null就表示这是一个结果集，不需要使用它来进行查询。</p>
+<h3 id="select-type"><a href="#select-type" class="headerlink" title="select_type"></a>select_type</h3><h4 id="simple"><a href="#simple" class="headerlink" title="simple"></a>simple</h4><p>表示不需要union操作或者不包含子查询的简单select查询，有连接查询时，外层的查询为simple，且只有一个。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain select * from film where film_id &#x3D;2;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="left">id</th>
+<th align="left">select_type</th>
+<th align="left">table</th>
+<th align="left">partitions</th>
+<th align="left">type</th>
+<th align="left">possible_keys</th>
+<th align="left">key</th>
+<th align="left">key_len</th>
+<th align="left">ref</th>
+<th align="left">rows</th>
+<th align="left">filtered</th>
+<th align="left">Extra</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">1</td>
+<td align="left">SIMPLE</td>
+<td align="left">film</td>
+<td align="left">NULL</td>
+<td align="left">const</td>
+<td align="left">PRIMARY</td>
+<td align="left">PRIMARY</td>
+<td align="left">2</td>
+<td align="left">const</td>
+<td align="left">1</td>
+<td align="left">100</td>
+<td align="left">NULL</td>
+</tr>
+</tbody></table>
+<h4 id="primary"><a href="#primary" class="headerlink" title="primary"></a>primary</h4><p>一个需要union操作或者含有子查询的select，位于最外层的查询，select_type即为primary，且只有一个。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">explain select film_id from film</span><br><span class="line">union all select film_id from film_actor;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="left">id</th>
+<th align="left">select_type</th>
+<th align="left">table</th>
+<th align="left">partitions</th>
+<th align="left">type</th>
+<th align="left">possible_keys</th>
+<th align="left">key</th>
+<th align="left">key_len</th>
+<th align="left">ref</th>
+<th align="left">rows</th>
+<th align="left">filtered</th>
+<th align="left">Extra</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">1</td>
+<td align="left">PRIMARY</td>
+<td align="left">film</td>
+<td align="left">NULL</td>
+<td align="left">index</td>
+<td align="left">NULL</td>
+<td align="left">idx_fk_language_id</td>
+<td align="left">1</td>
+<td align="left">NULL</td>
+<td align="left">1000</td>
+<td align="left">100</td>
+<td align="left">Using index</td>
+</tr>
+<tr>
+<td align="left">2</td>
+<td align="left">UNION</td>
+<td align="left">film_actor</td>
+<td align="left">NULL</td>
+<td align="left">index</td>
+<td align="left">NULL</td>
+<td align="left">idx_fk_film_id</td>
+<td align="left">2</td>
+<td align="left">NULL</td>
+<td align="left">5462</td>
+<td align="left">100</td>
+<td align="left">Using index</td>
+</tr>
+</tbody></table>
+<h4 id="union"><a href="#union" class="headerlink" title="union"></a>union</h4><p>union连接的两个select查询，第一个查询是dervied派生表，除了第一个表外，第二个以后的表select_type都是union。</p>
+<h4 id="union-result"><a href="#union-result" class="headerlink" title="union result"></a>union result</h4><p>包含union的结果集，在union和union all语句中,因为它不需要参与查询，所以id字段为null。</p>
+<h4 id="dependent-union"><a href="#dependent-union" class="headerlink" title="dependent union"></a>dependent union</h4><p>与union一样，出现在union 或union all语句中，但是这个查询要受到外部查询的影响。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">explain select * from film_category where film_id</span><br><span class="line">in (select film_id from film union all select film_id from film_actor);</span><br></pre></td></tr></table></figure>
+
+
+
+<table>
+<thead>
+<tr>
+<th align="left">id</th>
+<th align="left">select_type</th>
+<th align="left">table</th>
+<th align="left">partitions</th>
+<th align="left">type</th>
+<th align="left">possible_keys</th>
+<th align="left">key</th>
+<th align="left">key_len</th>
+<th align="left">ref</th>
+<th align="left">rows</th>
+<th align="left">filtered</th>
+<th align="left">Extra</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">1</td>
+<td align="left">PRIMARY</td>
+<td align="left">film_category</td>
+<td align="left">NULL</td>
+<td align="left">ALL</td>
+<td align="left">NULL</td>
+<td align="left">NULL</td>
+<td align="left">NULL</td>
+<td align="left">NULL</td>
+<td align="left">1000</td>
+<td align="left">100</td>
+<td align="left">Using where</td>
+</tr>
+<tr>
+<td align="left">2</td>
+<td align="left">DEPENDENT SUBQUERY</td>
+<td align="left">film</td>
+<td align="left">NULL</td>
+<td align="left">eq_ref</td>
+<td align="left">PRIMARY</td>
+<td align="left">PRIMARY</td>
+<td align="left">2</td>
+<td align="left">func</td>
+<td align="left">1</td>
+<td align="left">100</td>
+<td align="left">Using index</td>
+</tr>
+<tr>
+<td align="left">3</td>
+<td align="left">DEPENDENT UNION</td>
+<td align="left">film_actor</td>
+<td align="left">NULL</td>
+<td align="left">ref</td>
+<td align="left">idx_fk_film_id</td>
+<td align="left">idx_fk_film_id</td>
+<td align="left">2</td>
+<td align="left">func</td>
+<td align="left">1</td>
+<td align="left">100</td>
+<td align="left">Using index</td>
+</tr>
+</tbody></table>
+<h4 id="subquery"><a href="#subquery" class="headerlink" title="subquery"></a>subquery</h4><p>除了from子句中包含的子查询外，其他地方出现的子查询都可能是subquery。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain select (select 1 from film);</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="left">id</th>
+<th align="left">select_type</th>
+<th align="left">table</th>
+<th align="left">partitions</th>
+<th align="left">type</th>
+<th align="left">possible_keys</th>
+<th align="left">key</th>
+<th align="left">key_len</th>
+<th align="left">ref</th>
+<th align="left">rows</th>
+<th align="left">filtered</th>
+<th align="left">Extra</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">1</td>
+<td align="left">PRIMARY</td>
+<td align="left">NULL</td>
+<td align="left">NULL</td>
+<td align="left">NULL</td>
+<td align="left">NULL</td>
+<td align="left">NULL</td>
+<td align="left">NULL</td>
+<td align="left">NULL</td>
+<td align="left">NULL</td>
+<td align="left">NULL</td>
+<td align="left">No tables used</td>
+</tr>
+<tr>
+<td align="left">2</td>
+<td align="left">SUBQUERY</td>
+<td align="left">film</td>
+<td align="left">NULL</td>
+<td align="left">index</td>
+<td align="left">NULL</td>
+<td align="left">idx_fk_language_id</td>
+<td align="left">1</td>
+<td align="left">NULL</td>
+<td align="left">1000</td>
+<td align="left">100</td>
+<td align="left">Using index</td>
+</tr>
+</tbody></table>
+<h4 id="dependent-subquery"><a href="#dependent-subquery" class="headerlink" title="dependent subquery"></a>dependent subquery</h4><p>与dependent union类似，表示这个subquery的查询要受到外部表查询的影响。</p>
+<h4 id="derived"><a href="#derived" class="headerlink" title="derived"></a>derived</h4><p>from子句中出现的子查询，也叫做派生表，其他数据库中可能叫做内联视图或嵌套select。</p>
+<h4 id="materialization"><a href="#materialization" class="headerlink" title="materialization"></a>materialization</h4><p>物化通过将子查询结果作为一个临时表来加快查询执行速度，正常来说是常驻内存，下次查询会再次引用临时表。</p>
+<h3 id="table"><a href="#table" class="headerlink" title="table"></a><strong>table</strong></h3><p>显示的查询表名，如果查询使用了别名，那么这里显示的是别名，如果不涉及对数据表的操作，那么这显示为null，如果显示为尖括号括起来的就表示这个是临时表，后边的N就是执行计划中的id，表示结果来自于这个查询产生。如果是尖括号括起来的，与类似，也是一个临时表，表示这个结果来自于union查询的id为M,N的结果集。</p>
+<h3 id="type"><a href="#type" class="headerlink" title="type"></a>type</h3><blockquote>
+<p>依次性能从好到差：system，const，eq_ref，ref，fulltext，ref_or_null，unique_subquery，index_subquery，range，index_merge，index，ALL，除了all之外，其他的type都可以使用到索引，除了index_merge之外，其他的type只可以用到一个索引。一般来说，好的sql查询至少达到range级别，最好能达到ref。</p>
+</blockquote>
+<h4 id="system"><a href="#system" class="headerlink" title="system"></a>system</h4><p>表中只有<strong>一行数据</strong>或者是空表，且只能用于myisam和memory表，如果是Innodb引擎表，type列在这个情况通常都是all或者index。</p>
+<h4 id="const"><a href="#const" class="headerlink" title="const"></a>const</h4><p>使用唯一索引或者主键，返回记录一定是<strong>1行记录</strong>的等值where条件时，通常type是const，其他数据库也叫做唯一索引扫描。</p>
+<h4 id="eq-ref"><a href="#eq-ref" class="headerlink" title="eq_ref"></a>eq_ref</h4><p>出现在要连接多个表的查询计划中，驱动表循环获取数据，这行数据是第二个表的主键或者唯一索引，作为条件查询只返回一条数据，且必须为not null，唯一索引和主键是多列时，只有所有的列都用作比较时才会出现eq_ref。</p>
+<h4 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h4><p>不像eq_ref那样要求连接顺序，也没有主键和唯一索引的要求，只要使用相等条件检索时就可能出现，常见与辅助索引的等值查找或者多列主键、唯一索引中，使用第一个列之外的列作为等值查找也会出现，总之，返回数据不唯一的等值查找就可能出现。</p>
+<h4 id="fulltext"><a href="#fulltext" class="headerlink" title="fulltext"></a>fulltext</h4><p>全文索引检索，全文索引的优先级很高，若全文索引和普通索引同时存在时，mysql不管代价，优先选择使用全文索引。</p>
+<h4 id="ref-or-null"><a href="#ref-or-null" class="headerlink" title="ref_or_null"></a>ref_or_null</h4><p>与ref方法类似，只是增加了null值的比较，实际用的不多。</p>
+<h4 id="unique-subquery"><a href="#unique-subquery" class="headerlink" title="unique_subquery"></a>unique_subquery</h4><p>用于where中的in形式子查询，子查询返回不重复值唯一值。</p>
+<h4 id="index-subquery"><a href="#index-subquery" class="headerlink" title="index_subquery"></a>index_subquery</h4><p>用于in形式子查询使用到了辅助索引或者in常数列表，子查询可能返回重复值，可以使用索引将子查询去重。</p>
+<h4 id="range"><a href="#range" class="headerlink" title="range"></a>range</h4><p>索引范围扫描，常见于使用&gt;,&lt;,is null,between ,in ,like等运算符的查询中。</p>
+<h4 id="index-merge"><a href="#index-merge" class="headerlink" title="index_merge"></a>index_merge</h4><p>表示查询使用了两个以上的索引，最后取交集或者并集，常见and ，or的条件使用了不同的索引，官方排序这个在ref_or_null之后，但是实际上由于要读取多个索引，性能可能大部分时间都不如range。</p>
+<h4 id="index"><a href="#index" class="headerlink" title="index"></a>index</h4><p>索引全表扫描，把索引从头到尾扫一遍，常见于使用索引列就可以处理不需要读取数据文件的查询、可以使用索引排序或者分组的查询。</p>
+<h4 id="all"><a href="#all" class="headerlink" title="all"></a>all</h4><p>这个就是全表扫描数据文件，然后再在server层进行过滤返回符合要求的记录。</p>
+<h3 id="possible-keys"><a href="#possible-keys" class="headerlink" title="possible_keys"></a><strong>possible_keys</strong></h3><p>查询可能使用到的索引。</p>
+<h3 id="key"><a href="#key" class="headerlink" title="key"></a>key</h3><p>查询真正使用到的索引，type为index_merge时，这里可能出现两个以上的索引，其他的select_type这里只会出现一个。</p>
+<h3 id="key-len"><a href="#key-len" class="headerlink" title="key_len"></a><strong>key_len</strong></h3><p>用于处理查询的索引长度，如果是单列索引，那就是整个索引长度，如果是多列索引，那么查询不一定都能使用到所有的列，具体使用到了多少个列的索引，这里就会计算进去，没有使用到的列不会计算进去。留意下这个列的值，算一下你的多列索引总长度就知道有没有使用到所有的列了。另外，key_len只计算where条件用到的索引长度，而排序和分组就算用到了索引，也不会计算到key_len中。</p>
+<h3 id="ref-1"><a href="#ref-1" class="headerlink" title="ref"></a>ref</h3><p>如果是使用的常数等值查询，这里会显示const，如果是连接查询，被驱动表的执行计划这里会显示驱动表的关联字段，如果是条件使用了表达式或者函数，或者条件列发生了内部隐式转换，这里可能显示为func</p>
+<h3 id="rows"><a href="#rows" class="headerlink" title="rows"></a>rows</h3><p>这里是执行计划中估算的扫描行数，不是精确值。</p>
+<h3 id="extra"><a href="#extra" class="headerlink" title="extra"></a><strong>extra</strong></h3><h4 id="no-tables-used"><a href="#no-tables-used" class="headerlink" title="no tables used"></a>no tables used</h4><p>不带from字句的查询或者From dual查询。</p>
+<h4 id="NULL"><a href="#NULL" class="headerlink" title="NULL"></a>NULL</h4><p>查询的列未被索引覆盖，并且where筛选条件是索引的前导列，意味着用到了索引，但是部分字段未被索引覆盖，必须通过“回表”来实现，不是纯粹地用到了索引，也不是完全没用到索引。</p>
+<h4 id="using-index"><a href="#using-index" class="headerlink" title="using index"></a>using index</h4><p>查询时不需要回表查询，直接通过索引就可以获取查询的数据。</p>
+<h4 id="Using-where"><a href="#Using-where" class="headerlink" title="Using where"></a>Using where</h4><p>查询的列未被索引覆盖，where筛选条件非索引的前导列。</p>
+<h4 id="Using-where-Using-index"><a href="#Using-where-Using-index" class="headerlink" title="Using where Using index"></a>Using where Using index</h4><p>查询的列被索引覆盖，并且where筛选条件是索引列之一但是不是索引的前导列，意味着无法直接通过索引查找来查询到符合条件的数据。(常见复合索引的后列 如index(id,name) 查询的条件为name)</p>
+<h4 id="Using-index-condition"><a href="#Using-index-condition" class="headerlink" title="Using index condition"></a>Using index condition</h4><p>与Using where类似，查询的列不完全被索引覆盖，where条件中是一个前导列的范围。</p>
+<h4 id="using-temporary"><a href="#using-temporary" class="headerlink" title="using temporary"></a>using temporary</h4><p>表示使用了临时表存储中间结果。临时表可以是内存临时表和磁盘临时表，执行计划中看不出来，需要查看status变量，used_tmp_table，used_tmp_disk_table才能看出来。</p>
+<h4 id="using-filesort"><a href="#using-filesort" class="headerlink" title="using filesort"></a>using filesort</h4><p>mysql 会对结果使用一个外部索引排序，而不是按索引次序从表里读取行。此时mysql会根据联接类型浏览所有符合条件的记录，并保存排序关键字和行指针，然后排序关键字并按顺序检索行信息。这种情况下一般也是要考虑使用索引来优化的。</p>
+<h4 id="using-intersect"><a href="#using-intersect" class="headerlink" title="using intersect"></a>using intersect</h4><p>表示使用and的各个索引的条件时，该信息表示是从处理结果获取交集。</p>
+<h4 id="using-union"><a href="#using-union" class="headerlink" title="using union"></a>using union</h4><p>表示使用or连接各个使用索引的条件时，该信息表示从处理结果获取并集。</p>
+<h4 id="using-sort-union-using-sort-intersection"><a href="#using-sort-union-using-sort-intersection" class="headerlink" title="using sort_union/using sort_intersection"></a>using sort_union/using sort_intersection</h4><p>用and和or查询信息量大时，先查询主键，然后进行排序合并后返回结果集。</p>
+<h4 id="firstmatch-tb-name"><a href="#firstmatch-tb-name" class="headerlink" title="firstmatch(tb_name)"></a>firstmatch(tb_name)</h4><p>5.6.x开始引入的优化子查询的新特性之一，常见于where字句含有in()类型的子查询。如果内表的数据量比较大，就可能出现这个。</p>
+<h4 id="loosescan-m-n"><a href="#loosescan-m-n" class="headerlink" title="loosescan(m..n)"></a>loosescan(m..n)</h4><p>5.6.x之后引入的优化子查询的新特性之一，在in()类型的子查询中，子查询返回的可能有重复记录时，就可能出现这个。</p>
+<h3 id="filtered"><a href="#filtered" class="headerlink" title="filtered"></a>filtered</h3><p>使用explain extended时会出现这个列，5.7之后的版本默认就有这个字段，不需要使用explain extended了。这个字段表示存储引擎返回的数据在server层过滤后，剩下多少满足查询的记录数量的比例，注意是百分比，不是具体记录数。</p>
+<h1 id="MySQL优化"><a href="#MySQL优化" class="headerlink" title="MySQL优化"></a>MySQL优化</h1><h2 id="慢查询的总体优化思路"><a href="#慢查询的总体优化思路" class="headerlink" title="慢查询的总体优化思路"></a>慢查询的总体优化思路</h2><h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><ul>
+<li>优化更需要优化的SQL</li>
+<li>定位优化对象的性能瓶颈</li>
+<li>明确的优化目标</li>
+<li>从explain执行计划入手</li>
+</ul>
+<h3 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h3><h4 id="永远用小结果集驱动大的结果集-小表-left-join-大表"><a href="#永远用小结果集驱动大的结果集-小表-left-join-大表" class="headerlink" title="永远用小结果集驱动大的结果集 (小表 left join 大表 )"></a>永远用小结果集驱动大的结果集 (小表 left join 大表 )</h4><ul>
+<li>尽可能在索引中完成排序(order by 字段最好加了索引)</li>
+<li>只取出自己需要的列，不要用select *</li>
+<li>仅使用最有效的过滤条件</li>
+<li>尽可能避免复杂的join和子查询</li>
+<li>小心使用order by，group by，distinct语句(尽量走索引)</li>
+<li>合理设计并利用索引</li>
+</ul>
+<h2 id="单表查询优化"><a href="#单表查询优化" class="headerlink" title="单表查询优化"></a>单表查询优化</h2><ol>
+<li>明确需要的字段,而不是<code>select *</code></li>
 <li>使用连接JOIN 代替子查询</li>
 <li>使用分页语句(limit [offset,] rows) 或者where 字句时,有什么限制条件就尽量加上,查一条就limit 1</li>
 </ol>
@@ -59,11 +347,9 @@
 <h2 id="慢查询优化"><a href="#慢查询优化" class="headerlink" title="慢查询优化"></a>慢查询优化</h2><h3 id="开启慢查询日志"><a href="#开启慢查询日志" class="headerlink" title="开启慢查询日志"></a>开启慢查询日志</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">variables</span> <span class="keyword">like</span> <span class="string">'slow_query_log'</span>  </span><br><span class="line"><span class="comment">--查看是否开启慢查询日志</span></span><br><span class="line"><span class="comment">-- 查看慢查询的日志位置</span></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">variables</span> <span class="keyword">like</span> <span class="string">'%log%'</span>;</span><br><span class="line"><span class="keyword">set</span> <span class="keyword">global</span> slow_query_log_file=<span class="string">'/var/lib/mysql/VM_0_17_centos-slow.log'</span>;</span><br><span class="line"><span class="comment">--慢查询日志的位置</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span> <span class="keyword">global</span> slow_query_log =<span class="keyword">on</span>;</span><br><span class="line"><span class="comment">--开启慢查询日志</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span> <span class="keyword">global</span> long_query_time=<span class="number">1</span>;  </span><br><span class="line"><span class="comment">--大于1秒钟的数据记录到慢日志中，如果设置为默认0，则会有大量的信息存储在磁盘中，磁盘很容易满掉</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="分析日志"><a href="#分析日志" class="headerlink" title="分析日志"></a>分析日志</h3><ol>
-<li>MySQL提供的 <strong>mysqldumpslow</strong></li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#slow记录最多的10个语句</span><br><span class="line">mysqldumpslow -s r -t 10 &#x2F;VM_0_17_centos-slow.log </span><br><span class="line">#按照时间排序前10中含有 left join的</span><br><span class="line">mysqldumpslow -s r -t 10 -g &quot;left join&quot; &#x2F;VM_0_17_centos-slow.log</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
+<li><p>MySQL提供的 <strong>mysqldumpslow</strong></p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#slow记录最多的10个语句</span><br><span class="line">mysqldumpslow -s r -t 10 &#x2F;VM_0_17_centos-slow.log </span><br><span class="line">#按照时间排序前10中含有 left join的</span><br><span class="line">mysqldumpslow -s r -t 10 -g &quot;left join&quot; &#x2F;VM_0_17_centos-slow.log</span><br></pre></td></tr></table></figure>
+</li>
 <li><p><strong>mysqlsla</strong>工具</p>
 <p> mysqlsla会自动判断日志类型,建立一个配置文件<code>.mysqlsla</code>在文件里写上<code>top=100</code>,这样会打印出前100条结果.参数说明:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">queries total: 总查询次数 unique:去重后的sql数量</span><br><span class="line">sorted by : 输出报表的内容排序</span><br><span class="line"></span><br><span class="line">最重大的慢sql统计信息, 包括 平均执行时间, 等待锁时间, 结果行的总数, 扫描的行总数.</span><br><span class="line"></span><br><span class="line">Count, sql的执行次数及占总的slow log数量的百分比.</span><br><span class="line">Time, 执行时间, 包括总时间, 平均时间, 最小, 最大时间, 时间占到总慢sql时间的百分比.</span><br><span class="line">95% of Time, 去除最快和最慢的sql, 覆盖率占95%的sql的执行时间.</span><br><span class="line">Lock Time, 等待锁的时间.</span><br><span class="line">95% of Lock , 95%的慢sql等待锁时间.</span><br><span class="line">Rows sent, 结果行统计数量, 包括平均, 最小, 最大数量.</span><br><span class="line">Rows examined, 扫描的行数量.</span><br><span class="line">Database, 属于哪个数据库</span><br><span class="line">Users, 哪个用户,IP, 占到所有用户执行的sql百分比</span><br><span class="line">Query abstract, 抽象后的sql语句</span><br><span class="line">Query sample, sql语句</span><br></pre></td></tr></table></figure>
@@ -71,6 +357,56 @@
 
 
 </li>
+</ol>
+<h2 id="其他优化原则"><a href="#其他优化原则" class="headerlink" title="其他优化原则"></a>其他优化原则</h2><ol>
+<li><p>不在数据库做运算,运算迁移至业务层</p>
+</li>
+<li><p>数据库命名简洁明确(长度不超过30个字符)</p>
+</li>
+<li><p>控制列数量(字段少而精,字段数建议在20以内)</p>
+</li>
+<li><p>平衡范式与冗余(效率优先,往往牺牲范式)</p>
+</li>
+<li><p>拒绝3B(big sql语句,big transaction,big batch)</p>
+</li>
+<li><p>用好数值类型(用合适的字段类型节约空间)</p>
+</li>
+<li><p>字符转化为数字(节约空间,提高查询性能)</p>
+</li>
+<li><p>避免使用NULL 字段(NULL 字段很难查询优化,NULL 字段的索引需要额外空间,NULL 字段的复合索引无效)</p>
+</li>
+<li><p>少用text类型(尽量使用varchar类型代替)</p>
+</li>
+<li><p>合理使用索引(改善查询,减慢更新,索引一定不是越多越好)</p>
+</li>
+<li><p>字符字段建前缀索引</p>
+</li>
+<li><p>不在索引做列运算</p>
+</li>
+<li><p>innodb引擎 主键推荐使用自增列(主键建立聚簇索引,主键不应该被修改,字符串不应该做主键);不用外键,由程序保证约束</p>
+</li>
+<li><p>不适用select *</p>
+</li>
+<li><p>OR 改写为 IN(字段没有索引的情况下,性能差别较大)</p>
+</li>
+<li><p>OR 改写为 union(索引无效变有效)</p>
+</li>
+<li><p>使用UNION ALL 代替UNION( UNION 有去重开销)</p>
+</li>
+<li><p>分页limit 优化(偏移量越大,执行越慢)</p>
+</li>
+</ol>
+<h2 id="索引失效场景"><a href="#索引失效场景" class="headerlink" title="索引失效场景"></a>索引失效场景</h2><ol>
+<li>符合索引尽量全匹配</li>
+<li>最佳左前缀法则(带头索引不能死,中间索引不能断)</li>
+<li>不要在索引上左任何操作(计算,函数,自动/手动类型转换),否则会导致索引失效而转向全表扫描</li>
+<li>mysql存储引擎不能继续使用索引中范围条件(between,&lt; ,&gt;,in)</li>
+<li>尽量使用覆盖索引(子查询索引的列==&gt;索引列和查询列一致),减少 select *</li>
+<li>索引字段上使用(!= 或者 &lt;&gt;)判断时,会导致索引失效而转向全表扫描</li>
+<li>索引字段上使用(is null /is not null)判断时,会导致索引失效而转向全表扫描(<strong>mysql 8</strong> 时索引不会失效)</li>
+<li>索引字段使用 like 以通配符开头(‘% 字符串’)时,会导致索引失效而转向全表扫描</li>
+<li>索引字段是字符串,但查询时不加单引号’,’会导致索引失效而转向全表扫描</li>
+<li>索引字段上使用(or)判断时,会导致索引失效而转向全表扫描</li>
 </ol>
 <h1 id="MySQL-索引"><a href="#MySQL-索引" class="headerlink" title="MySQL 索引"></a>MySQL 索引</h1><h2 id="索引的基本原理"><a href="#索引的基本原理" class="headerlink" title="索引的基本原理"></a>索引的基本原理</h2><p> 通过不断地缩小想要获取数据的范围来筛选出最终想要的结果，同时把随机的事件变成顺序的事件 ===&gt;<strong>把无序的数据变成有序的数据</strong></p>
 <ol>
@@ -105,7 +441,7 @@
 </ol>
 <h2 id="MySQL中的页"><a href="#MySQL中的页" class="headerlink" title="MySQL中的页"></a>MySQL中的页</h2><h3 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h3><p>MySQL中和磁盘交互的最小单位称为页，页是MySQL内部定义的一种数据结构，默认为16kb，相当于4个磁盘块，也就是说MySQL每次从磁盘中读取一次数据是16KB，要么不读取，要读取就是16KB，此值可以修改的。 </p>
 <h3 id="页结构"><a href="#页结构" class="headerlink" title="页结构"></a>页结构</h3><p> MySQL中页是InnoDB 中存储数据的基本单位，也是MySQL中管理数据的最小单位，和磁盘交互的时候都是以页来进行的，默认是16kb，MySQL中采用b+树存储数据，页相当于b+树中的一个节点。 </p>
-</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">tzcqupt</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://github.com/tzcqupt/tzcqupt.github.io/2020/05/23/MySQL-optimize/">https://github.com/tzcqupt/tzcqupt.github.io/2020/05/23/MySQL-optimize/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://github.com/tzcqupt/tzcqupt.github.io">个人学习博客</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/MySQL/">MySQL</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2020/05/30/Java-experience/"><i class="fa fa-chevron-left">  </i><span>Java 自己开发经验总结</span></a></div><div class="next-post pull-right"><a href="/2020/05/10/time-task/"><span>定时/延迟任务处理</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2020 - 2021 By tzcqupt</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">要想一天什么时候开始,而不是什么时候结束</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.7.0"></script><script src="/js/fancybox.js?version=1.7.0"></script><script src="/js/sidebar.js?version=1.7.0"></script><script src="/js/copy.js?version=1.7.0"></script><script src="/js/fireworks.js?version=1.7.0"></script><script src="/js/transition.js?version=1.7.0"></script><script src="/js/scroll.js?version=1.7.0"></script><script src="/js/head.js?version=1.7.0"></script><script src="/js/search/local-search.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">tzcqupt</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://github.com/tzcqupt/tzcqupt.github.io/2020/05/23/MySQL-optimize/">https://github.com/tzcqupt/tzcqupt.github.io/2020/05/23/MySQL-optimize/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://github.com/tzcqupt/tzcqupt.github.io">个人学习博客</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/MySQL/">MySQL</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2020/05/30/Java-experience/"><i class="fa fa-chevron-left">  </i><span>Java 自己开发经验总结</span></a></div><div class="next-post pull-right"><a href="/2020/05/10/mq-Learn/"><span>消息队列入门学习笔记</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2020 - 2022 By tzcqupt</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">要想一天什么时候开始,而不是什么时候结束</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.7.0"></script><script src="/js/fancybox.js?version=1.7.0"></script><script src="/js/sidebar.js?version=1.7.0"></script><script src="/js/copy.js?version=1.7.0"></script><script src="/js/fireworks.js?version=1.7.0"></script><script src="/js/transition.js?version=1.7.0"></script><script src="/js/scroll.js?version=1.7.0"></script><script src="/js/head.js?version=1.7.0"></script><script src="/js/search/local-search.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
   $('#nav').addClass('is-mobile')
   $('footer').addClass('is-mobile')
   $('#top-container').addClass('is-mobile')

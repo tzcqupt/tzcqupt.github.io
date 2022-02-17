@@ -1,0 +1,57 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="ffmepg"><meta name="keywords" content=""><meta name="author" content="tzcqupt"><meta name="copyright" content="tzcqupt"><title>ffmepg | 个人学习博客</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.7.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.7.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  }
+} </script><meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="个人学习博客" type="application/atom+xml">
+</head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#参数相关"><span class="toc-number">1.</span> <span class="toc-text">参数相关</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#转码思路"><span class="toc-number">1.1.</span> <span class="toc-text">转码思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#高效转码-编码格式-容器格式"><span class="toc-number">1.2.</span> <span class="toc-text">高效转码,编码格式&#x2F;容器格式</span></a></li></ol></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://portrait.gitee.com/uploads/avatars/user/762/2287861_tzcqupt_1588209320.png"></div><div class="author-info__name text-center">tzcqupt</div><div class="author-info__description text-center">一个努力的Java程序员小白</div><div class="follow-button"><a href="https://gitee.com/tzcqupt" target="_blank" rel="noopener">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">27</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">24</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">19</span></a></div></div></div><div id="content-outer"><div class="no-bg" id="top-container"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">个人学习博客</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">主页</a><a class="site-page" href="/archives">归档</a><a class="site-page" href="/tags">标签</a><a class="site-page" href="/categories">分类</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> 搜索</span></a></span></div><div id="post-info"><div id="post-title">ffmepg</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2022-02-17</time><div class="post-meta-wordcount"><span>字数总计: </span><span class="word-count">440</span><span class="post-meta__separator">|</span><span>阅读时长: 1 分钟</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p>ffmpeg 相关</p>
+<h1 id="参数相关"><a href="#参数相关" class="headerlink" title="参数相关"></a>参数相关</h1><p>流程:输入—&gt;处理–&gt;输出</p>
+<p><code>-i</code> ===&gt;input 输入</p>
+<p><code>-c</code> ===&gt;codec 编解码器 ,告诉ffmepg接下来用什么编码器和解码器</p>
+<p>​        <code>-c copy</code> ==&gt;复制照抄输入文件原来编解码器所做的事情</p>
+<blockquote>
+<p>​    老版本的ffmpeg:<code>-c copy</code>&lt;====&gt;<code>-vcodec copy -acodec copy</code></p>
+</blockquote>
+<p>​        <code>-c:v</code> 限定只处理视频画面</p>
+<p>​        <code>-c:a</code> 限定只处理视频里的音频声音</p>
+<p>​        <code>-c:s</code> 限定只处理字幕</p>
+<blockquote>
+<p><code>-c:v libx264</code> 将编码格式换成h164</p>
+<p><code>-c:a libmp3lame</code> 将编码格式换成mp3</p>
+<p>可以直接 <code>-c:v h264 -c:a mp3</code></p>
+</blockquote>
+<p><code>-f</code> ==&gt;format 格式 ,强制输出什么格式,让ffmpeg自行挑选编解码器进行转码输出</p>
+<p><code>-f webm</code> 自己想转的容器格式有什么编码格式或编码器可以支持</p>
+<h2 id="转码思路"><a href="#转码思路" class="headerlink" title="转码思路"></a>转码思路</h2><ol>
+<li><p><code>ffprobe .\input.mp4</code> 查看文件的编码格式,或者直接查看文件属性</p>
+</li>
+<li><p>确定自己的相关的容器或编码格式</p>
+</li>
+<li><p><code>ffmpeg -formats</code>查询ffmpeg支持哪些容器格式</p>
+<p>demuxing 解封装,muxing 封装(转码)</p>
+<p><code>ffmpeg -codecs</code>查询ffmpeg支持哪些编码格式及编码器名</p>
+<p>decoder 解码器名 encoder编码器名</p>
+</li>
+</ol>
+<h2 id="高效转码-编码格式-容器格式"><a href="#高效转码-编码格式-容器格式" class="headerlink" title="高效转码,编码格式/容器格式"></a>高效转码,编码格式/容器格式</h2><p><code>ffprobe .\input.mp4</code> 用于查看文件的详细信息</p>
+<p>一般画面的编码格式 h264</p>
+<p>声音的编码格式 aac</p>
+<p>容器格式: mp4/flv/mkv/avi==&gt;封装格式</p>
+<p>高效转码==&gt;编码格式相同,容器格式不同</p>
+<p>视频编码格式<a href="https://www.bilibili.com/read/cv4480903" target="_blank" rel="noopener">https://www.bilibili.com/read/cv4480903</a></p>
+<p>h264（又称mpeg-4 avc、mpeg-4 part 10）：mp4、flv、avi、mov、wmv、m4v、f4v、3gp、ts</p>
+
+<p> mpeg4（不只一种，这里指mpeg-4 part 2、divx、xvid）：mp4、avi、mov、wmv、m4v、3gp、ts </p>
+<p> h265（又称hevc、mpeg-h part 2）：mp4、avi、mov、ts </p>
+<p> vp8：avi、wmv、ts、webm </p>
+<p> vp9：mp4、avi、wmv、ts、webm </p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">tzcqupt</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://github.com/tzcqupt/tzcqupt.github.io/2022/02/17/ffmepg/">https://github.com/tzcqupt/tzcqupt.github.io/2022/02/17/ffmepg/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://github.com/tzcqupt/tzcqupt.github.io">个人学习博客</a>！</span></div></div><div class="post-meta__tag-list"></div><nav id="pagination"><div class="next-post pull-right"><a href="/2022/02/13/Docker-soft-install/"><span>Docker安装相关软件</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2020 - 2022 By tzcqupt</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">要想一天什么时候开始,而不是什么时候结束</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.7.0"></script><script src="/js/fancybox.js?version=1.7.0"></script><script src="/js/sidebar.js?version=1.7.0"></script><script src="/js/copy.js?version=1.7.0"></script><script src="/js/fireworks.js?version=1.7.0"></script><script src="/js/transition.js?version=1.7.0"></script><script src="/js/scroll.js?version=1.7.0"></script><script src="/js/head.js?version=1.7.0"></script><script src="/js/search/local-search.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>
