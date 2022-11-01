@@ -121,29 +121,29 @@ type: "categories"
 
 ## 自动部署到Github Pages
 
-2. 在github上创建公开的`username.gihub.io`仓库。
+1. 在github上创建公开的`username.gihub.io`仓库。
 
-3. 创建`blog-source`分支作为博客的源文件。
+2. 创建`blog-source`分支作为博客的源文件。
 
    > Github Pages只能选择master分支存放博客的静态页面，才能通过`username.github.io`访问。
 
-4. 推送`blog`里的相关文件到该仓库的`blog-source`分支。
+3. 推送`blog`里的相关文件到该仓库的`blog-source`分支。
 
    > 检查`.gitignore`文件是否忽略了`public`文件夹。
    >
    > `hexo g`生成的静态页面会存放在这个文件夹里。
 
-5. 将 [Travis CI](https://github.com/marketplace/travis-ci) 添加到你的 GitHub 账户中。
+4. 将 [Travis CI](https://github.com/marketplace/travis-ci) 添加到你的 GitHub 账户中。
 
-6. 前往 GitHub 的 [Applications settings](https://github.com/settings/installations)，配置 Travis CI 权限，使其能够访问你的 repository。
+5. 前往 GitHub 的 [Applications settings](https://github.com/settings/installations)，配置 Travis CI 权限，使其能够访问你的 repository。
 
-7. 进入重定向的Travis CI页面，或者访问[travis](https://travis-ci.com/)。
+6. 进入重定向的Travis CI页面，或者访问[travis](https://travis-ci.com/)。
 
-8. 在浏览器新建一个标签页，前往 GitHub 新建[Personal Access Token](https://github.com/settings/tokens)，只勾选 `repo` 的权限并生成一个新的 Token。Token 生成后请复制并保存好。
+7. 在浏览器新建一个标签页，前往 GitHub 新建[Personal Access Token](https://github.com/settings/tokens)，只勾选 `repo` 的权限并生成一个新的 Token。Token 生成后请复制并保存好。
 
-9. 回到 Travis CI，前往你的 repository 的设置页面，在 **Environment Variables** 下新建一个环境变量，**Name** 为 `GH_TOKEN`，**Value** 为刚才你在 GitHub 生成的 Token。确保 **DISPLAY VALUE IN BUILD LOG** 保持 **不被勾选** 避免你的 Token 泄漏。点击 **Add** 保存。
+8. 回到 Travis CI，前往你的 repository 的设置页面，在 **Environment Variables** 下新建一个环境变量，**Name** 为 `GH_TOKEN`，**Value** 为刚才你在 GitHub 生成的 Token。确保 **DISPLAY VALUE IN BUILD LOG** 保持 **不被勾选** 避免你的 Token 泄漏。点击 **Add** 保存。
 
-10. 在hexo站点文件夹中(blog文件夹根目录)新建`.travis.yml`文件。
+9. 在hexo站点文件夹中(blog文件夹根目录)新建`.travis.yml`文件。
 
     1. `.travis.yml`
 
@@ -293,7 +293,6 @@ type: "categories"
          branch: master
        ~~~
     
-       
 
 # 页面访问失败排查
 
@@ -322,3 +321,5 @@ Hexo启动页面显示extends includes/layout.pug block content include includes
 - [Hexo官方文档部署到GithubPages](https://hexo.io/zh-cn/docs/github-pages)
 
 - [Hexo遇上Travis-CI：可能是最通俗易懂的自动发布博客图文教程](https://blog.csdn.net/Xiong_IT/article/details/78675874)
+
+- [利用Github Actions自动部署Hexo博客](https://sanonz.github.io/2020/deploy-a-hexo-blog-from-github-actions/)
