@@ -73,6 +73,7 @@ https://desktop.docker.com/win/stable/amd64/Docker%20Desktop%20Installer.exe?utm
    
    wsl --import docker-desktop "D:\\soft\\develop\\docker\\images\\wsl\\distro" "D:\\soft\\develop\\docker\\images\\docker-desktop.tar" --version 2
    ~~~
+   >导出后,再导入docker才能找到之前的容器,导入新建到wsl文件夹即可
 
    
 
@@ -530,6 +531,44 @@ docker安装的jenkins容器已经包含了Git和Java,Maven通过-v 挂载的方
    select * from pg_tables;
    ~~~
 
+### Oracle
+>[Docker 安装Oracle 说明](https://github.com/MaksymBilenko/docker-oracle-12c)  
+[Oracle 学习](https://www.w3cschool.cn/oraclejc/)
+1. 安装Oracle
+   ~~~
+   docker run -d -p 8080:8080 -p 1521:1521 truevoly/oracle-12c
+   ~~~
+2. 数据库连接信息
+   ~~~
+   hostname: localhost
+   port: 1521
+   sid: xe
+   service name: xe
+   username: system
+   password: oracle
+   ~~~
+3. sqlplus连接信息
+   ~~~
+   sqlplus system/oracle@//localhost:1521/xe
+   ~~~
+4. Oracle Application Express web management
+   ~~~
+   http://localhost:8080/apex
+   workspace: INTERNAL
+   user: ADMIN
+   password: 0Racle$
+   ~~~
+5. Oracle Enterprise Management console
+   ~~~
+   http://localhost:8080/em
+   user: sys
+   password: oracle
+   connect as sysdba: true
+   ~~~
+6. docker中的sqlplus位置
+   ~~~
+   /u01/app/oracle/product/12.1.0/xe
+   ~~~
 ### NIFI
 
 1. 安装nifi
